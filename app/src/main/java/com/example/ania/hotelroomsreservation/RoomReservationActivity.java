@@ -8,8 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ania.hotelroomsreservation.server.ServerSend;
+
 public class RoomReservationActivity extends AppCompatActivity {
-    private static final String url = "http://10.31.176.34:8080/RoomReservation/register";
     EditText name;
     Button log;
 
@@ -18,9 +19,6 @@ public class RoomReservationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.room_reservation_activity);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
         name = (EditText) findViewById(R.id.name);
         log = (Button) findViewById(R.id.log);
 
@@ -28,7 +26,7 @@ public class RoomReservationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String nm = name.getText().toString();
-                String result = new ServerSend().connect(nm, 15, url);
+                String result = new ServerSend().connect(nm, 15);
 
                 Toast toast = Toast.makeText(getApplicationContext(),
                         result, Toast.LENGTH_SHORT);
