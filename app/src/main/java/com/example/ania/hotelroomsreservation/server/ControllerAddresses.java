@@ -6,5 +6,5 @@ package com.example.ania.hotelroomsreservation.server;
  */
 public interface ControllerAddresses {
     String URL = "http://192.168.1.100:8080/RoomReservation";
-    String GET_ROOM_LIST = "/register";
+    String GET_ROOM_LIST = "/getAllRooms";
 }
