@@ -1,5 +1,6 @@
 package com.example.ania.hotelroomsreservation;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -8,11 +9,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.ania.hotelroomsreservation.retrofit.ApiClient;
+import com.example.ania.hotelroomsreservation.model.Room;
+import com.example.ania.hotelroomsreservation.model.Rooms;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 public class RoomReservationActivity extends AppCompatActivity {
-    EditText name;
-    Button log;
+    public static final String url = "http://192.168.1.100:8080/getAllRooms";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +31,26 @@ public class RoomReservationActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        name = (EditText) findViewById(R.id.name);
-        log = (Button) findViewById(R.id.log);
+        new HttpRequestTask().execute();
+    }
 
-        log.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ApiClient.getData();
+    private class HttpRequestTask extends AsyncTask<Void, Void, List<Room>> {
+        @Override
+        protected List<Room> doInBackground(Void... params) {
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                Rooms response = restTemplate.getForObject(url, Rooms.class);
+                List<Room> rooms = response.getAllRooms();
+                Log.i("asd", rooms.get(0).getName() + " " + rooms.get(0).getNumber());
+                Log.i("asd", rooms.get(1).getName() + " " + rooms.get(1).getNumber());
+            } catch (Exception e) {
+                Log.e("MainActivity", e.getMessage(), e);
             }
-        });
+
+            return null;
+        }
+
     }
 }

@@ -1,20 +1,18 @@
 package com.example.ania.hotelroomsreservation.model;
 
-import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
 /**
  * Room object model
  * Created by Ania on 18.09.2016.
  */
-public class Room {
-    @SerializedName("name")
-    private String name;
 
-    @SerializedName("number")
+public class Room{
+    private String name;
     private int number;
 
-    public Room(String name) {
-        this.name = name;
+    public Room() {
+
     }
 
     public void setName(String name) {
