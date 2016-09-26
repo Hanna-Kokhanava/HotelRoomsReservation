@@ -1,4 +1,4 @@
-package com.example.ania.hotelroomsreservation;
+package com.hotel.hotelroomsreservation;
 
 import org.junit.Test;
 

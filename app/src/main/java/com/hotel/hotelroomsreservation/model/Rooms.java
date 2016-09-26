@@ -1,6 +1,4 @@
-package com.example.ania.hotelroomsreservation.model;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+package com.hotel.hotelroomsreservation.model;
 
 import java.util.List;
 

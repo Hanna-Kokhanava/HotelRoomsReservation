@@ -1,20 +1,14 @@
-package com.example.ania.hotelroomsreservation;
+package com.hotel.hotelroomsreservation;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
-import com.example.ania.hotelroomsreservation.model.Room;
-import com.example.ania.hotelroomsreservation.model.Rooms;
+import com.hotel.hotelroomsreservation.model.Room;
+import com.hotel.hotelroomsreservation.model.Rooms;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 

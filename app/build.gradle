@@ -6,7 +6,7 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.example.ania.hotelroomsreservation"
+        applicationId "com.hotel.hotelroomsreservation"
         minSdkVersion 10
         targetSdkVersion 23
         versionCode 1

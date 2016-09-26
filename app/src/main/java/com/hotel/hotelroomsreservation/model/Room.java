@@ -1,6 +1,4 @@
-package com.example.ania.hotelroomsreservation.model;
-
-import java.io.Serializable;
+package com.hotel.hotelroomsreservation.model;
 
 /**
  * Room object model

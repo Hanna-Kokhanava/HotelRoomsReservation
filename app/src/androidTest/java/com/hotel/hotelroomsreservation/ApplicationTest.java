@@ -1,4 +1,4 @@
-package com.example.ania.hotelroomsreservation;
+package com.hotel.hotelroomsreservation;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
