@@ -37,8 +37,8 @@ public class RoomReservationActivity extends AppCompatActivity {
 
                 Rooms response = restTemplate.getForObject(url, Rooms.class);
                 List<Room> rooms = response.getAllRooms();
-                Log.i("asd", rooms.get(0).getName() + " " + rooms.get(0).getNumber());
-                Log.i("asd", rooms.get(1).getName() + " " + rooms.get(1).getNumber());
+                Log.i("Test", rooms.get(0).getName() + " " + rooms.get(0).getNumber());
+                Log.i("Test", rooms.get(1).getName() + " " + rooms.get(1).getNumber());
             } catch (Exception e) {
                 Log.e("MainActivity", e.getMessage(), e);
             }
