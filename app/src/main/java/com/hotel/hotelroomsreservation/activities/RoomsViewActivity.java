@@ -1,4 +1,4 @@
-package com.hotel.hotelroomsreservation;
+package com.hotel.hotelroomsreservation.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -6,21 +6,26 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.hotel.hotelroomsreservation.R;
 import com.hotel.hotelroomsreservation.model.Room;
 import com.hotel.hotelroomsreservation.model.Rooms;
+import com.hotel.hotelroomsreservation.model.ServerAddresses;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-public class RoomReservationActivity extends AppCompatActivity {
-    public static final String url = "http://192.168.1.100:8080/getAllRooms";
+/**
+ * Created by Ania on 29.09.2016.
+ */
+public class RoomsViewActivity extends AppCompatActivity {
+    public static final String url = ServerAddresses.URL + ServerAddresses.GET_ALL_ROOMS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.room_reservation_activity);
+        setContentView(R.layout.rooms_view_activity);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -34,11 +39,11 @@ public class RoomReservationActivity extends AppCompatActivity {
             try {
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
                 Rooms response = restTemplate.getForObject(url, Rooms.class);
                 List<Room> rooms = response.getAllRooms();
                 Log.i("Test", rooms.get(0).getName() + " " + rooms.get(0).getNumber());
                 Log.i("Test", rooms.get(1).getName() + " " + rooms.get(1).getNumber());
+                return rooms;
             } catch (Exception e) {
                 Log.e("MainActivity", e.getMessage(), e);
             }
