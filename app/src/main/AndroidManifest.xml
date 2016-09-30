@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,8 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.HomeActivity"></activity>
-        <activity android:name=".activities.RoomsViewActivity"></activity>
-
+        <activity android:name=".activities.HomePageActivity" />
+        <activity android:name=".activities.RoomsViewActivity" />
+        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.AboutAppActivity"></activity>
     </application>
+
 </manifest>

@@ -14,12 +14,15 @@ import com.hotel.hotelroomsreservation.R;
 /**
  * Created by Ania on 29.09.2016.
  */
-public class HomeActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(toolBar);
     }
 
     @Override
@@ -32,11 +35,13 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
-                // Activity Settings
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
                 return true;
 
             case R.id.about_app:
-                // Activity AboutApp
+                Intent aboutAppIntent = new Intent(this, AboutAppActivity.class);
+                startActivity(aboutAppIntent);
                 return true;
 
             default:
