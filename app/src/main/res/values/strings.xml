@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">HotelRoomsReservation</string>
+    <string name="app_name">Hotel Room Reservation</string>
+    <string name="settings">Settings</string>
+    <string name="about_app">About app</string>
 </resources>
