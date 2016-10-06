@@ -1,4 +1,4 @@
-package com.hotel.hotelroomsreservation.model;
+package com.hotel.hotelroomreservation.model;
 
 /**
  * Server addresses.

@@ -1,4 +1,4 @@
-package com.hotel.hotelroomsreservation;
+package com.hotel.hotelroomreservation;
 
 import org.junit.Test;
 

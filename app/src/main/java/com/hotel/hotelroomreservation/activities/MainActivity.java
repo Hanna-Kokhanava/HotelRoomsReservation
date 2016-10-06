@@ -1,10 +1,10 @@
-package com.hotel.hotelroomsreservation.activities;
+package com.hotel.hotelroomreservation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.hotel.hotelroomsreservation.R;
+import com.hotel.hotelroomreservation.R;
 
 public class MainActivity extends AppCompatActivity {
 

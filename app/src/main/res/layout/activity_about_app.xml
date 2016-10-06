@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hotel.hotelroomsreservation.activities.AboutAppActivity">
+    tools:context="com.hotel.hotelroomreservation.activities.AboutAppActivity">
 
     <include layout="@layout/toolbar" />
 

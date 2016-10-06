@@ -1,15 +1,13 @@
-package com.hotel.hotelroomsreservation.activities;
+package com.hotel.hotelroomreservation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.hotel.hotelroomsreservation.R;
+import com.hotel.hotelroomreservation.R;
 
 /**
  * Created by Ania on 29.09.2016.

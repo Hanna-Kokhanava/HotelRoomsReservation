@@ -1,4 +1,4 @@
-package com.hotel.hotelroomsreservation.activities;
+package com.hotel.hotelroomreservation.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -6,10 +6,10 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.hotel.hotelroomsreservation.R;
-import com.hotel.hotelroomsreservation.model.Room;
-import com.hotel.hotelroomsreservation.model.Rooms;
-import com.hotel.hotelroomsreservation.model.ServerAddresses;
+import com.hotel.hotelroomreservation.R;
+import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.model.Rooms;
+import com.hotel.hotelroomreservation.model.ServerAddresses;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
