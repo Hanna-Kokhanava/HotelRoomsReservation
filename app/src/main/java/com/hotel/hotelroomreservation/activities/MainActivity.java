@@ -13,7 +13,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        openHomeActivity();
+        startActivity(new Intent(this, RoomsViewActivity.class));
+
+//        openHomeActivity();
     }
 
     private void openHomeActivity() {
