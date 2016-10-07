@@ -6,16 +6,15 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.hotel.hotelroomreservation.R;
+import com.hotel.hotelroomreservation.config.Config;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.model.Rooms;
-import com.hotel.hotelroomreservation.model.ServerAddresses;
-
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,12 +24,9 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -45,10 +41,27 @@ public class RoomsViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rooms_view_activity);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        Firebase.setAndroidContext(this);
+        Firebase ref = new Firebase(Config.FIREBASE_URL);
 
-        new HttpRequestTask().execute(new Pair<Context, String>(this, "Manfred"));
+        // Write data
+//        String name = "Hanna";
+//        Room person = new Room();
+//        person.setName(name);
+//
+//        ref.child("Room").setValue(person);
+
+        // Read data
+        ref.child("Room").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println(snapshot.getValue());
+            }
+            @Override public void onCancelled(FirebaseError error) { }
+        });
+
+
+        //new HttpRequestTask().execute(new Pair<Context, String>(this, "Manfred"));
     }
 
     private class HttpRequestTask extends AsyncTask<Pair<Context, String>, Void, String> {
