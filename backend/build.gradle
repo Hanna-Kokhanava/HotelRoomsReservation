@@ -24,6 +24,7 @@ targetCompatibility = JavaVersion.VERSION_1_7
 dependencies {
   appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.28'
   compile 'javax.servlet:servlet-api:2.5'
+    compile 'com.firebase:firebase-client-jvm:2.5.2'
 }
 
 appengine {

@@ -3,9 +3,9 @@ package com.hotel.hotelroomreservation.activities;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -31,9 +31,6 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-/**
- * Created by Ania on 29.09.2016.
- */
 public class RoomsViewActivity extends AppCompatActivity {
 
     @Override
@@ -44,96 +41,20 @@ public class RoomsViewActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         Firebase ref = new Firebase(Config.FIREBASE_URL);
 
-        // Write data
-//        String name = "Hanna";
-//        Room person = new Room();
-//        person.setName(name);
-//
-//        ref.child("Room").setValue(person);
-
-        // Read data
-        ref.child("Room").addValueEventListener(new ValueEventListener() {
+        ref.child("rooms").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                System.out.println(snapshot.getValue());
+                for (DataSnapshot roomSnapshot : snapshot.getChildren()) {
+                    Room room = roomSnapshot.getValue(Room.class);
+                    Log.i("room", room.getName() + " " + room.getPrice());
+                    Toast.makeText(RoomsViewActivity.this, room.getName() + " " + room.getPrice(), Toast.LENGTH_SHORT).show();
+                }
             }
-            @Override public void onCancelled(FirebaseError error) { }
+
+            @Override
+            public void onCancelled(FirebaseError error) {
+                System.out.println("The read failed: " + error.getMessage());
+            }
         });
-
-
-        //new HttpRequestTask().execute(new Pair<Context, String>(this, "Manfred"));
-    }
-
-    private class HttpRequestTask extends AsyncTask<Pair<Context, String>, Void, String> {
-        private Context context;
-
-        @Override
-        protected String doInBackground(Pair<Context, String>... params) {
-            context = params[0].first;
-            String name = params[0].second;
-
-            try {
-                URL url = new URL("http://hotelroomsreservation.appspot.com/hello");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
-
-                // Build name data request params
-                Map<String, String> nameValuePairs = new HashMap<>();
-                nameValuePairs.put("name", name);
-                String postParams = buildPostDataString(nameValuePairs);
-
-                // Execute HTTP Post
-                OutputStream outputStream = connection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                writer.write(postParams);
-                writer.flush();
-                writer.close();
-                outputStream.close();
-                connection.connect();
-
-                // Read response
-                int responseCode = connection.getResponseCode();
-                StringBuilder response = new StringBuilder();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                }
-                reader.close();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    return response.toString();
-                }
-                return "Error: " + responseCode + " " + connection.getResponseMessage();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return "";
-        }
-
-        private String buildPostDataString(Map<String, String> params) throws UnsupportedEncodingException, UnsupportedEncodingException {
-            StringBuilder result = new StringBuilder();
-            boolean first = true;
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                if (first) {
-                    first = false;
-                } else {
-                    result.append("&");
-                }
-
-                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-                result.append("=");
-                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-            }
-            return result.toString();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-        }
     }
 }

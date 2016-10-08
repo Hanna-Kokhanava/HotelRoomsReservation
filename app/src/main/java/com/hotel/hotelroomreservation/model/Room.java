@@ -1,24 +1,27 @@
 package com.hotel.hotelroomreservation.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Room object model
- * Created by Ania on 18.09.2016.
  */
 
 public class Room{
-    private int id;
     private String name;
     private int number;
     private int price;
     private int visitors;
     private double rating;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    @JsonCreator
+    public Room(@JsonProperty("name") String name, @JsonProperty("number") int number, @JsonProperty("price") int price,
+                 @JsonProperty("rating") double rating, @JsonProperty("visitors") int visitors) {
+        this.name = name;
+        this.price = price;
+        this.number = number;
+        this.visitors = visitors;
+        this.rating = rating;
     }
 
     public String getName() {
