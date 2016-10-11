@@ -1,10 +1,9 @@
 package com.hotel.hotelroomreservation.activities;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,42 +12,55 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.config.Config;
+import com.hotel.hotelroomreservation.adapters.RoomAdapter;
+import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.model.Room;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoomsViewActivity extends AppCompatActivity {
+    private final static String ROOM_KEY = "rooms";
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rooms_view_activity);
 
-        Firebase.setAndroidContext(this);
-        Firebase ref = new Firebase(Config.FIREBASE_URL);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rooms_recycler_view);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ref.child("rooms").addValueEventListener(new ValueEventListener() {
+
+        // Create class for working with Firebase
+        Firebase.setAndroidContext(this);
+        Firebase dbReference = new Firebase(Addresses.FIREBASE_URL);
+
+        dbReference.child(ROOM_KEY).addValueEventListener(new ValueEventListener() {
+            List<Room> rooms = new ArrayList<Room>();
+
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot roomSnapshot : snapshot.getChildren()) {
                     Room room = roomSnapshot.getValue(Room.class);
-                    Log.i("room", room.getName() + " " + room.getPrice());
-                    Toast.makeText(RoomsViewActivity.this, room.getName() + " " + room.getPrice(), Toast.LENGTH_SHORT).show();
+                    int i = Log.i(ROOM_KEY, room.getName() + " " + room.getPrice());
+                    rooms.add(room);
                 }
+
+                mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Room room) {
+//                        Intent intent = new Intent(this, AboutAppActivity.class);
+//                        startActivity(intent);
+                        Toast.makeText(RoomsViewActivity.this, "================", Toast.LENGTH_SHORT).show();
+//                        finish();
+                    }
+                });
+
+                mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override

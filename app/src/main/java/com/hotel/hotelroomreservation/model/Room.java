@@ -7,16 +7,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Room object model
  */
 
-public class Room{
+public class Room {
     private String name;
     private int number;
     private int price;
     private int visitors;
-    private double rating;
+    private int rating;
 
     @JsonCreator
     public Room(@JsonProperty("name") String name, @JsonProperty("number") int number, @JsonProperty("price") int price,
-                 @JsonProperty("rating") double rating, @JsonProperty("visitors") int visitors) {
+                @JsonProperty("rating") int rating, @JsonProperty("visitors") int visitors) {
         this.name = name;
         this.price = price;
         this.number = number;
@@ -56,11 +56,11 @@ public class Room{
         this.visitors = visitors;
     }
 
-    public double getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 }

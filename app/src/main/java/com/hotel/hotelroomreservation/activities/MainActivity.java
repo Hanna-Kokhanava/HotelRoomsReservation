@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(new Intent(this, RoomsViewActivity.class));
 
-//        openHomeActivity();
+        openHomeActivity();
     }
 
     private void openHomeActivity() {

@@ -22,14 +22,15 @@ sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
-  appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.28'
-  compile 'javax.servlet:servlet-api:2.5'
+    appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.28'
+    compile 'javax.servlet:servlet-api:2.5'
     compile 'com.firebase:firebase-client-jvm:2.5.2'
+    compile 'org.json:json:20140107'
 }
 
 appengine {
-  downloadSdk = true
-  appcfg {
-    oauth2 = true
-  }
+    downloadSdk = true
+    appcfg {
+        oauth2 = true
+    }
 }

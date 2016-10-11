@@ -9,9 +9,6 @@ import android.view.MenuItem;
 
 import com.hotel.hotelroomreservation.R;
 
-/**
- * Created by Ania on 29.09.2016.
- */
 public class HomePageActivity extends AppCompatActivity {
 
     @Override
