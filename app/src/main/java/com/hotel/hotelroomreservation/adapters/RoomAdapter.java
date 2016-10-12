@@ -24,9 +24,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         this.rooms = rooms;
     }
 
-    /**
-     * ViewHolder for showing list of rooms
-     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView roomNameTextView;
         private TextView roomRatingTextView;
@@ -52,7 +49,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             });
         }
     }
-
 
     @Override
     public RoomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -26,6 +26,9 @@ dependencies {
     compile 'javax.servlet:servlet-api:2.5'
     compile 'com.firebase:firebase-client-jvm:2.5.2'
     compile 'org.json:json:20140107'
+    compile 'com.google.firebase:firebase-server-sdk:3.0.1'
+    compile 'com.google.appengine:appengine:1.9.42'
+    compile 'org.apache.httpcomponents:httpclient:4.5.2'
 }
 
 appengine {

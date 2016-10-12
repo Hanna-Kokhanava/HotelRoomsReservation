@@ -2,7 +2,7 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
     <servlet>
         <servlet-name>InfoServlet</servlet-name>
-        <servlet-class>com.hotel.hotelroomreservation.backend.InfoServlet</servlet-class>
+        <servlet-class>com.hotel.hotelroomreservation.backend.servlets.InfoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>InfoServlet</servlet-name>

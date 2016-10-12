@@ -35,7 +35,7 @@ public class RoomsViewActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        // Create class for working with Firebase
+        // TODO Create class for working with Firebase
         Firebase.setAndroidContext(this);
         Firebase dbReference = new Firebase(Addresses.FIREBASE_URL);
 

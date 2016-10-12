@@ -4,9 +4,9 @@
    https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloWorld
 */
 
-package com.hotel.hotelroomreservation.backend;
+package com.hotel.hotelroomreservation.backend.servlets;
 
-import org.json.JSONObject;
+import com.hotel.hotelroomreservation.backend.parsers.JSONParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,31 +21,19 @@ public class InfoServlet extends HttpServlet {
     private final static String URL = "https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exsentences=7&exintro=&explaintext=&exsectionformat=plain&titles=Online_hotel_reservations";
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         URL url = new URL(URL);
         BufferedReader br = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream()));
         StringBuilder text = new StringBuilder();
-        String line = null;
+        String line;
 
         while (null != (line = br.readLine())) {
             text.append(line);
         }
 
-        String str = new String(text);
-        String extract = "";
-
-        JSONObject json = new JSONObject(str);
-        JSONObject query = json.getJSONObject("query");
-        JSONObject pages = query.getJSONObject("pages");
-
-        for (Object key : pages.keySet()) {
-            JSONObject page = pages.getJSONObject((String) key);
-            extract = page.getString("extract");
-        }
-
+        String parsedText = new JSONParser().parseWikiUrl(new String(text));
         resp.setContentType("text/plain");
-        resp.getWriter().println(extract);
+        resp.getWriter().println(parsedText);
     }
 
     @Override
