@@ -28,7 +28,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
     }
 
@@ -36,18 +36,15 @@ public class HomePageActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
 
             case R.id.about_app:
-                Intent aboutAppIntent = new Intent(this, AboutAppActivity.class);
-                startActivity(aboutAppIntent);
+                startActivity(new Intent(this, AboutAppActivity.class));
                 return true;
 
             case R.id.room_list:
-                Intent roomsViewIntent = new Intent(this, RoomsViewActivity.class);
-                startActivity(roomsViewIntent);
+                startActivity(new Intent(this, RoomsViewActivity.class));
                 return true;
 
             default:

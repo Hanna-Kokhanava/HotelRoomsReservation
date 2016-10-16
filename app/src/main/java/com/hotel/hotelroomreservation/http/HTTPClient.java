@@ -21,21 +21,25 @@ public class HTTPClient implements Addresses {
             InputStream inputStream = connection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-            StringBuilder str = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                str.append(line);
+            try {
+                StringBuilder str = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    str.append(line);
+                }
+
+                appInfo = str.toString();
             }
-
-            appInfo = str.toString();
             //TODO add finally block and in that block close all streams and close connection
-            inputStream.close();
-
+            finally {
+                inputStream.close();
+                reader.close();
+                connection.disconnect();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return appInfo;
     }
-
 }
