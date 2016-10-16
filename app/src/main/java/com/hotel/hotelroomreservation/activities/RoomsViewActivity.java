@@ -49,9 +49,11 @@ public class RoomsViewActivity extends AppCompatActivity {
                 for (DataSnapshot roomSnapshot : snapshot.getChildren()) {
                     Room room = roomSnapshot.getValue(Room.class);
                     int i = Log.i(ROOM_KEY, room.getName() + " " + room.getPrice());
+                    //TODO you always add but never clear rooms List. I think you can easily can have duplicates.
                     rooms.add(room);
                 }
 
+                //TODO if adapter not null you can just update data in adapter
                 mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Room room) {
