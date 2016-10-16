@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+        //TODO you run RoomsViewActivity and HomePageActivity in the same time. It's not valid behaviour
         startActivity(new Intent(this, RoomsViewActivity.class));
 
         openHomeActivity();

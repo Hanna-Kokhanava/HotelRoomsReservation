@@ -28,6 +28,7 @@ public class HTTPClient implements Addresses {
             }
 
             appInfo = str.toString();
+            //TODO add finally block and in that block close all streams and close connection
             inputStream.close();
 
         } catch (IOException e) {
