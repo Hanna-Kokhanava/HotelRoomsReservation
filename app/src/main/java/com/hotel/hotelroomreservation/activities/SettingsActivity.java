@@ -14,6 +14,10 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        toolbarInitialize();
+    }
+
+    private void toolbarInitialize() {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolBar);
         getSupportActionBar().setHomeButtonEnabled(true);

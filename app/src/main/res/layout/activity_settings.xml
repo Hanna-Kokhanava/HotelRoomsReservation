@@ -5,6 +5,9 @@
     android:layout_height="match_parent"
     tools:context="com.hotel.hotelroomreservation.activities.SettingsActivity">
 
-    <include layout="@layout/toolbar" />
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

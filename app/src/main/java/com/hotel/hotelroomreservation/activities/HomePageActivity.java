@@ -16,8 +16,14 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
+        toolbarInitialize();
+    }
+
+    private void toolbarInitialize() {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolBar);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
     }
 
     @Override
@@ -37,6 +43,11 @@ public class HomePageActivity extends AppCompatActivity {
             case R.id.about_app:
                 Intent aboutAppIntent = new Intent(this, AboutAppActivity.class);
                 startActivity(aboutAppIntent);
+                return true;
+
+            case R.id.room_list:
+                Intent roomsViewIntent = new Intent(this, RoomsViewActivity.class);
+                startActivity(roomsViewIntent);
                 return true;
 
             default:

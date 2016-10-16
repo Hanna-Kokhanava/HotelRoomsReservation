@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -30,12 +32,12 @@ public class RoomsViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rooms_view_activity);
 
+        toolbarInitialize();
+
         mRecyclerView = (RecyclerView) findViewById(R.id.rooms_recycler_view);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-
-        // TODO Create class for working with Firebase
         Firebase.setAndroidContext(this);
         Firebase dbReference = new Firebase(Addresses.FIREBASE_URL);
 
@@ -53,10 +55,7 @@ public class RoomsViewActivity extends AppCompatActivity {
                 mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Room room) {
-//                        Intent intent = new Intent(this, AboutAppActivity.class);
-//                        startActivity(intent);
                         Toast.makeText(RoomsViewActivity.this, "================", Toast.LENGTH_SHORT).show();
-//                        finish();
                     }
                 });
 
@@ -69,4 +68,23 @@ public class RoomsViewActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void toolbarInitialize() {
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
