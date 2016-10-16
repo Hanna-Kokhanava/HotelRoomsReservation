@@ -12,4 +12,8 @@
         <item name="android:textSize">21sp</item>
     </style>
 
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+    </style>
+
 </resources>

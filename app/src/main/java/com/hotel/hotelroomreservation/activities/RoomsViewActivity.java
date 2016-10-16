@@ -1,6 +1,5 @@
 package com.hotel.hotelroomreservation.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -39,6 +40,8 @@ public class RoomsViewActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        final ProgressBar progressView = (ProgressBar) findViewById(R.id.progress_bar);
+        progressView.setVisibility(View.VISIBLE);
 
         //TODO Maybe it shouldn't be in onCreate method?
         Firebase.setAndroidContext(this);
@@ -58,6 +61,8 @@ public class RoomsViewActivity extends AppCompatActivity {
                     rooms.add(room);
                 }
 
+                progressView.setVisibility(View.GONE);
+
                 //TODO if adapter not null you can just update data in adapter
                 // ? Is it correct?
                 if (mAdapter == null) {
@@ -65,7 +70,6 @@ public class RoomsViewActivity extends AppCompatActivity {
                         @Override
                         public void onItemClick(Room room) {
                             //TODO create intent RoomInfoActivity
-                            Toast.makeText(RoomsViewActivity.this, "================", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
