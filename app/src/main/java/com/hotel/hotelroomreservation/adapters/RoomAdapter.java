@@ -1,5 +1,6 @@
 package com.hotel.hotelroomreservation.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 import java.util.ArrayList;
 
@@ -28,18 +30,20 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         private TextView roomNameTextView;
         private TextView roomRatingTextView;
         private TextView roomVisitorsTextView;
+        private Context context;
 
         public ViewHolder(View itemView) {
             super(itemView);
             roomNameTextView = (TextView) itemView.findViewById(R.id.roomNameTextView);
             roomRatingTextView = (TextView) itemView.findViewById(R.id.roomRatingTextView);
             roomVisitorsTextView = (TextView) itemView.findViewById(R.id.roomVisitorsTextView);
+            this.context = ContextHolder.getContext();
         }
 
         public void bind(final Room room, final OnItemClickListener listener) {
             roomNameTextView.setText( room.getName());
-            roomRatingTextView.setText("Room rating : " + String.valueOf(room.getRating()));
-            roomVisitorsTextView.setText("Possible visitors : " + String.valueOf(room.getVisitors()));
+            roomRatingTextView.setText(context.getResources().getString(R.string.room_rating, room.getRating()));
+            roomVisitorsTextView.setText(context.getResources().getString(R.string.possible_visitors, room.getVisitors()));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

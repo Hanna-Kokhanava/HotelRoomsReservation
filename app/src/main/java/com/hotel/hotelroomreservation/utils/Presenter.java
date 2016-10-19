@@ -1,4 +1,4 @@
-package com.hotel.hotelroomreservation;
+package com.hotel.hotelroomreservation.utils;
 
 import android.os.Looper;
 import android.os.Handler;

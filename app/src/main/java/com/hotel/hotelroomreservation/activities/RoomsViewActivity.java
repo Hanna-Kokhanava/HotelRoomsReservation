@@ -1,5 +1,6 @@
 package com.hotel.hotelroomreservation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,7 +44,7 @@ public class RoomsViewActivity extends AppCompatActivity {
         final ProgressBar progressView = (ProgressBar) findViewById(R.id.progress_bar);
         progressView.setVisibility(View.VISIBLE);
 
-        //TODO Maybe it shouldn't be in onCreate method?
+        //TODO Maybe it shouldn't be in onCreate method
         Firebase.setAndroidContext(this);
         Firebase dbReference = new Firebase(Addresses.FIREBASE_URL);
 
@@ -56,20 +57,16 @@ public class RoomsViewActivity extends AppCompatActivity {
                 for (DataSnapshot roomSnapshot : snapshot.getChildren()) {
                     Room room = roomSnapshot.getValue(Room.class);
                     int i = Log.i(ROOM_KEY, room.getName() + " " + room.getPrice());
-                    //TODO you always add but never clear rooms List. I think you can easily can have duplicates.
-                    // ? Is it a good idea to create a new object in method or should I use clear method of ArrayList?
                     rooms.add(room);
                 }
 
                 progressView.setVisibility(View.GONE);
 
-                //TODO if adapter not null you can just update data in adapter
-                // ? Is it correct?
                 if (mAdapter == null) {
                     mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(Room room) {
-                            //TODO create intent RoomInfoActivity
+                            startActivity(new Intent(RoomsViewActivity.this, RoomInfoActivity.class));
                         }
                     });
                 } else {

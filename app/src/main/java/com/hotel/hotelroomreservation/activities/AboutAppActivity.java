@@ -6,8 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.hotel.hotelroomreservation.Contract;
-import com.hotel.hotelroomreservation.Presenter;
+import com.hotel.hotelroomreservation.utils.Contract;
+import com.hotel.hotelroomreservation.utils.Presenter;
 import com.hotel.hotelroomreservation.R;
 
 public class AboutAppActivity extends AppCompatActivity implements Contract.View {

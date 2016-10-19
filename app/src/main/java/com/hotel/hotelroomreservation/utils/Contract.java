@@ -1,4 +1,4 @@
-package com.hotel.hotelroomreservation;
+package com.hotel.hotelroomreservation.utils;
 
 public interface Contract {
     interface View {
