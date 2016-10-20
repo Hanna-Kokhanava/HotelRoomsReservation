@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -26,9 +25,9 @@ import java.util.List;
 
 public class RoomsViewActivity extends AppCompatActivity {
     private final static String ROOM_KEY = "rooms";
+    private Firebase dbReference;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +37,18 @@ public class RoomsViewActivity extends AppCompatActivity {
         toolbarInitialize();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rooms_recycler_view);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        Firebase.setAndroidContext(this);
+        dbReference = new Firebase(Addresses.FIREBASE_URL);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         final ProgressBar progressView = (ProgressBar) findViewById(R.id.progress_bar);
         progressView.setVisibility(View.VISIBLE);
-
-        //TODO Maybe it shouldn't be in onCreate method
-        Firebase.setAndroidContext(this);
-        Firebase dbReference = new Firebase(Addresses.FIREBASE_URL);
 
         dbReference.child(ROOM_KEY).addValueEventListener(new ValueEventListener() {
             List<Room> rooms;
@@ -56,7 +58,6 @@ public class RoomsViewActivity extends AppCompatActivity {
                 rooms = new ArrayList<>();
                 for (DataSnapshot roomSnapshot : snapshot.getChildren()) {
                     Room room = roomSnapshot.getValue(Room.class);
-                    int i = Log.i(ROOM_KEY, room.getName() + " " + room.getPrice());
                     rooms.add(room);
                 }
 

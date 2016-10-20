@@ -8,4 +8,5 @@ public interface Addresses {
     String SERVER_URL = "http://hotelroomsreservation.appspot.com";
 
     String APP_INFO = "/info";
+    String CURRENCY_RATE = "/rate";
 }

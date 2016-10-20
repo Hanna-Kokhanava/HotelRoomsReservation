@@ -23,7 +23,7 @@ public class AboutAppActivity extends AppCompatActivity implements Contract.View
 
         toolbarInitialize();
 
-        presenter = new Presenter(this);
+        new Presenter(this).onReady();
         presenter.onReady();
     }
 

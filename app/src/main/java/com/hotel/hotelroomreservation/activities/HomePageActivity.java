@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hotel.hotelroomreservation.R;
+import com.hotel.hotelroomreservation.model.Currencies;
+import com.hotel.hotelroomreservation.utils.Contract;
+import com.hotel.hotelroomreservation.utils.Presenter;
 
-public class HomePageActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity implements Contract.Rates {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +21,9 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.home_activity);
 
         toolbarInitialize();
+
+        // Here just for checking
+        new Presenter(this).onRatesRequest();
     }
 
     private void toolbarInitialize() {
@@ -48,9 +55,13 @@ public class HomePageActivity extends AppCompatActivity {
                 return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void showRates(Currencies currencies) {
+        Log.i("rate", currencies.getUSDBYR() + " " + currencies.getUSDEUR() + " "
+                + currencies.getUSDPLN() + " " + currencies.getTimestamp());
     }
 }
