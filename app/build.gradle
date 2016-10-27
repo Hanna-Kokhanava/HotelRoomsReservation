@@ -38,7 +38,8 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.firebase:firebase-client-android:2.5.2'
     compile 'com.firebase:firebase-client-jvm:2.5.2'
-    compile 'com.google.firebase:firebase-core:9.0.2'
+    compile 'com.google.firebase:firebase-storage:9.8.0'
+    compile 'com.google.firebase:firebase-auth:9.8.0'
     compile 'com.google.code.gson:gson:2.6.2'
 }
 

@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.hotel.hotelroomreservation.model.Currencies;
-import com.hotel.hotelroomreservation.model.Rate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,13 +33,5 @@ public class JSONParser {
         }
 
         return new Currencies(formattedDate, PLNCurrency, EURCurrency, BYRCurrency);
-    }
-
-    public static Rate gsonParseCurrencyRate(String currencyRate) {
-        Gson gson = new Gson();
-        Rate rate = gson.fromJson(currencyRate, Rate.class);
-        Log.i("rate", String.valueOf(rate));
-
-        return rate;
     }
 }
