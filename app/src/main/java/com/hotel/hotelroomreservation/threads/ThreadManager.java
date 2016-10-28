@@ -12,7 +12,6 @@ public class ThreadManager {
 
     public ThreadManager() {
         this.executorService = Executors.newFixedThreadPool(THREADS);
-//        this.executorService = Executors.newCachedThreadPool();
     }
 
     public <Params, Progress, Result> void executeOperation(final ExecutingOperations<Params, Progress, Result> operations,

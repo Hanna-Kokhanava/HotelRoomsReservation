@@ -2,7 +2,6 @@ package com.hotel.hotelroomreservation.http;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.model.Currencies;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HTTPClient implements Addresses {
@@ -25,9 +23,7 @@ public class HTTPClient implements Addresses {
             connection.setDoInput(true);
             connection.connect();
             InputStream inputStream = connection.getInputStream();
-
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            return bitmap;
+            return BitmapFactory.decodeStream(inputStream);
 
         } catch (IOException e) {
             e.printStackTrace();

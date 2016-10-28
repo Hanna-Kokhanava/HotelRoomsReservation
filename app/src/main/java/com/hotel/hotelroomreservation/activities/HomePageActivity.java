@@ -7,7 +7,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -17,17 +21,18 @@ import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.model.Currencies;
 import com.hotel.hotelroomreservation.threads.PhotosOperation;
-import com.hotel.hotelroomreservation.threads.ThreadManager;
 import com.hotel.hotelroomreservation.utils.Contract;
 import com.hotel.hotelroomreservation.utils.Presenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomePageActivity extends AppCompatActivity implements Contract.Rates {
     private final static String PHOTOS_KEY = "photos";
     private Firebase dbReference;
-    private ImageView hotel;
+    private ImageView hotelImageView;
+    private ListView photosListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +44,7 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
         // Here just for checking
         new Presenter(this).onRatesRequest();
 
-        hotel = (ImageView) findViewById(R.id.imageView);
+//        hotelImageView = (ImageView) findViewById(R.id.imageView);
 
         Firebase.setAndroidContext(this);
         dbReference = new Firebase(Addresses.FIREBASE_URL);
@@ -48,24 +53,38 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
     @Override
     protected void onStart() {
         super.onStart();
-        final ThreadManager threadManager = new ThreadManager();
         final PhotosOperation photosOperation = new PhotosOperation();
-        final List<DataSnapshot> hotelPhotosUrls = new ArrayList<>();
+        final List<String> hotelPhotosUrls = new ArrayList<>();
 
         dbReference.child(PHOTOS_KEY).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
-                    hotelPhotosUrls.add(urlSnapshot);
-                    photosOperation.drawBitmap(hotel, String.valueOf(urlSnapshot.getValue()));
-                    return;
+                    hotelPhotosUrls.add((String) urlSnapshot.getValue());
                 }
+                setAdapter(hotelPhotosUrls, photosOperation);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
 
+            }
+        });
+    }
+
+    private void setAdapter(final List<String> urls, final PhotosOperation photosOperation) {
+        String[] urlArray = urls.toArray(new String[urls.size()]);
+
+        photosListView = (ListView) findViewById(R.id.photosListView);
+        photosListView.setAdapter(new ArrayAdapter<String>(this, R.layout.image_adapter, R.id.text1, urlArray) {
+
+            @Override
+            public View getView(final int position, final View convertView, final ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+                photosOperation.drawBitmap(imageView, urls.get(position));
+                return view;
             }
         });
     }
