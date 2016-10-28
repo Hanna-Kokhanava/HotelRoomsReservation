@@ -1,6 +1,9 @@
 package com.hotel.hotelroomreservation.http;
 
-import com.firebase.client.DataSnapshot;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.model.Currencies;
 import com.hotel.hotelroomreservation.utils.JSONParser;
@@ -10,34 +13,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HTTPClient implements Addresses {
 
-    public static InputStream getPhoto(DataSnapshot URL) {
-        HttpURLConnection connection = null;
-        InputStream inputStream = null;
+    public static Bitmap getPhoto(String URL) {
         try {
-            URL reqUrl = new URL(URL.getValue().toString());
-            connection = ((HttpURLConnection) reqUrl.openConnection());
-            connection.setRequestMethod("GET");
-            inputStream = connection.getInputStream();
+            URL reqUrl = new URL(URL);
+            HttpURLConnection connection = ((HttpURLConnection) reqUrl.openConnection());
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            return bitmap;
+
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                connection.disconnect();
-            }
         }
-        return inputStream;
+        return null;
     }
 
     public static String getWikiResponse(String URL) {

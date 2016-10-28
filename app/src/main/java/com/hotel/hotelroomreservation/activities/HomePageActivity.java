@@ -1,42 +1,26 @@
 package com.hotel.hotelroomreservation.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.adapters.RoomAdapter;
-import com.hotel.hotelroomreservation.http.HTTPClient;
 import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.model.Currencies;
-import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.threads.PhotosOperation;
+import com.hotel.hotelroomreservation.threads.ThreadManager;
 import com.hotel.hotelroomreservation.utils.Contract;
 import com.hotel.hotelroomreservation.utils.Presenter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,13 +48,18 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
     @Override
     protected void onStart() {
         super.onStart();
+        final ThreadManager threadManager = new ThreadManager();
+        final PhotosOperation photosOperation = new PhotosOperation();
+        final List<DataSnapshot> hotelPhotosUrls = new ArrayList<>();
 
         dbReference.child(PHOTOS_KEY).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot roomSnapshot : snapshot.getChildren()) {
-                    hotel.setImageBitmap(BitmapFactory.decodeStream(HTTPClient.getPhoto(roomSnapshot)));
+                for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
+                    hotelPhotosUrls.add(urlSnapshot);
+                    photosOperation.drawBitmap(hotel, String.valueOf(urlSnapshot.getValue()));
+                    return;
                 }
             }
 
@@ -80,6 +69,7 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
