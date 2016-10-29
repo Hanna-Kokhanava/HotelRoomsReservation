@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.LruCache;
@@ -22,6 +24,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.firebase.client.utilities.Base64;
 import com.hotel.hotelroomreservation.R;
+import com.hotel.hotelroomreservation.adapters.BitmapAdapter;
 import com.hotel.hotelroomreservation.http.HTTPClient;
 import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.model.Currencies;
@@ -37,8 +40,8 @@ import java.util.zip.Inflater;
 public class HomePageActivity extends AppCompatActivity implements Contract.Rates {
     private final static String PHOTOS_KEY = "photos";
     private Firebase dbReference;
-    private ImageView hotelImageView;
-    private ListView photosListView;
+    private RecyclerView.Adapter bitmapAdapter;
+    private RecyclerView photosRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +50,11 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
 
         toolbarInitialize();
 
+        photosRecyclerView = (RecyclerView) findViewById(R.id.photos_recycler_view);
+        photosRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         // Here just for checking
         new Presenter(this).onRatesRequest();
-
-//        hotelImageView = (ImageView) findViewById(R.id.imageView);
 
         Firebase.setAndroidContext(this);
         dbReference = new Firebase(Addresses.FIREBASE_URL);
@@ -69,7 +73,9 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
                 for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
                     hotelPhotosUrls.add((String) urlSnapshot.getValue());
                 }
-                setAdapter(hotelPhotosUrls, photosOperation);
+                bitmapAdapter = new BitmapAdapter(hotelPhotosUrls, photosOperation);
+                photosRecyclerView.setAdapter(bitmapAdapter);
+//                setAdapter(hotelPhotosUrls, photosOperation);
             }
 
             @Override
@@ -82,17 +88,19 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
     private void setAdapter(final List<String> urls, final PhotosOperation photosOperation) {
         String[] urlArray = urls.toArray(new String[urls.size()]);
 
-        photosListView = (ListView) findViewById(R.id.photosListView);
-        photosListView.setAdapter(new ArrayAdapter<String>(this, R.layout.image_adapter, R.id.text1, urlArray) {
 
-            @Override
-            public View getView(final int position, final View convertView, final ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-                photosOperation.drawBitmap(imageView, urls.get(position));
-                return view;
-            }
-        });
+
+//        ListView photosListView = (ListView) findViewById(R.id.photosListView);
+//        photosListView.setAdapter(new ArrayAdapter<String>(this, R.layout.image_adapter, R.id.text1, urlArray) {
+//
+//            @Override
+//            public View getView(final int position, final View convertView, final ViewGroup parent) {
+//                View view = super.getView(position, convertView, parent);
+//                ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+//                photosOperation.drawBitmap(imageView, urls.get(position));
+//                return view;
+//            }
+//        });
     }
 
     @Override

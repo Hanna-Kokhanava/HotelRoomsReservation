@@ -1,32 +1,48 @@
 package com.hotel.hotelroomreservation.threads;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.LruCache;
 import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.http.HTTPClient;
+import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 import java.lang.ref.WeakReference;
 
 public class PhotosOperation {
-    public static final int MAX_MEMORY_FOR_IMAGES = 64 * 1000 * 1000;
+    final int MAX_MEMORY_FOR_IMAGES = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    final int CACHE_SIZE = MAX_MEMORY_FOR_IMAGES / 8;
+    private final LruCache<String, Bitmap> memoryCache;
 
     private ThreadManager threadManager = new ThreadManager();
     private BitmapOperation bitmapOperation = new BitmapOperation();
-    private final LruCache<String, Bitmap> lruCache;
 
     public PhotosOperation() {
 
-        this.lruCache = new LruCache<String, Bitmap>(MAX_MEMORY_FOR_IMAGES) {
+        this.memoryCache = new LruCache<String, Bitmap>(CACHE_SIZE) {
             @Override
             protected int sizeOf(final String key, final Bitmap value) {
-                return key.length() + value.getByteCount();
+                return value.getByteCount() / 1024;
             }
         };
     }
 
+    public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+        if (getBitmapFromMemoryCache(key) == null) {
+            memoryCache.put(key, bitmap);
+        }
+    }
+
+    public Bitmap getBitmapFromMemoryCache(String key) {
+        return memoryCache.get(key);
+    }
+
     public void drawBitmap(final ImageView imageView, final String imageUrl) {
-        final Bitmap bitmap = lruCache.get(imageUrl);
+        final Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
@@ -35,7 +51,7 @@ public class PhotosOperation {
             @Override
             public void onSuccess(final Bitmap bitmap) {
                 if (bitmap != null) {
-                    lruCache.put(imageUrl, bitmap);
+                    addBitmapToMemoryCache(imageUrl, bitmap);
                 }
                 super.onSuccess(bitmap);
             }
