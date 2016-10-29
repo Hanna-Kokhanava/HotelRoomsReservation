@@ -1,10 +1,13 @@
 package com.hotel.hotelroomreservation.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +20,9 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.firebase.client.utilities.Base64;
 import com.hotel.hotelroomreservation.R;
+import com.hotel.hotelroomreservation.http.HTTPClient;
 import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.model.Currencies;
 import com.hotel.hotelroomreservation.threads.PhotosOperation;
@@ -27,6 +32,7 @@ import com.hotel.hotelroomreservation.utils.Presenter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.zip.Inflater;
 
 public class HomePageActivity extends AppCompatActivity implements Contract.Rates {
     private final static String PHOTOS_KEY = "photos";
@@ -88,7 +94,6 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

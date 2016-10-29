@@ -7,11 +7,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ThreadManager {
-    public static final int THREADS = 3;
+    public static final int THREADS = 4;
     private final ExecutorService executorService;
 
     public ThreadManager() {
-        this.executorService = Executors.newFixedThreadPool(THREADS);
+       this(Executors.newFixedThreadPool(3));
+    }
+
+    public ThreadManager(final ExecutorService executorService) {
+        this.executorService = executorService;
     }
 
     public <Params, Progress, Result> void executeOperation(final ExecutingOperations<Params, Progress, Result> operations,

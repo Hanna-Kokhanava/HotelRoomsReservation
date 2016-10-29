@@ -16,7 +16,8 @@ public class PhotosOperation {
     private final LruCache<String, Bitmap> lruCache;
 
     public PhotosOperation() {
-        this.lruCache = new LruCache<String, Bitmap>(Math.min((int) (Runtime.getRuntime().maxMemory() / 4), MAX_MEMORY_FOR_IMAGES)) {
+
+        this.lruCache = new LruCache<String, Bitmap>(MAX_MEMORY_FOR_IMAGES) {
             @Override
             protected int sizeOf(final String key, final Bitmap value) {
                 return key.length() + value.getByteCount();
@@ -25,12 +26,12 @@ public class PhotosOperation {
     }
 
     public void drawBitmap(final ImageView imageView, final String imageUrl) {
-            final Bitmap bitmap = lruCache.get(imageUrl);
-            if (bitmap != null) {
-                imageView.setImageBitmap(bitmap);
-            }
+        final Bitmap bitmap = lruCache.get(imageUrl);
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+        }
 
-        threadManager.executeOperation(bitmapOperation, imageUrl, new BitmapResultCallback(imageView) {
+        threadManager.executeOperation(bitmapOperation, imageUrl, new BitmapResultCallback(imageUrl, imageView) {
             @Override
             public void onSuccess(final Bitmap bitmap) {
                 if (bitmap != null) {
@@ -50,16 +51,22 @@ public class PhotosOperation {
 
     private class BitmapResultCallback implements OnResultCallback<Void, Bitmap> {
         private final WeakReference<ImageView> imageViewReference;
+        private String value;
 
-        public BitmapResultCallback(final ImageView imageView) {
+        public BitmapResultCallback(final String value, final ImageView imageView) {
             this.imageViewReference = new WeakReference<>(imageView);
+            this.value = value;
+            imageView.setTag(value);
         }
 
         @Override
         public void onSuccess(final Bitmap bitmap) {
             ImageView imageView = this.imageViewReference.get();
             if (imageView != null) {
-                imageView.setImageBitmap(bitmap);
+                Object tag = imageView.getTag();
+                if (tag != null && tag.equals(value)) {
+                    imageView.setImageBitmap(bitmap);
+                }
             }
         }
 
