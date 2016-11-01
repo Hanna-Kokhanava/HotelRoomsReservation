@@ -38,10 +38,7 @@ import java.util.Objects;
 import java.util.zip.Inflater;
 
 public class HomePageActivity extends AppCompatActivity implements Contract.Rates {
-    private final static String PHOTOS_KEY = "photos";
-    private Firebase dbReference;
-    private RecyclerView.Adapter bitmapAdapter;
-    private RecyclerView photosRecyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,57 +47,8 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
 
         toolbarInitialize();
 
-        photosRecyclerView = (RecyclerView) findViewById(R.id.photos_recycler_view);
-        photosRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         // Here just for checking
         new Presenter(this).onRatesRequest();
-
-        Firebase.setAndroidContext(this);
-        dbReference = new Firebase(Addresses.FIREBASE_URL);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        final PhotosOperation photosOperation = new PhotosOperation();
-        final List<String> hotelPhotosUrls = new ArrayList<>();
-
-        dbReference.child(PHOTOS_KEY).addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
-                    hotelPhotosUrls.add((String) urlSnapshot.getValue());
-                }
-                bitmapAdapter = new BitmapAdapter(hotelPhotosUrls, photosOperation);
-                photosRecyclerView.setAdapter(bitmapAdapter);
-//                setAdapter(hotelPhotosUrls, photosOperation);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-    }
-
-    private void setAdapter(final List<String> urls, final PhotosOperation photosOperation) {
-        String[] urlArray = urls.toArray(new String[urls.size()]);
-
-
-
-//        ListView photosListView = (ListView) findViewById(R.id.photosListView);
-//        photosListView.setAdapter(new ArrayAdapter<String>(this, R.layout.image_adapter, R.id.text1, urlArray) {
-//
-//            @Override
-//            public View getView(final int position, final View convertView, final ViewGroup parent) {
-//                View view = super.getView(position, convertView, parent);
-//                ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-//                photosOperation.drawBitmap(imageView, urls.get(position));
-//                return view;
-//            }
-//        });
     }
 
     @Override
@@ -122,6 +70,10 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
 
             case R.id.room_list:
                 startActivity(new Intent(this, RoomsViewActivity.class));
+                return true;
+
+            case R.id.photo_list:
+                startActivity(new Intent(this, PhotoListActivity.class));
                 return true;
 
             default:

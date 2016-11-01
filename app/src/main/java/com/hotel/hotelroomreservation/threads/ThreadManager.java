@@ -1,6 +1,5 @@
 package com.hotel.hotelroomreservation.threads;
 
-import android.graphics.Bitmap;
 import android.os.Handler;
 
 import java.util.concurrent.ExecutorService;
@@ -11,7 +10,7 @@ public class ThreadManager {
     private final ExecutorService executorService;
 
     public ThreadManager() {
-       this(Executors.newFixedThreadPool(3));
+       this(Executors.newFixedThreadPool(THREADS));
     }
 
     public ThreadManager(final ExecutorService executorService) {

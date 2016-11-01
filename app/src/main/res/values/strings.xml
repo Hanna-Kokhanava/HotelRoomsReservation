@@ -5,4 +5,5 @@
     <string name="hotel_room_reservation">Hotel room reservation</string>
     <string name="room_rating">Room rating : %1$s</string>
     <string name="possible_visitors">Possible visitors : %1$s</string>
+    <string name="photo_gallery">Photo gallery</string>
 </resources>

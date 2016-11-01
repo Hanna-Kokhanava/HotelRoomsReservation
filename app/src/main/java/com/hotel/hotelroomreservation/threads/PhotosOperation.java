@@ -1,15 +1,10 @@
 package com.hotel.hotelroomreservation.threads;
 
-import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.util.LruCache;
 import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.http.HTTPClient;
-import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 import java.lang.ref.WeakReference;
 
@@ -41,7 +36,7 @@ public class PhotosOperation {
         return memoryCache.get(key);
     }
 
-    public void drawBitmap(final ImageView imageView, final String imageUrl) {
+    public void setBitmap(final ImageView imageView, final String imageUrl) {
         final Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);

@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:title="Room list">
     </item>
+
     <item
         android:id="@+id/settings"
         android:layout_width="wrap_content"
@@ -24,5 +25,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:title="@string/about_app">
+    </item>
+
+    <item
+        android:id="@+id/photo_list"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:title="@string/photo_gallery">
     </item>
 </menu>
