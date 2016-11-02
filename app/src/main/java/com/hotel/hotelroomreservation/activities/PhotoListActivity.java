@@ -5,16 +5,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.adapters.BitmapAdapter;
+import com.hotel.hotelroomreservation.adapters.PhotoAdapter;
 import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.threads.PhotosOperation;
-import com.hotel.hotelroomreservation.utils.Presenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class PhotoListActivity extends AppCompatActivity {
                 for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
                     hotelPhotosUrls.add((String) urlSnapshot.getValue());
                 }
-                bitmapAdapter = new BitmapAdapter(hotelPhotosUrls, photosOperation);
+                bitmapAdapter = new PhotoAdapter(hotelPhotosUrls, photosOperation);
                 photosRecyclerView.setAdapter(bitmapAdapter);
             }
 
@@ -61,6 +61,16 @@ public class PhotoListActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void toolbarInitialize() {

@@ -1,44 +1,23 @@
 package com.hotel.hotelroomreservation.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.LruCache;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
-import com.firebase.client.utilities.Base64;
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.adapters.BitmapAdapter;
-import com.hotel.hotelroomreservation.http.HTTPClient;
-import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.model.Currencies;
-import com.hotel.hotelroomreservation.threads.PhotosOperation;
+import com.hotel.hotelroomreservation.utils.ContextHolder;
 import com.hotel.hotelroomreservation.utils.Contract;
 import com.hotel.hotelroomreservation.utils.Presenter;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.zip.Inflater;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
 public class HomePageActivity extends AppCompatActivity implements Contract.Rates {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +25,27 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
         setContentView(R.layout.home_activity);
 
         toolbarInitialize();
+
+        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                switch (tabId) {
+                    case R.id.tab_roomlist:
+                        startActivity(new Intent(ContextHolder.getContext(), RoomListActivity.class));
+                        break;
+                    case R.id.tab_reservations:
+//                        startActivity(new Intent(ContextHolder.getContext(), ));
+                        break;
+                    case R.id.tab_search:
+//                        startActivity(new Intent(ContextHolder.getContext(), ));
+                        break;
+                    case R.id.tab_gallery:
+                        startActivity(new Intent(ContextHolder.getContext(), PhotoListActivity.class));
+                        break;
+                }
+            }
+        });
 
         // Here just for checking
         new Presenter(this).onRatesRequest();
@@ -66,14 +66,6 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
 
             case R.id.about_app:
                 startActivity(new Intent(this, AboutAppActivity.class));
-                return true;
-
-            case R.id.room_list:
-                startActivity(new Intent(this, RoomsViewActivity.class));
-                return true;
-
-            case R.id.photo_list:
-                startActivity(new Intent(this, PhotoListActivity.class));
                 return true;
 
             default:

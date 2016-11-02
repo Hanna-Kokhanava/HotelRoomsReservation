@@ -12,11 +12,11 @@ import com.hotel.hotelroomreservation.threads.PhotosOperation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BitmapAdapter extends RecyclerView.Adapter<BitmapAdapter.ViewHolder> {
+public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private List<String> urls = new ArrayList<>();
     private PhotosOperation photosOperation;
 
-    public BitmapAdapter(List<String> rooms, PhotosOperation photosOperation) {
+    public PhotoAdapter(List<String> rooms, PhotosOperation photosOperation) {
         this.urls = rooms;
         this.photosOperation = photosOperation;
     }
@@ -31,7 +31,7 @@ public class BitmapAdapter extends RecyclerView.Adapter<BitmapAdapter.ViewHolder
     }
 
     @Override
-    public BitmapAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PhotoAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View roomView = LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_item, parent, false);
         return new ViewHolder(roomView);
     }

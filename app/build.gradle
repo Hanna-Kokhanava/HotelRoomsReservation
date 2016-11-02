@@ -41,6 +41,8 @@ dependencies {
     compile 'com.google.firebase:firebase-storage:9.8.0'
     compile 'com.google.firebase:firebase-auth:9.8.0'
     compile 'com.google.code.gson:gson:2.6.2'
+
+    compile 'com.roughike:bottom-bar:2.0.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

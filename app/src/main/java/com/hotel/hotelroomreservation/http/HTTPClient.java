@@ -22,6 +22,7 @@ public class HTTPClient implements Addresses {
             HttpURLConnection connection = ((HttpURLConnection) reqUrl.openConnection());
             connection.setDoInput(true);
             connection.connect();
+
             InputStream inputStream = connection.getInputStream();
             return BitmapFactory.decodeStream(inputStream);
 

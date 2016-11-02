@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -22,7 +23,7 @@ import com.hotel.hotelroomreservation.model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomsViewActivity extends AppCompatActivity {
+public class RoomListActivity extends AppCompatActivity {
     private final static String ROOM_KEY = "rooms";
     private Firebase dbReference;
     private RecyclerView mRecyclerView;
@@ -67,7 +68,7 @@ public class RoomsViewActivity extends AppCompatActivity {
                     mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(Room room) {
-                            startActivity(new Intent(RoomsViewActivity.this, RoomInfoActivity.class));
+                            startActivity(new Intent(RoomListActivity.this, RoomInfoActivity.class));
                         }
                     });
                 } else {
@@ -79,7 +80,7 @@ public class RoomsViewActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(FirebaseError error) {
-                System.out.println("The read failed: " + error.getMessage());
+                Log.i("Firebase", "The read failed: " + error.getMessage());
                 // TODO User friendly message about error
             }
         });

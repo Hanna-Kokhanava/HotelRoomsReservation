@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_roomlist"
+        icon="@drawable/ic_list"
+        title="Room list"/>
+    <tab
+        id="@+id/tab_reservations"
+        icon="@drawable/ic_event"
+        title="My reservations" />
+    <tab
+        id="@+id/tab_search"
+        icon="@drawable/ic_search"
+        title="Room search" />
+    <tab
+        id="@+id/tab_gallery"
+        icon="@drawable/ic_photo_library"
+        title="Photo gallery" />
+</tabs>
