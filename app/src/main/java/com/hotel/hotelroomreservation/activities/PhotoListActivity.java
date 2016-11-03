@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.firebase.client.DataSnapshot;
@@ -35,7 +36,6 @@ public class PhotoListActivity extends AppCompatActivity {
         photosRecyclerView = (RecyclerView) findViewById(R.id.photos_recycler_view);
         photosRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Firebase.setAndroidContext(this);
         dbReference = new Firebase(Addresses.FIREBASE_URL);
     }
 
@@ -58,7 +58,7 @@ public class PhotoListActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                Log.i("tag", firebaseError.getMessage().toString());
             }
         });
     }

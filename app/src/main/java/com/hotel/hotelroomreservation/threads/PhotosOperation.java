@@ -1,6 +1,7 @@
 package com.hotel.hotelroomreservation.threads;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
 
@@ -41,16 +42,17 @@ public class PhotosOperation {
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
-
-        threadManager.executeOperation(bitmapOperation, imageUrl, new BitmapResultCallback(imageUrl, imageView) {
-            @Override
-            public void onSuccess(final Bitmap bitmap) {
-                if (bitmap != null) {
-                    addBitmapToMemoryCache(imageUrl, bitmap);
+        else {
+            threadManager.executeOperation(bitmapOperation, imageUrl, new BitmapResultCallback(imageUrl, imageView) {
+                @Override
+                public void onSuccess(final Bitmap bitmap) {
+                    if (bitmap != null) {
+                        addBitmapToMemoryCache(imageUrl, bitmap);
+                    }
+                    super.onSuccess(bitmap);
                 }
-                super.onSuccess(bitmap);
-            }
-        });
+            });
+        }
     }
 
     private class BitmapOperation implements ExecutingOperations<String, Void, Bitmap> {

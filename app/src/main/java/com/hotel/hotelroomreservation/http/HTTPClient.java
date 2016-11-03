@@ -23,8 +23,10 @@ public class HTTPClient implements Addresses {
             connection.setDoInput(true);
             connection.connect();
 
-            InputStream inputStream = connection.getInputStream();
-            return BitmapFactory.decodeStream(inputStream);
+            if (connection.getResponseCode() == 200) {
+                InputStream inputStream = connection.getInputStream();
+                return BitmapFactory.decodeStream(inputStream);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,21 +71,28 @@ public class HTTPClient implements Addresses {
             URL url = new URL(URL);
             HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
             connection.setRequestMethod("GET");
-            InputStream inputStream = connection.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-            try {
-                StringBuilder str = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    str.append(line);
+            if (connection.getResponseCode() == 200) {
+                InputStream inputStream = connection.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                try {
+                    StringBuilder str = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        str.append(line);
+                    }
+
+                    currencyRate = str.toString();
+
+                } finally {
+                    inputStream.close();
+                    reader.close();
+                    connection.disconnect();
                 }
-
-                currencyRate = str.toString();
-            } finally {
-                inputStream.close();
-                reader.close();
-                connection.disconnect();
+            }
+            else {
+                return null;
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -2,6 +2,7 @@ package com.hotel.hotelroomreservation;
 
 import android.app.Application;
 
+import com.firebase.client.Firebase;
 import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 public class App extends Application {
@@ -9,6 +10,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         ContextHolder.setContext(this);
+        Firebase.setAndroidContext(this);
+        Firebase.getDefaultConfig().setPersistenceEnabled(true);
     }
 
     @Override

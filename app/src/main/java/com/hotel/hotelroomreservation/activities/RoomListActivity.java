@@ -39,8 +39,8 @@ public class RoomListActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.rooms_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Firebase.setAndroidContext(this);
         dbReference = new Firebase(Addresses.FIREBASE_URL);
+        dbReference.keepSynced(true);
     }
 
     @Override
