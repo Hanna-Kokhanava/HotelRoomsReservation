@@ -32,7 +32,7 @@ public class RoomListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rooms_view_activity);
+        setContentView(R.layout.room_list_activity);
 
         toolbarInitialize();
 
@@ -81,7 +81,6 @@ public class RoomListActivity extends AppCompatActivity {
             @Override
             public void onCancelled(FirebaseError error) {
                 Log.i("Firebase", "The read failed: " + error.getMessage());
-                // TODO User friendly message about error
             }
         });
     }

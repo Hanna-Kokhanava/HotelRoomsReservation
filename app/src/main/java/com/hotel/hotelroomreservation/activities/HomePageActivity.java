@@ -17,7 +17,7 @@ import com.hotel.hotelroomreservation.utils.Presenter;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
-public class HomePageActivity extends AppCompatActivity implements Contract.Rates {
+public class HomePageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
         toolbarInitialize();
 
         BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setDefaultTabPosition(1);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -34,11 +35,8 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
                     case R.id.tab_roomlist:
                         startActivity(new Intent(ContextHolder.getContext(), RoomListActivity.class));
                         break;
-                    case R.id.tab_reservations:
-//                        startActivity(new Intent(ContextHolder.getContext(), ));
-                        break;
                     case R.id.tab_search:
-//                        startActivity(new Intent(ContextHolder.getContext(), ));
+                        startActivity(new Intent(ContextHolder.getContext(), RoomFinderActivity.class));
                         break;
                     case R.id.tab_gallery:
                         startActivity(new Intent(ContextHolder.getContext(), PhotoListActivity.class));
@@ -48,7 +46,7 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
         });
 
         // Here just for checking
-        new Presenter(this).onRatesRequest();
+//        new Presenter(this).onRatesRequest();
     }
 
     @Override
@@ -80,9 +78,9 @@ public class HomePageActivity extends AppCompatActivity implements Contract.Rate
         getSupportActionBar().setDisplayUseLogoEnabled(true);
     }
 
-    @Override
-    public void showRates(Currencies currencies) {
-        Log.i("rate", currencies.getUSDBYR() + " " + currencies.getUSDEUR() + " "
-                + currencies.getUSDPLN() + " " + currencies.getTimestamp());
-    }
+//    @Override
+//    public void showRates(Currencies currencies) {
+//        Log.i("rate", currencies.getUSDBYR() + " " + currencies.getUSDEUR() + " "
+//                + currencies.getUSDPLN() + " " + currencies.getTimestamp());
+//    }
 }
