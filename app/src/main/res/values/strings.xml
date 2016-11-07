@@ -7,10 +7,16 @@
     <string name="possible_visitors">Possible visitors : %1$s</string>
     <string name="photo_gallery">Photo gallery</string>
     <string name="find_by_availability">Find room by availability :</string>
+
     <string name="arrival">Arrival date : </string>
     <string name="departure">Departure date : </string>
     <string name="guests">Guests : %1$s</string>
     <string name="default_date">%1$s - %2$s - %3$s</string>
     <string name="search">Search</string>
     <string name="cancel">Cancel</string>
+
+    <string name="room_name">Room name : %1$s</string>
+    <string name="rating">Rating : %1$s</string>
+    <string name="make_reservation">Make reservation</string>
+    <string name="price">Price : %1$s$</string>
 </resources>

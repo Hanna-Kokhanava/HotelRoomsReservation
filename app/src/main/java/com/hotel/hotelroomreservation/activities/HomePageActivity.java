@@ -5,15 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.model.Currencies;
 import com.hotel.hotelroomreservation.utils.ContextHolder;
-import com.hotel.hotelroomreservation.utils.Contract;
-import com.hotel.hotelroomreservation.utils.Presenter;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -27,7 +23,7 @@ public class HomePageActivity extends AppCompatActivity {
         toolbarInitialize();
 
         BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        bottomBar.setDefaultTabPosition(1);
+        bottomBar.setDefaultTabPosition(0);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {

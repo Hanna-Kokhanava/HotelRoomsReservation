@@ -2,6 +2,7 @@ package com.hotel.hotelroomreservation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,7 +69,9 @@ public class RoomListActivity extends AppCompatActivity {
                     mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(Room room) {
-                            startActivity(new Intent(RoomListActivity.this, RoomInfoActivity.class));
+                            Intent intent = new Intent(RoomListActivity.this, RoomInfoActivity.class);
+                            intent.putExtra("Room", room);
+                            startActivity(intent);
                         }
                     });
                 } else {

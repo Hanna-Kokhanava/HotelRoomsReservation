@@ -1,27 +1,50 @@
 package com.hotel.hotelroomreservation.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Room object model
- */
-
-public class Room {
+public class Room implements Parcelable {
     private String name;
     private int number;
-    private int price;
-    private int visitors;
     private int rating;
+    private int visitors;
+    private int price;
+
+    public static final Creator<Room> CREATOR = new Creator<Room>() {
+        @Override
+        public Room createFromParcel(Parcel in) {
+            return new Room(in);
+        }
+
+        @Override
+        public Room[] newArray(int size) {
+            return new Room[size];
+        }
+    };
+
+    public Room() {
+
+    }
+
+    protected Room(Parcel in) {
+        name = in.readString();
+        number = in.readInt();
+        rating = in.readInt();
+        visitors = in.readInt();
+        price = in.readInt();
+    }
 
     @JsonCreator
-    public Room(@JsonProperty("name") String name, @JsonProperty("number") int number, @JsonProperty("price") int price,
-                @JsonProperty("rating") int rating, @JsonProperty("visitors") int visitors) {
+    public Room(@JsonProperty("name") String name, @JsonProperty("number") int number,
+                @JsonProperty("rating") int rating, @JsonProperty("visitors") int visitors, @JsonProperty("price") int price) {
         this.name = name;
-        this.price = price;
         this.number = number;
-        this.visitors = visitors;
         this.rating = rating;
+        this.visitors = visitors;
+        this.price = price;
     }
 
     public String getName() {
@@ -62,5 +85,19 @@ public class Room {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeInt(number);
+        parcel.writeInt(rating);
+        parcel.writeInt(visitors);
+        parcel.writeInt(price);
     }
 }

@@ -131,6 +131,8 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
             DateTime departureDate = new DateTime(departureCalendar.get(Calendar.YEAR), departureCalendar.get(Calendar.MONTH) + 1,
                     departureCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0, 0);
             int guestsNumber = seekBar.getProgress() + 1;
+
+            // Call method to find rooms - create new activity for room displaying
             Log.i("tag", arrivalDate + " " + departureDate + " " + guestsNumber);
         } else {
             // Incorrect data input
