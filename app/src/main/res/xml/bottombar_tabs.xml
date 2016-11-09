@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
+        id="@+id/tab_event"
+        icon="@drawable/ic_event"/>
+    <tab
         id="@+id/tab_roomlist"
         icon="@drawable/ic_list"
         title="Room list"/>

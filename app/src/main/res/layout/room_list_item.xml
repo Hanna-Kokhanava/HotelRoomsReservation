@@ -15,10 +15,9 @@
         card_view:cardCornerRadius="6dp"
         card_view:contentPadding="1dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
             android:padding="@dimen/activity_vertical_margin">
 
             <TextView
@@ -32,17 +31,37 @@
                 android:id="@+id/roomRatingTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/roomNameTextView"
+                android:text="@string/room_rating"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@android:color/black" />
+
+            <RatingBar
+                android:id="@+id/ratingStarBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@id/roomRatingTextView"
+                android:numStars="5"
+                android:stepSize="1" />
 
             <TextView
                 android:id="@+id/roomVisitorsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/roomRatingTextView"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@android:color/black" />
 
-        </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 </LinearLayout>

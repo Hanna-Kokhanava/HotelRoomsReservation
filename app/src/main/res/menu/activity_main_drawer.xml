@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/tab_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/tab_roomlist"
+            android:icon="@drawable/ic_list"
+            android:title="@string/room_list" />
+        <item
+            android:id="@+id/tab_search"
+            android:icon="@drawable/ic_search"
+            android:title="@string/room_search" />
+        <item
+            android:id="@+id/tab_gallery"
+            android:icon="@drawable/ic_photo_library"
+            android:title="@string/photo_gallery" />
+    </group>
+</menu>

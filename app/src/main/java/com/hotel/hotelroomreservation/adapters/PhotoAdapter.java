@@ -7,18 +7,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.threads.PhotosOperation;
+import com.hotel.hotelroomreservation.utils.BitmapManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private List<String> urls = new ArrayList<>();
-    private PhotosOperation photosOperation;
+    private BitmapManager bitmapManager;
 
-    public PhotoAdapter(List<String> rooms, PhotosOperation photosOperation) {
+    public PhotoAdapter(List<String> rooms, BitmapManager bitmapManager) {
         this.urls = rooms;
-        this.photosOperation = photosOperation;
+        this.bitmapManager = bitmapManager;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -38,7 +38,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        photosOperation.setBitmap(holder.imageView, urls.get(position));
+        bitmapManager.setBitmap(holder.imageView, urls.get(position));
     }
 
     @Override

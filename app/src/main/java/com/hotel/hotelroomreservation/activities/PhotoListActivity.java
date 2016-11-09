@@ -15,7 +15,7 @@ import com.firebase.client.ValueEventListener;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.PhotoAdapter;
 import com.hotel.hotelroomreservation.model.Addresses;
-import com.hotel.hotelroomreservation.threads.PhotosOperation;
+import com.hotel.hotelroomreservation.utils.BitmapManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class PhotoListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        final PhotosOperation photosOperation = new PhotosOperation();
+        final BitmapManager bitmapManager = new BitmapManager();
         final List<String> hotelPhotosUrls = new ArrayList<>();
 
         dbReference.child(PHOTOS_KEY).addValueEventListener(new ValueEventListener() {
@@ -52,7 +52,7 @@ public class PhotoListActivity extends AppCompatActivity {
                 for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
                     hotelPhotosUrls.add((String) urlSnapshot.getValue());
                 }
-                bitmapAdapter = new PhotoAdapter(hotelPhotosUrls, photosOperation);
+                bitmapAdapter = new PhotoAdapter(hotelPhotosUrls, bitmapManager);
                 photosRecyclerView.setAdapter(bitmapAdapter);
             }
 

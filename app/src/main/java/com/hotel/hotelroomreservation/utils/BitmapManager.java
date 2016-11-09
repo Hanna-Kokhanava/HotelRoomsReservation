@@ -1,4 +1,4 @@
-package com.hotel.hotelroomreservation.threads;
+package com.hotel.hotelroomreservation.utils;
 
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -6,10 +6,14 @@ import android.util.LruCache;
 import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.http.HTTPClient;
+import com.hotel.hotelroomreservation.threads.ExecutingOperations;
+import com.hotel.hotelroomreservation.threads.OnProgressCallback;
+import com.hotel.hotelroomreservation.threads.OnResultCallback;
+import com.hotel.hotelroomreservation.threads.ThreadManager;
 
 import java.lang.ref.WeakReference;
 
-public class PhotosOperation {
+public class BitmapManager {
     final int MAX_MEMORY_FOR_IMAGES = (int) (Runtime.getRuntime().maxMemory() / 1024);
     final int CACHE_SIZE = MAX_MEMORY_FOR_IMAGES / 8;
     private final LruCache<String, Bitmap> memoryCache;
@@ -17,7 +21,7 @@ public class PhotosOperation {
     private ThreadManager threadManager = new ThreadManager();
     private BitmapOperation bitmapOperation = new BitmapOperation();
 
-    public PhotosOperation() {
+    public BitmapManager() {
 
         this.memoryCache = new LruCache<String, Bitmap>(CACHE_SIZE) {
             @Override

@@ -41,21 +41,27 @@ public class HTTPClient implements Addresses {
             URL url = new URL(URL);
             HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
             connection.setRequestMethod("GET");
-            InputStream inputStream = connection.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-            try {
-                StringBuilder str = new StringBuilder();
-                String line;
+            if (connection.getResponseCode() == 200) {
+                InputStream inputStream = connection.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-                while ((line = reader.readLine()) != null) {
-                    str.append(line);
+                try {
+                    StringBuilder str = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        str.append(line);
+                    }
+                    appInfo = str.toString();
+
+                } finally {
+                    inputStream.close();
+                    reader.close();
+                    connection.disconnect();
                 }
-                appInfo = str.toString();
-            } finally {
-                inputStream.close();
-                reader.close();
-                connection.disconnect();
+            } else {
+                return null;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,8 +96,7 @@ public class HTTPClient implements Addresses {
                     reader.close();
                     connection.disconnect();
                 }
-            }
-            else {
+            } else {
                 return null;
             }
         } catch (IOException e) {

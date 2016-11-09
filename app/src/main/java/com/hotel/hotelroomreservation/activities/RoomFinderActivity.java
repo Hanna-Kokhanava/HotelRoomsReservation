@@ -1,6 +1,7 @@
 package com.hotel.hotelroomreservation.activities;
 
 import android.app.DatePickerDialog;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,8 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
     private TextView guestsTextView;
     private EditText arrivalValue;
     private EditText departureValue;
+    private TextInputLayout arrivalTextInput;
+    private TextInputLayout departureTextInput;
 
     private SeekBar seekBar;
 
@@ -47,6 +50,10 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
         seekBar.setMax(5);
         seekBar.setOnSeekBarChangeListener(this);
 
+        arrivalTextInput = (TextInputLayout) findViewById(R.id.arrival_textInput);
+        arrivalTextInput.setErrorEnabled(true);
+        departureTextInput = (TextInputLayout) findViewById(R.id.departure_textInput);
+        departureTextInput.setErrorEnabled(true);
         arrivalValue = (EditText) findViewById(R.id.arrival_value);
         departureValue = (EditText) findViewById(R.id.departure_value);
         guestsTextView = (TextView) findViewById(R.id.guests_textView);
@@ -93,6 +100,7 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
     }
 
     private void setSelectedDate(final EditText editText, final Calendar calendar) {
+        arrivalTextInput.setError(getString(R.string.empty_string));
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.DialogTheme,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -124,7 +132,7 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
         return super.onOptionsItemSelected(item);
     }
 
-    public void searchRooms(View view) {
+    public void checkAvailability(View view) {
         if (arrivalCalendar.before(departureCalendar) && !isEmpty(arrivalValue) && !isEmpty(departureValue)) {
             DateTime arrivalDate = new DateTime(arrivalCalendar.get(Calendar.YEAR), arrivalCalendar.get(Calendar.MONTH) + 1,
                     arrivalCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0, 0);
@@ -132,10 +140,10 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
                     departureCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0, 0);
             int guestsNumber = seekBar.getProgress() + 1;
 
-            // Call method to find rooms - create new activity for room displaying
+            // TODO Call method to find rooms - create new activity for room displaying
             Log.i("tag", arrivalDate + " " + departureDate + " " + guestsNumber);
         } else {
-            // Incorrect data input
+            arrivalTextInput.setError(getString(R.string.invalid_date));
         }
     }
 

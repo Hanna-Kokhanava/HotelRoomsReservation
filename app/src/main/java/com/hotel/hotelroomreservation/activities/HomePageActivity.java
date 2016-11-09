@@ -2,18 +2,21 @@ package com.hotel.hotelroomreservation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.utils.ContextHolder;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
 
 public class HomePageActivity extends AppCompatActivity {
+    private Toolbar toolBar;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,28 +24,64 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.home_activity);
 
         toolbarInitialize();
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        bottomBar.setDefaultTabPosition(0);
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int tabId) {
-                switch (tabId) {
-                    case R.id.tab_roomlist:
-                        startActivity(new Intent(ContextHolder.getContext(), RoomListActivity.class));
-                        break;
-                    case R.id.tab_search:
-                        startActivity(new Intent(ContextHolder.getContext(), RoomFinderActivity.class));
-                        break;
-                    case R.id.tab_gallery:
-                        startActivity(new Intent(ContextHolder.getContext(), PhotoListActivity.class));
-                        break;
-                }
-            }
-        });
+        setUpNavigationView();
 
         // Here just for checking
 //        new Presenter(this).onRatesRequest();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        navigationView.getMenu().getItem(0).setChecked(true);
+    }
+
+    private void setUpNavigationView() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.tab_home:
+                        drawer.closeDrawers();
+                        return true;
+                    case R.id.tab_roomlist:
+                        startActivity(new Intent(HomePageActivity.this, RoomListActivity.class));
+                        drawer.closeDrawers();
+                        return true;
+                    case R.id.tab_search:
+                        startActivity(new Intent(HomePageActivity.this, RoomFinderActivity.class));
+                        drawer.closeDrawers();
+                        return true;
+                    case R.id.tab_gallery:
+                        startActivity(new Intent(HomePageActivity.this, PhotoListActivity.class));
+                        drawer.closeDrawers();
+                        return true;
+                }
+
+                menuItem.setChecked(true);
+                return true;
+            }
+        });
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolBar, R.string.openDrawer, R.string.closeDrawer) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        drawer.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
     }
 
     @Override
@@ -68,10 +107,11 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     private void toolbarInitialize() {
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolBar);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
+
     }
 
 //    @Override
