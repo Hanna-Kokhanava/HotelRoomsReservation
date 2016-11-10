@@ -1,7 +1,6 @@
 package com.hotel.hotelroomreservation.utils;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
 
@@ -29,6 +28,8 @@ public class BitmapManager {
                 return value.getByteCount() / 1024;
             }
         };
+
+
     }
 
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {

@@ -21,7 +21,7 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_activity);
+        setContentView(R.layout.activity_home);
 
         toolbarInitialize();
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

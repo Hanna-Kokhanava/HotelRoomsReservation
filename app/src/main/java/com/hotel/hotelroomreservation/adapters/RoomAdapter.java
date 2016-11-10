@@ -46,9 +46,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
         public void bind(final Room room, final OnItemClickListener listener) {
             roomNameTextView.setText(room.getName());
-            ratingBar.setRating(room.getRating() - 1);
+            ratingBar.setRating(room.getRating());
             roomVisitorsTextView.setText(context.getResources().getString(R.string.possible_visitors, room.getVisitors()));
 
+            //TODO Set image
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -37,7 +37,7 @@ public class RoomInfoActivity extends AppCompatActivity {
         roomName.setText(String.valueOf(ContextHolder.getContext().getResources().getString(R.string.room_name, room.getName())));
         roomVisitors.setText(String.valueOf(ContextHolder.getContext().getResources().getString(R.string.guests, room.getVisitors())));
         roomPrice.setText(String.valueOf(ContextHolder.getContext().getResources().getString(R.string.price, room.getPrice())));
-        ratingBar.setRating(room.getRating() - 1);
+        ratingBar.setRating(room.getRating());
 
         toolbarInitialize();
     }
