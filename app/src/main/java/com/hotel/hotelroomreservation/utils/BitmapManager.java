@@ -1,6 +1,7 @@
 package com.hotel.hotelroomreservation.utils;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
 
@@ -13,9 +14,10 @@ import com.hotel.hotelroomreservation.threads.ThreadManager;
 import java.lang.ref.WeakReference;
 
 public class BitmapManager {
-    final int MAX_MEMORY_FOR_IMAGES = (int) (Runtime.getRuntime().maxMemory() / 1024);
-    final int CACHE_SIZE = MAX_MEMORY_FOR_IMAGES / 8;
+    private final int MAX_MEMORY_FOR_IMAGES = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    private final int CACHE_SIZE = MAX_MEMORY_FOR_IMAGES / 8;
     private final LruCache<String, Bitmap> memoryCache;
+    private ImageLoader imageLoader = new ImageLoader(ContextHolder.getContext());
 
     private ThreadManager threadManager = new ThreadManager();
     private BitmapOperation bitmapOperation = new BitmapOperation();
@@ -28,8 +30,6 @@ public class BitmapManager {
                 return value.getByteCount() / 1024;
             }
         };
-
-
     }
 
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
@@ -43,21 +43,13 @@ public class BitmapManager {
     }
 
     public void setBitmap(final ImageView imageView, final String imageUrl) {
-        final Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
-        }
-        else {
-            threadManager.executeOperation(bitmapOperation, imageUrl, new BitmapResultCallback(imageUrl, imageView) {
-                @Override
-                public void onSuccess(final Bitmap bitmap) {
-                    if (bitmap != null) {
-                        addBitmapToMemoryCache(imageUrl, bitmap);
-                    }
-                    super.onSuccess(bitmap);
-                }
-            });
-        }
+        threadManager.executeOperation(bitmapOperation, imageUrl, new BitmapResultCallback(imageUrl, imageView) {
+            @Override
+            public void onSuccess(final Bitmap bitmap) {
+                imageLoader.displayImage(imageUrl, imageView);
+                super.onSuccess(bitmap);
+            }
+        });
     }
 
     private class BitmapOperation implements ExecutingOperations<String, Void, Bitmap> {
@@ -71,10 +63,10 @@ public class BitmapManager {
         private final WeakReference<ImageView> imageViewReference;
         private String value;
 
-        public BitmapResultCallback(final String value, final ImageView imageView) {
+        public BitmapResultCallback(final String url, final ImageView imageView) {
             this.imageViewReference = new WeakReference<>(imageView);
-            this.value = value;
-            imageView.setTag(value);
+            this.value = url;
+            imageView.setTag(url);
         }
 
         @Override
