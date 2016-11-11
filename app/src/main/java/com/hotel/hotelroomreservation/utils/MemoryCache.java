@@ -10,22 +10,12 @@ import java.util.Map;
 
 public class MemoryCache {
     private static final String TAG = "MemoryCache";
-    private Map<String, Bitmap> cache = Collections
-            .synchronizedMap(new LinkedHashMap<String, Bitmap>(10, 1.5f, true));
-
+    private Map<String, Bitmap> cache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(10, 1.5f, true));
     private long size = 0;
-    private long limit = 1000000;
+    private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    private long cacheSize = maxMemory / 8;
 
-    public MemoryCache() {
-        setLimit(Runtime.getRuntime().maxMemory() / 4);
-    }
-
-    public void setLimit(long new_limit) {
-        limit = new_limit;
-        Log.i(TAG, "MemoryCache will use up to " + limit / 1024. / 1024. + "MB");
-    }
-
-    public Bitmap get(String id) {
+    public Bitmap getBitmap(String id) {
         try {
             if (!cache.containsKey(id))
                 return null;
@@ -36,7 +26,7 @@ public class MemoryCache {
         }
     }
 
-    public void put(String id, Bitmap bitmap) {
+    public void putBitmap(String id, Bitmap bitmap) {
         try {
             if (cache.containsKey(id))
                 size -= getSizeInBytes(cache.get(id));
@@ -50,16 +40,15 @@ public class MemoryCache {
 
     private void checkSize() {
         Log.i(TAG, "cache size=" + size + " length=" + cache.size());
-        if (size > limit) {
+        if (size > cacheSize) {
             Iterator<Map.Entry<String, Bitmap>> iter = cache.entrySet().iterator();
             while (iter.hasNext()) {
                 Map.Entry<String, Bitmap> entry = iter.next();
                 size -= getSizeInBytes(entry.getValue());
                 iter.remove();
-                if (size <= limit)
+                if (size <= cacheSize)
                     break;
             }
-            Log.i(TAG, "Clean cache. New size " + cache.size());
         }
     }
 

@@ -83,8 +83,8 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
     }
 
 //    private void setDefaultDate() {
-//        arrivalValue.setText(getString(R.string.default_date, currentCalendar.get(Calendar.DAY_OF_MONTH),
-//                currentCalendar.get(Calendar.MONTH) + 1, currentCalendar.get(Calendar.YEAR)));
+//        arrivalValue.setText(getString(R.string.default_date, currentCalendar.getBitmap(Calendar.DAY_OF_MONTH),
+//                currentCalendar.getBitmap(Calendar.MONTH) + 1, currentCalendar.getBitmap(Calendar.YEAR)));
 //    }
 
     @Override

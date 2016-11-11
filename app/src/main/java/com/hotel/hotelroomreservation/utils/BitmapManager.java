@@ -14,40 +14,15 @@ import com.hotel.hotelroomreservation.threads.ThreadManager;
 import java.lang.ref.WeakReference;
 
 public class BitmapManager {
-    private final int MAX_MEMORY_FOR_IMAGES = (int) (Runtime.getRuntime().maxMemory() / 1024);
-    private final int CACHE_SIZE = MAX_MEMORY_FOR_IMAGES / 8;
-    private final LruCache<String, Bitmap> memoryCache;
     private ImageLoader imageLoader = new ImageLoader(ContextHolder.getContext());
-
     private ThreadManager threadManager = new ThreadManager();
     private BitmapOperation bitmapOperation = new BitmapOperation();
-
-    public BitmapManager() {
-
-        this.memoryCache = new LruCache<String, Bitmap>(CACHE_SIZE) {
-            @Override
-            protected int sizeOf(final String key, final Bitmap value) {
-                return value.getByteCount() / 1024;
-            }
-        };
-    }
-
-    public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
-        if (getBitmapFromMemoryCache(key) == null) {
-            memoryCache.put(key, bitmap);
-        }
-    }
-
-    public Bitmap getBitmapFromMemoryCache(String key) {
-        return memoryCache.get(key);
-    }
 
     public void setBitmap(final ImageView imageView, final String imageUrl) {
         threadManager.executeOperation(bitmapOperation, imageUrl, new BitmapResultCallback(imageUrl, imageView) {
             @Override
             public void onSuccess(final Bitmap bitmap) {
-                imageLoader.displayImage(imageUrl, imageView);
-                super.onSuccess(bitmap);
+//                imageLoader.displayImage(imageUrl, imageView);
             }
         });
     }
@@ -90,5 +65,4 @@ public class BitmapManager {
 
         }
     }
-
 }
