@@ -113,10 +113,4 @@ public class HomePageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
     }
-
-//    @Override
-//    public void showRates(Currencies currencies) {
-//        Log.i("rate", currencies.getUSDBYR() + " " + currencies.getUSDEUR() + " "
-//                + currencies.getUSDPLN() + " " + currencies.getTimestamp());
-//    }
 }

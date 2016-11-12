@@ -1,8 +1,10 @@
-package com.hotel.hotelroomreservation.utils;
+package com.hotel.hotelroomreservation.loader;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 import java.io.File;
 import java.io.FileInputStream;

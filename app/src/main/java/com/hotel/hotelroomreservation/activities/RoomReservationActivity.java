@@ -19,7 +19,7 @@ public class RoomReservationActivity extends AppCompatActivity {
 
     private void toolbarInitialize() {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        toolBar.setTitle("Reservation");
+        toolBar.setTitle("Room reservation");
         setSupportActionBar(toolBar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -15,7 +15,7 @@ import com.firebase.client.ValueEventListener;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.PhotoAdapter;
 import com.hotel.hotelroomreservation.model.Addresses;
-import com.hotel.hotelroomreservation.utils.BitmapManager;
+import com.hotel.hotelroomreservation.loader.BitmapManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,9 +75,8 @@ public class PhotoListActivity extends AppCompatActivity {
 
     private void toolbarInitialize() {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        toolBar.setTitle(R.string.title_gallery);
         setSupportActionBar(toolBar);
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

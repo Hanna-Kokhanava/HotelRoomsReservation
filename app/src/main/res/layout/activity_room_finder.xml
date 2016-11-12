@@ -82,7 +82,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/departure_textInput"
                 android:layout_toRightOf="@id/guests_textView"
-                android:paddingTop="20dp" />
+                android:paddingTop="20dp"
+                android:progressDrawable="@drawable/seekbar_progressbar"
+                android:splitTrack="false"
+                android:thumb="@drawable/seekbar_thumb" />
 
             <Button
                 android:id="@+id/searchButton"

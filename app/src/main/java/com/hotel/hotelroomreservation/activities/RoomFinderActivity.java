@@ -52,10 +52,12 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
 
         arrivalTextInput = (TextInputLayout) findViewById(R.id.arrival_textInput);
         arrivalTextInput.setErrorEnabled(true);
+        arrivalValue = (EditText) findViewById(R.id.arrival_value);
+
         departureTextInput = (TextInputLayout) findViewById(R.id.departure_textInput);
         departureTextInput.setErrorEnabled(true);
-        arrivalValue = (EditText) findViewById(R.id.arrival_value);
         departureValue = (EditText) findViewById(R.id.departure_value);
+
         guestsTextView = (TextView) findViewById(R.id.guests_textView);
         guestsTextView.setText(ContextHolder.getContext().getResources().getString(R.string.guests, "1"));
 
@@ -140,7 +142,7 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
                     departureCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0, 0);
             int guestsNumber = seekBar.getProgress() + 1;
 
-            // TODO Call method to find rooms - create new activity for room displaying
+            // TODO Call method to find rooms - create new activity for list of rooms displaying
             Log.i("tag", arrivalDate + " " + departureDate + " " + guestsNumber);
         } else {
             arrivalTextInput.setError(getString(R.string.invalid_date));

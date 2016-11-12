@@ -2,6 +2,7 @@ package com.hotel.hotelroomreservation.utils;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.hotel.hotelroomreservation.http.HTTPClient;
 import com.hotel.hotelroomreservation.model.Addresses;

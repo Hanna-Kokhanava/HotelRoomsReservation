@@ -1,4 +1,4 @@
-package com.hotel.hotelroomreservation.utils;
+package com.hotel.hotelroomreservation.loader;
 
 import android.graphics.Bitmap;
 import android.util.Log;

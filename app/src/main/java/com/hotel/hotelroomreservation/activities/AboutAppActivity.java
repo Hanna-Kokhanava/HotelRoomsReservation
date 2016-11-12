@@ -24,7 +24,7 @@ public class AboutAppActivity extends AppCompatActivity implements Contract.View
         toolbarInitialize();
 
         new Presenter(this).onReady();
-        presenter.onReady();
+//        presenter.onReady();
     }
 
     @Override

@@ -1,15 +1,15 @@
-package com.hotel.hotelroomreservation.utils;
+package com.hotel.hotelroomreservation.loader;
 
 import android.graphics.Bitmap;
-import android.util.Log;
-import android.util.LruCache;
 import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.http.HTTPClient;
+import com.hotel.hotelroomreservation.loader.ImageLoader;
 import com.hotel.hotelroomreservation.threads.ExecutingOperations;
 import com.hotel.hotelroomreservation.threads.OnProgressCallback;
 import com.hotel.hotelroomreservation.threads.OnResultCallback;
 import com.hotel.hotelroomreservation.threads.ThreadManager;
+import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 import java.lang.ref.WeakReference;
 

@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.utils.BitmapManager;
+import com.hotel.hotelroomreservation.loader.BitmapManager;
 import com.hotel.hotelroomreservation.utils.ContextHolder;
-import com.hotel.hotelroomreservation.utils.ImageLoader;
+import com.hotel.hotelroomreservation.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
