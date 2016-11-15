@@ -3,46 +3,46 @@ package com.hotel.hotelroomreservation.loader;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FileCache {
-    private File cacheDir;
+    private File sdPath;
 
-    public FileCache(Context context) {
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
-            cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "Images_cache");
-        }
-        else {
-            cacheDir = context.getCacheDir();
-        }
-        if (!cacheDir.exists())
-            cacheDir.mkdirs();
+    public FileCache() {
+        sdPath = Environment.getExternalStorageDirectory();
+        sdPath = new File(sdPath.getAbsolutePath() + "/" + "Images_cache");
+        sdPath.mkdirs();
     }
 
-    public Bitmap getBitmap(Context context, String url) {
+    public void putBitmap(Bitmap bitmap, String url) {
         String filename = String.valueOf(url.hashCode() + ".png");
-        try {
-            FileInputStream fileInputStream = context.openFileInput(filename);
-            Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream);
-            fileInputStream.close();
+        File sdFile = new File(sdPath, filename);
 
-            return bitmap;
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(sdFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
     }
+    public Bitmap getBitmap(String url) {
+        String filename = String.valueOf(url.hashCode() + ".png");
+        File sdFile = new File(sdPath, filename);
 
-    public void clear() {
-        File[] files = cacheDir.listFiles();
-        if (files == null) {
-            return;
+        try {
+            return BitmapFactory.decodeStream(new FileInputStream(sdFile));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        for (File f : files) {
-            f.delete();
-        }
+        return null;
     }
 }

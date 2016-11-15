@@ -11,8 +11,8 @@ public class Room implements Parcelable {
     private int number;
     private int rating;
     private int visitors;
-    private int price;
     private String imageUrl;
+    private int price;
 
     public static final Creator<Room> CREATOR = new Creator<Room>() {
         @Override

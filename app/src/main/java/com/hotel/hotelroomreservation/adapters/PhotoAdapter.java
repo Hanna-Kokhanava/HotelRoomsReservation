@@ -17,9 +17,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     private List<String> urls = new ArrayList<>();
     private ImageLoader imageLoader;
 
-    public PhotoAdapter(Context context, List<String> rooms) {
+    public PhotoAdapter(List<String> rooms) {
         this.urls = rooms;
-        imageLoader = new ImageLoader(context);
+        imageLoader = new ImageLoader();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -42,7 +42,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             roomVisitorsTextView = (TextView) itemView.findViewById(R.id.roomVisitorsTextView);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingStarBar);
             roomImageView = (ImageView) itemView.findViewById(R.id.roomImageView);
-            imageLoader = new ImageLoader(itemView.getContext());
+            imageLoader = new ImageLoader();
             this.context = itemView.getContext();
         }
 
@@ -53,7 +53,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
             imageLoader.displayImage(room.getImageUrl(), roomImageView);
 
-            //TODO Set image
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

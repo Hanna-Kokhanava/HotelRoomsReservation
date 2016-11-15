@@ -50,7 +50,7 @@ public class PhotoListActivity extends AppCompatActivity {
                 for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
                     hotelPhotosUrls.add((String) urlSnapshot.getValue());
                 }
-                bitmapAdapter = new PhotoAdapter(getApplicationContext(), hotelPhotosUrls);
+                bitmapAdapter = new PhotoAdapter(hotelPhotosUrls);
                 photosRecyclerView.setAdapter(bitmapAdapter);
             }
 

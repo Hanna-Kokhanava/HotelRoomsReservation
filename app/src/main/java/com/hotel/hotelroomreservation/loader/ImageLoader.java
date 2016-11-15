@@ -3,6 +3,7 @@ package com.hotel.hotelroomreservation.loader;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.http.HTTPClient;
@@ -17,22 +18,22 @@ public class ImageLoader {
     private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
     private MemoryCache memoryCache = new MemoryCache();
     private FileCache fileCache;
-    private Context context;
     private ExecutorService executorService;
     private final Handler handler = new Handler();
 
-    public ImageLoader(Context context) {
-        fileCache = new FileCache(context);
+    public ImageLoader() {
+        fileCache = new FileCache();
         executorService = Executors.newCachedThreadPool();
-        this.context = context;
     }
 
     public void displayImage(String url, ImageView imageView) {
         imageViews.put(imageView, url);
         Bitmap bitmap = memoryCache.getBitmap(url);
-        if (bitmap != null)
+
+        if (bitmap != null) {
+            Log.i("tag", "Get bitmap from memory cache");
             imageView.setImageBitmap(bitmap);
-        else {
+        } else {
             queuePhoto(url, imageView);
         }
     }
@@ -43,13 +44,14 @@ public class ImageLoader {
     }
 
     private Bitmap getBitmap(String url) {
-        Bitmap b = fileCache.getBitmap(context, url);
+        Bitmap b = fileCache.getBitmap(url);
         if (b != null) {
             return b;
         }
 
         try {
             b = HTTPClient.getPhoto(url);
+            fileCache.putBitmap(b, url);
             return b;
         } catch (Throwable ex) {
             ex.printStackTrace();
