@@ -9,11 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MemoryCache {
-    private static final String TAG = "MemoryCache";
     private Map<String, Bitmap> cache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(10, 1.5f, true));
     private long size = 0;
-    private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-    private long cacheSize = maxMemory / 8;
+    private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 4);
 
     public Bitmap getBitmap(String id) {
         try {
@@ -41,14 +39,14 @@ public class MemoryCache {
     }
 
     private void checkSize() {
-        Log.i(TAG, "cache size=" + size + " length=" + cache.size());
-        if (size > cacheSize) {
+        Log.i("Memory cache", "cache size=" + size + " length=" + cache.size());
+        if (size > maxMemory) {
             Iterator<Map.Entry<String, Bitmap>> iter = cache.entrySet().iterator();
             while (iter.hasNext()) {
                 Map.Entry<String, Bitmap> entry = iter.next();
                 size -= getSizeInBytes(entry.getValue());
                 iter.remove();
-                if (size <= cacheSize) {
+                if (size <= maxMemory) {
                     break;
                 }
             }

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -28,6 +29,7 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
     private TextView guestsTextView;
     private EditText arrivalValue;
     private EditText departureValue;
+    private Button checkAvailability;
     private SeekBar seekBar;
 
     @Override
@@ -43,6 +45,8 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(5);
         seekBar.setOnSeekBarChangeListener(this);
+
+        checkAvailability = (Button) findViewById(R.id.searchButton);
 
         arrivalTextInput = (TextInputLayout) findViewById(R.id.arrival_textInput);
         arrivalTextInput.setErrorEnabled(true);
@@ -128,18 +132,18 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
     }
 
     public void checkAvailability(View view) {
-        if (arrivalCalendar.before(departureCalendar) && !isEmpty(arrivalValue) && !isEmpty(departureValue)) {
-            DateTime arrivalDate = new DateTime(arrivalCalendar.get(Calendar.YEAR), arrivalCalendar.get(Calendar.MONTH) + 1,
-                    arrivalCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0, 0);
-            DateTime departureDate = new DateTime(departureCalendar.get(Calendar.YEAR), departureCalendar.get(Calendar.MONTH) + 1,
-                    departureCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0, 0);
-            int guestsNumber = seekBar.getProgress() + 1;
+            if (arrivalCalendar.before(departureCalendar) && !isEmpty(arrivalValue) && !isEmpty(departureValue)) {
+                DateTime arrivalDate = new DateTime(arrivalCalendar.get(Calendar.YEAR), arrivalCalendar.get(Calendar.MONTH) + 1,
+                        arrivalCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0, 0);
+                DateTime departureDate = new DateTime(departureCalendar.get(Calendar.YEAR), departureCalendar.get(Calendar.MONTH) + 1,
+                        departureCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0, 0);
+                int guestsNumber = seekBar.getProgress() + 1;
 
-            // TODO Call method to find rooms - create new activity for list of rooms displaying
-            Log.i("tag", arrivalDate + " " + departureDate + " " + guestsNumber);
-        } else {
-            arrivalTextInput.setError(getString(R.string.invalid_date));
-        }
+                // TODO Call method to find rooms - create new activity for list of rooms displaying
+                Log.i("tag", arrivalDate + " " + departureDate + " " + guestsNumber);
+            } else {
+                arrivalTextInput.setError(getString(R.string.invalid_date));
+            }
     }
 
     public void cancelSearch(View view) {

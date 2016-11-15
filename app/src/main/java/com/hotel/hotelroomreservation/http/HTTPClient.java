@@ -16,29 +16,46 @@ import java.net.URL;
 public class HTTPClient {
 
     public static Bitmap getPhoto(String URL) {
+        Bitmap bitmap = null;
+        HttpURLConnection connection = null;
+        InputStream inputStream = null;
+
         try {
             URL reqUrl = new URL(URL);
-            HttpURLConnection connection = ((HttpURLConnection) reqUrl.openConnection());
+            connection = ((HttpURLConnection) reqUrl.openConnection());
             connection.setDoInput(true);
             connection.connect();
 
             if (connection.getResponseCode() == 200) {
-                InputStream inputStream = connection.getInputStream();
-                return BitmapFactory.decodeStream(inputStream);
+                inputStream = connection.getInputStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return bitmap;
     }
 
     public static String getWikiResponse(String URL) {
         String appInfo = "";
+        HttpURLConnection connection;
 
         try {
             URL url = new URL(URL);
-            HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
+            connection = ((HttpURLConnection) url.openConnection());
             connection.setRequestMethod("GET");
 
             if (connection.getResponseCode() == 200) {
@@ -60,7 +77,7 @@ public class HTTPClient {
                     connection.disconnect();
                 }
             } else {
-                return null;
+                return "";
             }
         } catch (IOException e) {
             e.printStackTrace();
