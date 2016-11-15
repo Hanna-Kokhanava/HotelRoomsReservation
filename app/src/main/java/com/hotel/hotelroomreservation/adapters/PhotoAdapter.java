@@ -1,5 +1,6 @@
 package com.hotel.hotelroomreservation.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.loader.BitmapManager;
-import com.hotel.hotelroomreservation.utils.ContextHolder;
 import com.hotel.hotelroomreservation.loader.ImageLoader;
 
 import java.util.ArrayList;
@@ -17,12 +16,10 @@ import java.util.List;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private List<String> urls = new ArrayList<>();
     private ImageLoader imageLoader;
-    private BitmapManager bitmapManager;
 
-    public PhotoAdapter(List<String> rooms, BitmapManager bitmapManager) {
+    public PhotoAdapter(Context context, List<String> rooms) {
         this.urls = rooms;
-        this.bitmapManager = bitmapManager;
-        imageLoader = new ImageLoader(ContextHolder.getContext());
+        imageLoader = new ImageLoader(context);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -36,14 +33,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
     @Override
     public PhotoAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View roomView = LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_item, parent, false);
+        View roomView = LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_list_item, parent, false);
         return new ViewHolder(roomView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         imageLoader.displayImage(urls.get(position), holder.imageView);
-//        bitmapManager.setBitmap(holder.imageView, urls.getBitmap(position));
     }
 
     @Override

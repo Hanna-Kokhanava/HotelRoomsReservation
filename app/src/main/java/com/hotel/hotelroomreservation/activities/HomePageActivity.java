@@ -109,8 +109,9 @@ public class HomePageActivity extends AppCompatActivity {
     private void toolbarInitialize() {
         toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolBar);
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setLogo(R.mipmap.ic_app);
+        }
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-
     }
 }

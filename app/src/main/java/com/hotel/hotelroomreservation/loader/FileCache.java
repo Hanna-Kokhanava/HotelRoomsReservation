@@ -4,31 +4,28 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.hotel.hotelroomreservation.utils.ContextHolder;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class FileCache {
-
     private File cacheDir;
 
+    // TODO If there is no sd exception
     public FileCache(Context context) {
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-            cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "TTImages_cache");
-        else
+        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+            cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "Images_cache");
+        }
+        else {
             cacheDir = context.getCacheDir();
-        if (!cacheDir.exists())
-            cacheDir.mkdirs();
+        }
     }
 
-    public Bitmap getBitmap(String url) {
+    public Bitmap getBitmap(Context context, String url) {
         String filename = String.valueOf(url.hashCode() + ".png");
         try {
-            FileInputStream fileInputStream = ContextHolder.getContext().openFileInput(filename);
-            Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream);
-            return bitmap;
+            FileInputStream fileInputStream = context.openFileInput(filename);
+            return BitmapFactory.decodeStream(fileInputStream);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -37,9 +34,11 @@ public class FileCache {
 
     public void clear() {
         File[] files = cacheDir.listFiles();
-        if (files == null)
+        if (files == null) {
             return;
-        for (File f : files)
+        }
+        for (File f : files) {
             f.delete();
+        }
     }
 }

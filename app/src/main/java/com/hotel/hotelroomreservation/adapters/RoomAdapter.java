@@ -1,17 +1,17 @@
 package com.hotel.hotelroomreservation.adapters;
 
 import android.content.Context;
-import android.media.Rating;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.hotel.hotelroomreservation.R;
+import com.hotel.hotelroomreservation.loader.ImageLoader;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 import java.util.ArrayList;
 
@@ -30,24 +30,28 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView roomNameTextView;
-        private TextView roomRatingTextView;
         private TextView roomVisitorsTextView;
         private RatingBar ratingBar;
+        private ImageView roomImageView;
+        private ImageLoader imageLoader;
         private Context context;
 
         public ViewHolder(View itemView) {
             super(itemView);
             roomNameTextView = (TextView) itemView.findViewById(R.id.roomNameTextView);
-            roomRatingTextView = (TextView) itemView.findViewById(R.id.roomRatingTextView);
             roomVisitorsTextView = (TextView) itemView.findViewById(R.id.roomVisitorsTextView);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingStarBar);
-            this.context = ContextHolder.getContext();
+            roomImageView = (ImageView) itemView.findViewById(R.id.roomImageView);
+            imageLoader = new ImageLoader(itemView.getContext());
+            this.context = itemView.getContext();
         }
 
         public void bind(final Room room, final OnItemClickListener listener) {
             roomNameTextView.setText(room.getName());
             ratingBar.setRating(room.getRating());
             roomVisitorsTextView.setText(context.getResources().getString(R.string.possible_visitors, room.getVisitors()));
+
+            imageLoader.displayImage(room.getImageUrl(), roomImageView);
 
             //TODO Set image
             itemView.setOnClickListener(new View.OnClickListener() {

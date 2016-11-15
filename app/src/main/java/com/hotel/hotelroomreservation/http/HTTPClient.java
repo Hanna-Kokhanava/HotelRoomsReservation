@@ -2,9 +2,7 @@ package com.hotel.hotelroomreservation.http;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
-import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.model.Currencies;
 import com.hotel.hotelroomreservation.utils.JSONParser;
 
@@ -15,7 +13,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HTTPClient implements Addresses {
+public class HTTPClient {
 
     public static Bitmap getPhoto(String URL) {
         try {

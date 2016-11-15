@@ -14,15 +14,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ImageLoader {
+    private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
     private MemoryCache memoryCache = new MemoryCache();
     private FileCache fileCache;
-    private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
+    private Context context;
     private ExecutorService executorService;
     private final Handler handler = new Handler();
 
     public ImageLoader(Context context) {
         fileCache = new FileCache(context);
-        executorService = Executors.newFixedThreadPool(5);
+        executorService = Executors.newCachedThreadPool();
+        this.context = context;
     }
 
     public void displayImage(String url, ImageView imageView) {
@@ -41,17 +43,19 @@ public class ImageLoader {
     }
 
     private Bitmap getBitmap(String url) {
-        Bitmap b = fileCache.getBitmap(url);
-        if (b != null)
+        Bitmap b = fileCache.getBitmap(context, url);
+        if (b != null) {
             return b;
+        }
 
         try {
             b = HTTPClient.getPhoto(url);
             return b;
         } catch (Throwable ex) {
             ex.printStackTrace();
-            if (ex instanceof OutOfMemoryError)
+            if (ex instanceof OutOfMemoryError) {
                 memoryCache.clear();
+            }
             return null;
         }
     }
@@ -67,7 +71,7 @@ public class ImageLoader {
     }
 
     class PhotosLoader implements Runnable {
-        PhotoToLoad photoToLoad;
+        private PhotoToLoad photoToLoad;
 
         PhotosLoader(PhotoToLoad photoToLoad) {
             this.photoToLoad = photoToLoad;
@@ -81,8 +85,10 @@ public class ImageLoader {
                 }
                 Bitmap bmp = getBitmap(photoToLoad.url);
                 memoryCache.putBitmap(photoToLoad.url, bmp);
-                if (imageViewReused(photoToLoad))
+                if (imageViewReused(photoToLoad)) {
                     return;
+                }
+
                 BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
                 handler.post(bd);
             } catch (Throwable th) {
@@ -93,9 +99,7 @@ public class ImageLoader {
 
     boolean imageViewReused(PhotoToLoad photoToLoad) {
         String tag = imageViews.get(photoToLoad.imageView);
-        if (tag == null || !tag.equals(photoToLoad.url))
-            return true;
-        return false;
+        return tag == null || !tag.equals(photoToLoad.url);
     }
 
     class BitmapDisplayer implements Runnable {
@@ -117,8 +121,8 @@ public class ImageLoader {
         }
     }
 
-    public void clearCache() {
-        memoryCache.clear();
-        fileCache.clear();
-    }
+//    public void clearCache() {
+//        memoryCache.clear();
+//        fileCache.clear();
+//    }
 }

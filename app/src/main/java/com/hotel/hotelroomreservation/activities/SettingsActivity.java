@@ -20,7 +20,9 @@ public class SettingsActivity extends AppCompatActivity {
     private void toolbarInitialize() {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolBar);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

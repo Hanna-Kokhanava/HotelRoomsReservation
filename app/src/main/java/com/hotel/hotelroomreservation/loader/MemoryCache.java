@@ -17,8 +17,9 @@ public class MemoryCache {
 
     public Bitmap getBitmap(String id) {
         try {
-            if (!cache.containsKey(id))
+            if (!cache.containsKey(id)) {
                 return null;
+            }
             return cache.get(id);
         } catch (NullPointerException ex) {
             ex.printStackTrace();
@@ -28,8 +29,9 @@ public class MemoryCache {
 
     public void putBitmap(String id, Bitmap bitmap) {
         try {
-            if (cache.containsKey(id))
+            if (cache.containsKey(id)) {
                 size -= getSizeInBytes(cache.get(id));
+            }
             cache.put(id, bitmap);
             size += getSizeInBytes(bitmap);
             checkSize();
@@ -46,8 +48,9 @@ public class MemoryCache {
                 Map.Entry<String, Bitmap> entry = iter.next();
                 size -= getSizeInBytes(entry.getValue());
                 iter.remove();
-                if (size <= cacheSize)
+                if (size <= cacheSize) {
                     break;
+                }
             }
         }
     }
@@ -62,8 +65,9 @@ public class MemoryCache {
     }
 
     long getSizeInBytes(Bitmap bitmap) {
-        if (bitmap == null)
+        if (bitmap == null) {
             return 0;
+        }
         return bitmap.getRowBytes() * bitmap.getHeight();
     }
 }

@@ -12,6 +12,7 @@ public class Room implements Parcelable {
     private int rating;
     private int visitors;
     private int price;
+    private String imageUrl;
 
     public static final Creator<Room> CREATOR = new Creator<Room>() {
         @Override
@@ -35,16 +36,19 @@ public class Room implements Parcelable {
         rating = in.readInt();
         visitors = in.readInt();
         price = in.readInt();
+        imageUrl = in.readString();
     }
 
     @JsonCreator
     public Room(@JsonProperty("name") String name, @JsonProperty("number") int number,
-                @JsonProperty("rating") int rating, @JsonProperty("visitors") int visitors, @JsonProperty("price") int price) {
+                @JsonProperty("rating") int rating, @JsonProperty("visitors") int visitors,
+                @JsonProperty("price") int price, @JsonProperty("url") String imageUrl) {
         this.name = name;
         this.number = number;
         this.rating = rating;
         this.visitors = visitors;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
 
     public String getName() {
@@ -87,6 +91,14 @@ public class Room implements Parcelable {
         this.rating = rating;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -99,5 +111,6 @@ public class Room implements Parcelable {
         parcel.writeInt(rating);
         parcel.writeInt(visitors);
         parcel.writeInt(price);
+        parcel.writeString(imageUrl);
     }
 }

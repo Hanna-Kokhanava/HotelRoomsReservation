@@ -18,13 +18,13 @@ import com.firebase.client.ValueEventListener;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.model.Addresses;
+import com.hotel.hotelroomreservation.model.Constants;
 import com.hotel.hotelroomreservation.model.Room;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RoomListActivity extends AppCompatActivity {
-    private final static String ROOM_KEY = "rooms";
     private Firebase dbReference;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -32,7 +32,7 @@ public class RoomListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.room_list_activity);
+        setContentView(R.layout.activity_room_list);
 
         toolbarInitialize();
 
@@ -50,7 +50,7 @@ public class RoomListActivity extends AppCompatActivity {
         final ProgressBar progressView = (ProgressBar) findViewById(R.id.progress_bar);
         progressView.setVisibility(View.VISIBLE);
 
-        dbReference.child(ROOM_KEY).addValueEventListener(new ValueEventListener() {
+        dbReference.child(Constants.ROOMS_KEY).addValueEventListener(new ValueEventListener() {
             List<Room> rooms;
 
             @Override
@@ -90,7 +90,9 @@ public class RoomListActivity extends AppCompatActivity {
     private void toolbarInitialize() {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolBar);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

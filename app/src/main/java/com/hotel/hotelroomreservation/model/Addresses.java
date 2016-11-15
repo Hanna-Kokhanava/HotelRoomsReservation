@@ -1,12 +1,9 @@
 package com.hotel.hotelroomreservation.model;
 
-/**
- * Necessary addresses for app.
- */
-public interface Addresses {
-    String FIREBASE_URL = "https://hotelroomsreservation.firebaseio.com/";
-    String SERVER_URL = "http://hotelroomsreservation.appspot.com";
+public class Addresses {
+    public final static String FIREBASE_URL = "https://hotelroomsreservation.firebaseio.com/";
+    public final static String SERVER_URL = "http://hotelroomsreservation.appspot.com";
 
-    String APP_INFO = "/info";
-    String CURRENCY_RATE = "/rate";
+    public final static String APP_INFO = "/info";
+    public final static String CURRENCY_RATE = "/rate";
 }

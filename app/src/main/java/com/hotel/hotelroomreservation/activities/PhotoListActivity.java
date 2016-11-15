@@ -1,7 +1,7 @@
 package com.hotel.hotelroomreservation.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,13 +15,12 @@ import com.firebase.client.ValueEventListener;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.PhotoAdapter;
 import com.hotel.hotelroomreservation.model.Addresses;
-import com.hotel.hotelroomreservation.loader.BitmapManager;
+import com.hotel.hotelroomreservation.model.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PhotoListActivity extends AppCompatActivity {
-    private final static String PHOTOS_KEY = "photos";
     private Firebase dbReference;
     private RecyclerView.Adapter bitmapAdapter;
     private RecyclerView photosRecyclerView;
@@ -42,23 +41,22 @@ public class PhotoListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        final BitmapManager bitmapManager = new BitmapManager();
         final List<String> hotelPhotosUrls = new ArrayList<>();
 
-        dbReference.child(PHOTOS_KEY).addValueEventListener(new ValueEventListener() {
+        dbReference.child(Constants.PHOTOS_KEY).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
                     hotelPhotosUrls.add((String) urlSnapshot.getValue());
                 }
-                bitmapAdapter = new PhotoAdapter(hotelPhotosUrls, bitmapManager);
+                bitmapAdapter = new PhotoAdapter(getApplicationContext(), hotelPhotosUrls);
                 photosRecyclerView.setAdapter(bitmapAdapter);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                Log.i("tag", firebaseError.getMessage().toString());
+                Log.i("tag", firebaseError.getMessage());
             }
         });
     }
@@ -77,7 +75,9 @@ public class PhotoListActivity extends AppCompatActivity {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         toolBar.setTitle(R.string.title_gallery);
         setSupportActionBar(toolBar);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

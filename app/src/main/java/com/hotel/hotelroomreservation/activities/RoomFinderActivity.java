@@ -1,11 +1,10 @@
 package com.hotel.hotelroomreservation.activities;
 
 import android.app.DatePickerDialog;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,25 +14,20 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.utils.ContextHolder;
-import com.hotel.hotelroomreservation.utils.Contract;
 
 import org.joda.time.DateTime;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
     private final Calendar currentCalendar = Calendar.getInstance();
     private Calendar arrivalCalendar;
     private Calendar departureCalendar;
 
+    private TextInputLayout arrivalTextInput;
     private TextView guestsTextView;
     private EditText arrivalValue;
     private EditText departureValue;
-    private TextInputLayout arrivalTextInput;
-    private TextInputLayout departureTextInput;
-
     private SeekBar seekBar;
 
     @Override
@@ -53,13 +47,10 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
         arrivalTextInput = (TextInputLayout) findViewById(R.id.arrival_textInput);
         arrivalTextInput.setErrorEnabled(true);
         arrivalValue = (EditText) findViewById(R.id.arrival_value);
-
-        departureTextInput = (TextInputLayout) findViewById(R.id.departure_textInput);
-        departureTextInput.setErrorEnabled(true);
         departureValue = (EditText) findViewById(R.id.departure_value);
 
         guestsTextView = (TextView) findViewById(R.id.guests_textView);
-        guestsTextView.setText(ContextHolder.getContext().getResources().getString(R.string.guests, "1"));
+        guestsTextView.setText(getApplicationContext().getResources().getString(R.string.guests, "1"));
 
         arrivalValue.setOnClickListener(this);
         departureValue.setOnClickListener(this);
@@ -69,7 +60,7 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        guestsTextView.setText(String.valueOf(ContextHolder.getContext().getResources().getString(R.string.guests,
+        guestsTextView.setText(String.valueOf(getApplicationContext().getResources().getString(R.string.guests,
                 seekBar.getProgress() + 1)));
     }
 
@@ -80,7 +71,7 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        guestsTextView.setText(String.valueOf(ContextHolder.getContext().getResources().getString(R.string.guests,
+        guestsTextView.setText(String.valueOf(getApplicationContext().getResources().getString(R.string.guests,
                 seekBar.getProgress() + 1)));
     }
 
@@ -120,7 +111,9 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
     private void toolbarInitialize() {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolBar);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

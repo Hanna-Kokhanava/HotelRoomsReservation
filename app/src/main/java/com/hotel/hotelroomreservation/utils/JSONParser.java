@@ -1,8 +1,5 @@
 package com.hotel.hotelroomreservation.utils;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
 import com.hotel.hotelroomreservation.model.Currencies;
 
 import org.json.JSONException;
@@ -11,6 +8,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class JSONParser {
     public static Currencies parseCurrencyRate(String currencyRate) {
@@ -21,8 +19,8 @@ public class JSONParser {
 
         try {
             JSONObject json = new JSONObject(currencyRate);
-            Date timeStampDate = new Date((long) (json.getLong("timestamp") * 1000));
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+            Date timeStampDate = new Date(json.getLong("timestamp") * 1000);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a", Locale.ENGLISH);
 
             formattedDate = dateFormat.format(timeStampDate);
             PLNCurrency = json.getJSONObject("quotes").getString("USDPLN");
