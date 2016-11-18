@@ -63,6 +63,7 @@ public class RoomInfoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //TODO move to BaseActivity
     public void cancelSearch(View view) {
         finish();
     }

@@ -22,6 +22,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         imageLoader = new ImageLoader();
     }
 
+    //TODO fix modifier
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
 

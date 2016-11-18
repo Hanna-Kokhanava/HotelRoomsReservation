@@ -108,6 +108,7 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
                         editText.setText(getString(R.string.default_date, day, month + 1, year));
                     }
                 }, currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), currentCalendar.get(Calendar.DAY_OF_MONTH));
+        //TODO magic logic
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }
@@ -131,8 +132,10 @@ public class RoomFinderActivity extends AppCompatActivity implements SeekBar.OnS
         return super.onOptionsItemSelected(item);
     }
 
+    //TODO move to Utils class
     public void checkAvailability(View view) {
             if (arrivalCalendar.before(departureCalendar) && !isEmpty(arrivalValue) && !isEmpty(departureValue)) {
+                //TODO investigate why you use joda. Try implement same functionlly by your own
                 DateTime arrivalDate = new DateTime(arrivalCalendar.get(Calendar.YEAR), arrivalCalendar.get(Calendar.MONTH) + 1,
                         arrivalCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0, 0);
                 DateTime departureDate = new DateTime(departureCalendar.get(Calendar.YEAR), departureCalendar.get(Calendar.MONTH) + 1,

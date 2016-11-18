@@ -39,6 +39,7 @@ public class Room implements Parcelable {
         imageUrl = in.readString();
     }
 
+    //TODO avoid use some libraries
     @JsonCreator
     public Room(@JsonProperty("name") String name, @JsonProperty("number") int number,
                 @JsonProperty("rating") int rating, @JsonProperty("visitors") int visitors,

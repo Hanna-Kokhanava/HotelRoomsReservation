@@ -35,14 +35,18 @@ public class PhotoListActivity extends AppCompatActivity {
         photosRecyclerView = (RecyclerView) findViewById(R.id.photos_recycler_view);
         photosRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //TODO singletone
+        //getSystemService("")
         dbReference = new Firebase(Addresses.FIREBASE_URL);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        final List<String> hotelPhotosUrls = new ArrayList<>();
 
+        //TODO extract to method
+        final List<String> hotelPhotosUrls = new ArrayList<>();
+        //TODO move to BaseActivity
         dbReference.child(Constants.PHOTOS_KEY).addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -71,6 +75,7 @@ public class PhotoListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //TODO move to baseActivity
     private void toolbarInitialize() {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         toolBar.setTitle(R.string.title_gallery);

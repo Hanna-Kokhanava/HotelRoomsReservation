@@ -7,6 +7,7 @@ import com.hotel.hotelroomreservation.http.HTTPClient;
 import com.hotel.hotelroomreservation.model.Addresses;
 import com.hotel.hotelroomreservation.model.Currencies;
 
+//TODO that class to many work
 public class Presenter implements Contract.Presenter {
     private String INFO_URL = Addresses.SERVER_URL + Addresses.APP_INFO;
     private String RATE_URL = Addresses.SERVER_URL + Addresses.CURRENCY_RATE;

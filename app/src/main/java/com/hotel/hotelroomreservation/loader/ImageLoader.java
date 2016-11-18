@@ -55,6 +55,8 @@ public class ImageLoader {
             return b;
         } catch (Throwable ex) {
             ex.printStackTrace();
+            //TODO never handle OutOfMemoryError
+            //TODO read about memory leak and how it handle
             if (ex instanceof OutOfMemoryError) {
                 memoryCache.clear();
             }
@@ -94,6 +96,7 @@ public class ImageLoader {
                 BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
                 handler.post(bd);
             } catch (Throwable th) {
+                //TODO don't ignore exception
                 th.printStackTrace();
             }
         }

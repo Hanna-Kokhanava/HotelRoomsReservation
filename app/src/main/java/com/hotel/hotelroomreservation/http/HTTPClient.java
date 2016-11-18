@@ -16,6 +16,7 @@ import java.net.URL;
 public class HTTPClient {
 
     public static Bitmap getPhoto(String URL) {
+        //TODO extract logic working with urlConnection to another method
         Bitmap bitmap = null;
         HttpURLConnection connection = null;
         InputStream inputStream = null;
