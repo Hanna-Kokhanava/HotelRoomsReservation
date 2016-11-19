@@ -1,6 +1,5 @@
 package com.hotel.hotelroomreservation.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         imageLoader = new ImageLoader();
     }
 
-    //TODO fix modifier
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
 

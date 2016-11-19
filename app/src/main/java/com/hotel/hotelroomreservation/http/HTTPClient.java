@@ -16,7 +16,6 @@ import java.net.URL;
 public class HTTPClient {
 
     public static Bitmap getPhoto(String URL) {
-        //TODO extract logic working with urlConnection to another method
         Bitmap bitmap = null;
         HttpURLConnection connection = null;
         InputStream inputStream = null;
@@ -48,43 +47,6 @@ public class HTTPClient {
             }
         }
         return bitmap;
-    }
-
-    public static String getWikiResponse(String URL) {
-        String appInfo = "";
-        HttpURLConnection connection;
-
-        try {
-            URL url = new URL(URL);
-            connection = ((HttpURLConnection) url.openConnection());
-            connection.setRequestMethod("GET");
-
-            if (connection.getResponseCode() == 200) {
-                InputStream inputStream = connection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                try {
-                    StringBuilder str = new StringBuilder();
-                    String line;
-
-                    while ((line = reader.readLine()) != null) {
-                        str.append(line);
-                    }
-                    appInfo = str.toString();
-
-                } finally {
-                    inputStream.close();
-                    reader.close();
-                    connection.disconnect();
-                }
-            } else {
-                return "";
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return appInfo;
     }
 
     public static Currencies getCurrentRate(String URL) {

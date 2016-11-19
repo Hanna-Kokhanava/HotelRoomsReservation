@@ -7,23 +7,12 @@ import android.view.MenuItem;
 
 import com.hotel.hotelroomreservation.R;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        toolbarInitialize();
-    }
-
-    private void toolbarInitialize() {
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(toolBar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setHomeButtonEnabled(true);
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

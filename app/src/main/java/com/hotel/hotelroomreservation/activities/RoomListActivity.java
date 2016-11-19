@@ -2,10 +2,8 @@ package com.hotel.hotelroomreservation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,17 +13,18 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
-import com.hotel.hotelroomreservation.model.Addresses;
-import com.hotel.hotelroomreservation.model.Constants;
+import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.utils.JSONParser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomListActivity extends AppCompatActivity {
-    private Firebase dbReference;
+public class RoomListActivity extends BaseActivity {
+    private Firebase firebase;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
 
@@ -34,31 +33,33 @@ public class RoomListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_list);
 
-        toolbarInitialize();
-
         mRecyclerView = (RecyclerView) findViewById(R.id.rooms_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        dbReference = new Firebase(Addresses.FIREBASE_URL);
-        dbReference.keepSynced(true);
+        firebase = App.getInstance().getFirebaseConnection();
+        firebase.keepSynced(true);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        setRoomList();
+    }
+
+    private void setRoomList() {
         final ProgressBar progressView = (ProgressBar) findViewById(R.id.progress_bar);
         progressView.setVisibility(View.VISIBLE);
 
-        dbReference.child(Constants.ROOMS_KEY).addValueEventListener(new ValueEventListener() {
+        firebase.child(Constants.ROOMS_KEY).addValueEventListener(new ValueEventListener() {
             List<Room> rooms;
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 rooms = new ArrayList<>();
+
                 for (DataSnapshot roomSnapshot : snapshot.getChildren()) {
                     Room room = roomSnapshot.getValue(Room.class);
-                    // TODO Upload images from Storage
                     rooms.add(room);
                 }
 
@@ -69,7 +70,7 @@ public class RoomListActivity extends AppCompatActivity {
                         @Override
                         public void onItemClick(Room room) {
                             Intent intent = new Intent(RoomListActivity.this, RoomInfoActivity.class);
-                            intent.putExtra("Room", room);
+                            intent.putExtra(Constants.ROOM_INTENT_KEY, room);
                             startActivity(intent);
                         }
                     });
@@ -82,18 +83,9 @@ public class RoomListActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(FirebaseError error) {
-                Log.i("Firebase", "The read failed: " + error.getMessage());
+                Log.i("Firebase", "The reading is failed: " + error.getMessage());
             }
         });
-    }
-
-    private void toolbarInitialize() {
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(toolBar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setHomeButtonEnabled(true);
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

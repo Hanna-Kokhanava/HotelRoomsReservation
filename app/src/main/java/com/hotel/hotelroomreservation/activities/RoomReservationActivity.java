@@ -7,24 +7,12 @@ import android.view.MenuItem;
 
 import com.hotel.hotelroomreservation.R;
 
-public class RoomReservationActivity extends AppCompatActivity {
+public class RoomReservationActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_reservation);
-
-        toolbarInitialize();
-    }
-
-    private void toolbarInitialize() {
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        toolBar.setTitle("Room reservation");
-        setSupportActionBar(toolBar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setHomeButtonEnabled(true);
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

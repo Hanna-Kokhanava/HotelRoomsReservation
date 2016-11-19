@@ -38,6 +38,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
+
             roomNameTextView = (TextView) itemView.findViewById(R.id.roomNameTextView);
             roomVisitorsTextView = (TextView) itemView.findViewById(R.id.roomVisitorsTextView);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingStarBar);
@@ -50,8 +51,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             roomNameTextView.setText(room.getName());
             ratingBar.setRating(room.getRating());
             roomVisitorsTextView.setText(context.getResources().getString(R.string.possible_visitors, room.getVisitors()));
-
-            imageLoader.displayImage(room.getImageUrl(), roomImageView);
+            imageLoader.displayImage(room.getUrl(), roomImageView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

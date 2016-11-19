@@ -1,6 +1,11 @@
 package com.hotel.hotelroomreservation.utils;
 
+import android.provider.ContactsContract;
+import android.util.Log;
+
+import com.firebase.client.DataSnapshot;
 import com.hotel.hotelroomreservation.model.Currencies;
+import com.hotel.hotelroomreservation.model.Room;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +16,18 @@ import java.util.Date;
 import java.util.Locale;
 
 public class JSONParser {
+//    public static Room parseRoomInfo(DataSnapshot dataSnapshot) {
+//        try {
+//            String s = dataSnapshot.getValue().toString();
+//            s = s.replaceAll("=", " : ");
+//            Log.i("tag", String.valueOf(s));
+//            JSONObject json = new JSONObject(s);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
     public static Currencies parseCurrencyRate(String currencyRate) {
         String formattedDate = "";
         String PLNCurrency = "";

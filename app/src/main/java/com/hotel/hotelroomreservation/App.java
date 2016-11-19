@@ -1,23 +1,23 @@
 package com.hotel.hotelroomreservation;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.firebase.client.Firebase;
-
-import net.danlew.android.joda.JodaTimeAndroid;
+import com.hotel.hotelroomreservation.constants.Addresses;
 
 public class App extends Application {
-
-    private Firebase mFirebase;
+    public static App app;
+    private Firebase firebase;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        app = this;
         Firebase.setAndroidContext(this);
         Firebase.getDefaultConfig().setPersistenceEnabled(true);
-        JodaTimeAndroid.init(this);
-        mFirebase = new
+        firebase = new Firebase(Addresses.FIREBASE_URL);
     }
 
     @Override
@@ -25,11 +25,11 @@ public class App extends Application {
         super.unregisterActivityLifecycleCallbacks(callback);
     }
 
-    @Override
-    public Object getSystemService(String name) {
-        if(name.equals("you_key")) {
-            return mFirebase;
-        }
-        return super.getSystemService(name);
+    public static App getInstance() {
+        return app;
+    }
+
+    public Firebase getFirebaseConnection() {
+        return firebase;
     }
 }
