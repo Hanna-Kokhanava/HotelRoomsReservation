@@ -14,6 +14,7 @@ public class MemoryCache {
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 4);
 
     public Bitmap getBitmap(String id) {
+        Log.i("tag", String.valueOf(maxMemory));
         try {
             if (!cache.containsKey(id)) {
                 return null;
@@ -39,7 +40,6 @@ public class MemoryCache {
     }
 
     private void checkSize() {
-        Log.i("Memory cache", "cache size=" + size + " length=" + cache.size());
         if (size > maxMemory) {
             Iterator<Map.Entry<String, Bitmap>> iter = cache.entrySet().iterator();
             while (iter.hasNext()) {

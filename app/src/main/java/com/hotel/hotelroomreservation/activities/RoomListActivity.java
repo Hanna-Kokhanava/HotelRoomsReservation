@@ -18,7 +18,6 @@ import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.JSONParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +68,7 @@ public class RoomListActivity extends BaseActivity {
                     mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(Room room) {
-                            Intent intent = new Intent(RoomListActivity.this, RoomInfoActivity.class);
+                            Intent intent = new Intent(RoomListActivity.this, RoomActivity.class);
                             intent.putExtra(Constants.ROOM_INTENT_KEY, room);
                             startActivity(intent);
                         }

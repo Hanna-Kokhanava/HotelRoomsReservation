@@ -25,7 +25,7 @@
         <activity android:name=".activities.RoomListActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.AboutAppActivity" />
-        <activity android:name=".activities.RoomInfoActivity" />
+        <activity android:name=".activities.RoomActivity" />
         <activity android:name=".activities.PhotoListActivity" />
         <activity android:name=".activities.RoomFinderActivity" />
         <activity android:name=".activities.RoomReservationActivity" />
