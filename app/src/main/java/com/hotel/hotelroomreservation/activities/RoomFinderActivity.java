@@ -87,6 +87,7 @@ public class RoomFinderActivity extends BaseActivity implements SeekBar.OnSeekBa
 
     private void setSelectedDate(final EditText editText, final Calendar calendar) {
         arrivalTextInput.setError(getString(R.string.empty_string));
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.DialogTheme,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -112,17 +113,13 @@ public class RoomFinderActivity extends BaseActivity implements SeekBar.OnSeekBa
     }
 
     public void checkAvailability(View view) {
-            if (arrivalCalendar.before(departureCalendar) && !isEmpty(arrivalValue) && !isEmpty(departureValue)) {
-                int guestsNumber = seekBar.getProgress() + 1;
+        if (arrivalCalendar.before(departureCalendar) && !isEmpty(arrivalValue) && !isEmpty(departureValue)) {
+            int guestsNumber = seekBar.getProgress() + 1;
 
-                // TODO Call method to find rooms - create new activity for list of rooms displaying
-            } else {
-                arrivalTextInput.setError(getString(R.string.invalid_date));
-            }
-    }
-
-    public void cancelSearch(View view) {
-        finish();
+            // TODO Call method to find rooms - create new activity for list of rooms displaying
+        } else {
+            arrivalTextInput.setError(getString(R.string.invalid_date));
+        }
     }
 
     private boolean isEmpty(EditText editText) {

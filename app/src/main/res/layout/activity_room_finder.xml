@@ -42,7 +42,6 @@
                     android:focusable="false"
                     android:hint="@string/arrival"
                     android:theme="@style/PrintText" />
-
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout

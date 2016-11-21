@@ -29,6 +29,7 @@ public class RoomInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_room_info, container, false);
+
         TextView roomName = (TextView) view.findViewById(R.id.roomName);
         TextView roomVisitors = (TextView) view.findViewById(R.id.roomVisitors);
         TextView roomPrice = (TextView) view.findViewById(R.id.roomPrice);

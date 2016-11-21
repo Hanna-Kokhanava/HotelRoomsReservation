@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.fragments.RoomInfoFragment;
@@ -36,17 +37,19 @@ public class RoomActivity extends BaseActivity {
         setupTabIcons();
     }
 
-
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new RoomInfoFragment(), "INFO");
-        adapter.addFragment(new RoomReservationFragment(), "RESERVATE");
+        adapter.addFragment(new RoomReservationFragment(), "RESERVATION");
         viewPager.setAdapter(adapter);
     }
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+    }
+
+    public void openReservation(View view) {
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
