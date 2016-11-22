@@ -30,7 +30,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView roomNameTextView;
-        private TextView roomVisitorsTextView;
         private RatingBar ratingBar;
         private ImageView roomImageView;
         private ImageLoader imageLoader;
@@ -40,7 +39,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             super(itemView);
 
             roomNameTextView = (TextView) itemView.findViewById(R.id.roomNameTextView);
-            roomVisitorsTextView = (TextView) itemView.findViewById(R.id.roomVisitorsTextView);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingStarBar);
             roomImageView = (ImageView) itemView.findViewById(R.id.roomImageView);
             imageLoader = new ImageLoader();
@@ -50,7 +48,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         public void bind(final Room room, final OnItemClickListener listener) {
             roomNameTextView.setText(room.getName());
             ratingBar.setRating(room.getRating());
-            roomVisitorsTextView.setText(context.getResources().getString(R.string.possible_visitors, room.getVisitors()));
             imageLoader.displayImage(room.getUrl(), roomImageView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
