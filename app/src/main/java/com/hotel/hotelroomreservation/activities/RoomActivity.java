@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.fragments.RoomInfoFragment;
-import com.hotel.hotelroomreservation.fragments.RoomReservationFragment;
+import com.hotel.hotelroomreservation.fragments.RoomBookingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class RoomActivity extends BaseActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new RoomInfoFragment(), "INFO");
-        adapter.addFragment(new RoomReservationFragment(), "RESERVATION");
+        adapter.addFragment(new RoomBookingFragment(), "BOOKING");
         viewPager.setAdapter(adapter);
     }
 

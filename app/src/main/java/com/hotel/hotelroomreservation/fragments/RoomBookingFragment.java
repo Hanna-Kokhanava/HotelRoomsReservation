@@ -10,25 +10,28 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.activities.MainActivity;
-import com.hotel.hotelroomreservation.activities.RoomActivity;
+import com.hotel.hotelroomreservation.utils.ValidationUtils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
 
-public class RoomReservationFragment extends Fragment implements View.OnClickListener {
+public class RoomBookingFragment extends Fragment implements View.OnClickListener {
     private final Calendar currentCalendar = Calendar.getInstance();
     private Calendar arrivalCalendar;
     private Calendar departureCalendar;
 
-    private View section1, section2;
-    private View view;
     private TextInputLayout arrivalTextInput;
     private EditText arrivalValue;
     private EditText departureValue;
+
+    private EditText name;
+    private EditText surname;
+    private EditText email;
+    private EditText phone;
+
     private Button checkAvailability;
 
-    public RoomReservationFragment() {
+    public RoomBookingFragment() {
         // Required empty public constructor
     }
 
@@ -37,19 +40,22 @@ public class RoomReservationFragment extends Fragment implements View.OnClickLis
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_room_reservation, container, false);
+        View view = inflater.inflate(R.layout.fragment_room_booking, container, false);
 
         arrivalCalendar = Calendar.getInstance();
         departureCalendar = Calendar.getInstance();
 
         arrivalTextInput = (TextInputLayout) view.findViewById(R.id.arrival_textInput);
-        arrivalTextInput.setErrorEnabled(true);
         arrivalValue = (EditText) view.findViewById(R.id.arrival_value);
         departureValue = (EditText) view.findViewById(R.id.departure_value);
+
+        name = (EditText) view.findViewById(R.id.nameText);
+        surname = (EditText) view.findViewById(R.id.surnameText);
+        email = (EditText) view.findViewById(R.id.emailText);
+        phone = (EditText) view.findViewById(R.id.phoneText);
 
         checkAvailability = (Button) view.findViewById(R.id.makeReservation);
         checkAvailability.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +64,7 @@ public class RoomReservationFragment extends Fragment implements View.OnClickLis
                 makeReservation();
             }
         });
+
         arrivalValue.setOnClickListener(this);
         departureValue.setOnClickListener(this);
 
@@ -97,48 +104,19 @@ public class RoomReservationFragment extends Fragment implements View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
-        section1 = view.findViewById(R.id.sectionRoomDetails);
-        section2 = view.findViewById(R.id.sectionPersonalInfo);
-
-        View header1 = view.findViewById(R.id.headerRoomDetails);
-        header1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (section1.getVisibility() == View.GONE) {
-                    section1.setVisibility(View.VISIBLE);
-                    section2.setVisibility(View.GONE);
-                } else {
-                    section1.setVisibility(View.GONE);
-                    section2.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        View header2 = view.findViewById(R.id.headerPersonalInfo);
-        header2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (section2.getVisibility() == View.GONE) {
-                    section2.setVisibility(View.VISIBLE);
-                    section1.setVisibility(View.GONE);
-                } else {
-                    section2.setVisibility(View.GONE);
-                    section1.setVisibility(View.VISIBLE);
-                }
-            }
-        });
     }
 
     public void makeReservation() {
-        if (arrivalCalendar.before(departureCalendar) && !isEmpty(arrivalValue) && !isEmpty(departureValue)
-                && !arrivalCalendar.equals(departureCalendar)) {
+        if (ValidationUtils.isNotEmpty(arrivalValue, departureValue) &&
+                ValidationUtils.calendarsValidation(arrivalCalendar, departureCalendar)) {
+            if (ValidationUtils.emailAddressValidation(email.getText().toString())) {
 
+            }
+            else {
+                email.setError("Not valid email address");
+            }
         } else {
             arrivalTextInput.setError(getString(R.string.invalid_date));
         }
-    }
-
-    private boolean isEmpty(EditText editText) {
-        return editText.getText().toString().trim().length() == 0;
     }
 }

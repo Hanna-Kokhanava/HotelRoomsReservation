@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:textColorHint">@color/colorPrimaryDark</item>
-        <item name="android:windowBackground">@color/background</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -18,14 +17,25 @@
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="HintText" parent="TextAppearance.AppCompat.Medium">
+    <style name="HintText" parent="TextAppearance.Design.Hint">
         <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">21sp</item>
+    </style>
+
+    <style name="TitleText">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">25sp</item>
     </style>
 
-    <style name="ErrorText" parent="TextAppearance.AppCompat.Medium">
+    <style name="ErrorText" parent="TextAppearance.Design.Error">
         <item name="android:textStyle">bold|italic</item>
         <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="PrintPrimaryText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="PrintText">

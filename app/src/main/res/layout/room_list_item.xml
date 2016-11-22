@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="12dp"
+        android:padding="8dp"
         card_view:cardCornerRadius="6dp"
         card_view:contentPadding="1dp">
 

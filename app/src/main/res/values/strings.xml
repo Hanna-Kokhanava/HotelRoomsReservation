@@ -7,17 +7,17 @@
     <string name="possible_visitors">Possible visitors : %1$s</string>
     <string name="photo_gallery">Photo gallery</string>
 
-    <string name="arrival">Arrival : </string>
-    <string name="departure">Departure : </string>
-    <string name="guests">Guests : %1$s &#160;</string>
+    <string name="arrival">Arrival date</string>
+    <string name="departure">Departure date</string>
+    <string name="guests">Guests : %1$s persons</string>
     <string name="default_date">%1$s - %2$s - %3$s</string>
     <string name="check_availability">Check Availability</string>
     <string name="cancel">Cancel</string>
 
-    <string name="room_name">Room name : %1$s</string>
+    <string name="room_name">%1$s</string>
     <string name="rating">Rating : %1$s</string>
-    <string name="make_reservation">Make reservation</string>
-    <string name="price">Price : %1$s$</string>
+    <string name="make_reservation">Book now</string>
+    <string name="price">%1$s$</string>
 
     <string name="empty_string"> </string>
     <string name="invalid_date">Arrival date can\'t be equal/more than departure date!</string>
@@ -40,6 +40,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="room_details">Room details</string>
-    <string name="personal_info">Personal info</string>
+    <string name="room_details">Reservation details : </string>
+    <string name="personal_info">Personal info : </string>
+    <string name="phone_number">Phone number :</string>
+    <string name="email_address">Email address :</string>
+    <string name="surname">Surname :</string>
+    <string name="name">Name :</string>
+    <string name="price_info">Nightly price without additional services</string>
 </resources>

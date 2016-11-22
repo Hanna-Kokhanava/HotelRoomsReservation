@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".activities.RoomActivity">
 
@@ -14,14 +14,10 @@
         android:layout_height="0dp"
         android:layout_weight="2">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -30,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:gravity="center_vertical"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:text="@string/room_details"
                 android:theme="@style/PrintText" />
 
@@ -38,10 +34,11 @@
                 android:id="@+id/sectionRoomDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/headerRoomDetails"
                 android:background="@color/white"
-                android:orientation="horizontal"
                 android:baselineAligned="false"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/arrival_textInput"
@@ -56,12 +53,10 @@
                         android:id="@+id/arrival_value"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
                         android:focusable="false"
-                        android:singleLine="true"
-                        android:imeOptions="actionNext"
-                        android:paddingTop="10dp"
                         android:hint="@string/arrival"
-                        android:theme="@style/PrintText" />
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -75,22 +70,21 @@
                         android:id="@+id/departure_value"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
                         android:focusable="false"
-                        android:singleLine="true"
-                        android:imeOptions="actionDone"
                         android:hint="@string/departure"
-                        android:theme="@style/PrintText" />
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
-
             </LinearLayout>
 
             <TextView
                 android:id="@+id/headerPersonalInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/sectionRoomDetails"
                 android:background="@color/colorPrimary"
                 android:gravity="center_vertical"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:text="@string/personal_info"
                 android:theme="@style/PrintText" />
 
@@ -98,14 +92,56 @@
                 android:id="@+id/sectionPersonalInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/headerPersonalInfo"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:padding="8dp">
 
-                <!-- Name, Surname, email -->
+                <EditText
+                    android:id="@+id/nameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLength="20"
+                    android:drawableLeft="@drawable/ic_person_black_24dp"
+                    android:maxLines="1" />
 
+                <EditText
+                    android:id="@+id/surnameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/surname"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:drawableLeft="@drawable/ic_person_black_24dp"
+                    android:maxLength="20"
+                    android:maxLines="1" />
+
+                <EditText
+                    android:id="@+id/emailText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email_address"
+                    android:imeOptions="actionDone"
+                    android:inputType="textEmailAddress"
+                    android:drawableLeft="@drawable/ic_local_post_office_black_24dp"
+                    android:maxLength="20"
+                    android:maxLines="1" />
+
+                <EditText
+                    android:id="@+id/phoneText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/phone_number"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:drawableLeft="@drawable/ic_call_black_24dp"
+                    android:maxLength="20"
+                    android:maxLines="1" />
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
     <Button

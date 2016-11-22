@@ -3,25 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".activities.RoomActivity">
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/linearLayoutReservation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/roomPhoto"
@@ -30,55 +24,66 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter" />
 
-            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/card_view"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/roomName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/roomPhoto"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                card_view:cardCornerRadius="6dp"
-                card_view:contentPadding="1dp">
+                android:layout_alignBottom="@id/roomPhoto"
+                android:layout_margin="16dp"
+                android:background="#80000000"
+                android:text="@string/room_name"
+                android:theme="@style/PrintText" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/roomPhoto"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/activity_vertical_margin">
+
+                <RatingBar
+                    android:id="@+id/ratingStarBar"
+                    style="?android:attr/ratingBarStyleIndicator"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/activity_vertical_margin">
+                    android:numStars="5"
+                    android:stepSize="1" />
 
-                    <TextView
-                        android:id="@+id/roomName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/room_name"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="@android:color/black" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/colorPrimary" />
 
-                    <RatingBar
-                        android:id="@+id/ratingStarBar"
-                        style="?android:attr/ratingBarStyleIndicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:numStars="5"
-                        android:stepSize="1" />
+                <TextView
+                    android:id="@+id/roomVisitors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/guests"
+                    android:theme="@style/PrintPrimaryText" />
 
-                    <TextView
-                        android:id="@+id/roomVisitors"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/guests"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="@android:color/black" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/colorPrimary" />
 
-                    <TextView
-                        android:id="@+id/roomPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/price"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
+                <TextView
+                    android:id="@+id/roomPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price"
+                    android:theme="@style/TitleText" />
+
+                <TextView
+                    android:id="@+id/roomPriceInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price_info" />
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 
