@@ -17,7 +17,6 @@ public class App extends Application {
         app = this;
         Firebase.setAndroidContext(this);
         Firebase.getDefaultConfig().setPersistenceEnabled(true);
-        firebase = new Firebase(Addresses.FIREBASE_URL);
     }
 
     @Override
@@ -30,6 +29,7 @@ public class App extends Application {
     }
 
     public Firebase getFirebaseConnection() {
+        firebase = new Firebase(Addresses.FIREBASE_URL);
         return firebase;
     }
 }

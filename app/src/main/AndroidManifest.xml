@@ -28,7 +28,6 @@
         <activity android:name=".activities.RoomActivity" />
         <activity android:name=".activities.PhotoListActivity" />
         <activity android:name=".activities.RoomFinderActivity" />
-        <activity android:name=".activities.RoomReservationActivity" />
     </application>
 
 </manifest>
