@@ -47,4 +47,5 @@
     <string name="surname">Surname :</string>
     <string name="name">Name :</string>
     <string name="price_info">Nightly price without additional services</string>
+    <string name="OK">OK</string>
 </resources>

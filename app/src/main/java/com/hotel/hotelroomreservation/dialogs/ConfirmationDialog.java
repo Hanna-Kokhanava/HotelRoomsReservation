@@ -18,12 +18,13 @@ public class ConfirmationDialog {
         builder.setMessage(content);
         builder.setIcon(R.drawable.ic_hotel);
 
-        String positiveText = "OK";
+        String positiveText = activity.getString(R.string.OK);
         builder.setPositiveButton(positiveText,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseHelper.makeReservation(reservation);
+                        activity.finish();
                     }
                 });
 

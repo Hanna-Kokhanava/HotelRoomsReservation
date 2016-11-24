@@ -1,5 +1,7 @@
 package com.hotel.hotelroomreservation.model;
 
+import android.support.annotation.NonNull;
+
 import java.util.Date;
 
 public class ReservationDate implements Comparable<ReservationDate>{
@@ -14,7 +16,7 @@ public class ReservationDate implements Comparable<ReservationDate>{
     }
 
     @Override
-    public int compareTo(ReservationDate reservationDate) {
+    public int compareTo(@NonNull ReservationDate reservationDate) {
         return getReservationDate().compareTo(reservationDate.getReservationDate());
     }
 }

@@ -138,23 +138,27 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(dateArrival);
 
-                    while (cal.getTime().before(date)) {
+                    while (cal.getTime().getTime() <= date.getTime()) {
                         Calendar c = Calendar.getInstance();
                         c.setTime(cal.getTime());
                         selectableDates.add(c);
                         cal.add(Calendar.DATE, 1);
+                        cal.set(Calendar.MILLISECOND, 0);
+                        cal.set(Calendar.HOUR, 0);
+                        cal.set(Calendar.MINUTE, 0);
+                        cal.set(Calendar.SECOND, 0);
+                        cal.set(Calendar.HOUR_OF_DAY, 0);
                     }
                     break;
                 }
             }
-
             Calendar[] calendarDates = new Calendar[selectableDates.size()];
             calendarDates = selectableDates.toArray(calendarDates);
             initializeDatePicker(calendarDates, calendar, editText, flag);
 
         } else {
-
             firebase.addValueEventListener(new ValueEventListener() {
+
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot roomSnapshot : dataSnapshot.getChildren()) {
