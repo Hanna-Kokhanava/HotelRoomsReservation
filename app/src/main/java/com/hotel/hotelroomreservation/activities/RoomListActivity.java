@@ -47,9 +47,6 @@ public class RoomListActivity extends BaseActivity {
     }
 
     private void setRoomList() {
-//        final ProgressBar progressView = (ProgressBar) findViewById(R.id.progress_bar);
-//        progressView.setVisibility(View.VISIBLE);
-
         firebase.child(Constants.ROOMS_KEY).addValueEventListener(new ValueEventListener() {
             List<Room> rooms;
 
@@ -61,8 +58,6 @@ public class RoomListActivity extends BaseActivity {
                     Room room = roomSnapshot.getValue(Room.class);
                     rooms.add(room);
                 }
-
-//                progressView.setVisibility(View.GONE);
 
                 if (mAdapter == null) {
                     mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {

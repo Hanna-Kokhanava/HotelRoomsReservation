@@ -9,8 +9,8 @@
 
     <string name="arrival">Arrival date</string>
     <string name="departure">Departure date</string>
-    <string name="guests">Guests : %1$s persons</string>
-    <string name="default_date">%1$s - %2$s - %3$s</string>
+    <string name="guests">Guests : %1$s person(s)</string>
+    <string name="default_date">%1$s-%2$s-%3$s</string>
     <string name="check_availability">Check Availability</string>
     <string name="cancel">Cancel</string>
 
@@ -20,7 +20,7 @@
     <string name="price">%1$s$</string>
 
     <string name="empty_string"> </string>
-    <string name="invalid_date">Arrival date can\'t be equal/more than departure date!</string>
+    <string name="invalid_date">Arrival reservationDate can\'t be equal/more than departure reservationDate!</string>
     <string name="title_activity_home">HomeActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
