@@ -7,10 +7,6 @@
             android:icon="@drawable/ic_home"
             android:title="@string/home" />
         <item
-            android:id="@+id/tab_roomlist"
-            android:icon="@drawable/ic_hotel"
-            android:title="@string/room_list" />
-        <item
             android:id="@+id/tab_search"
             android:icon="@drawable/ic_search"
             android:title="@string/room_search" />

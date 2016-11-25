@@ -41,4 +41,13 @@ public class FileCache {
         }
         return null;
     }
+
+    private static void deleteFolder(File file){
+        if (file.exists()){
+            for(File f:file.listFiles())
+                f.delete();
+
+            file.delete();
+        }
+    }
 }

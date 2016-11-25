@@ -2,11 +2,9 @@ package com.hotel.hotelroomreservation.dialogs;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.activities.RoomListActivity;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.utils.FirebaseHelper;
 

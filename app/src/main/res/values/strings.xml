@@ -20,7 +20,6 @@
     <string name="price">%1$s$</string>
 
     <string name="empty_string"> </string>
-    <string name="invalid_date">Arrival reservationDate can\'t be equal/more than departure reservationDate!</string>
     <string name="title_activity_home">HomeActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

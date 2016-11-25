@@ -18,7 +18,7 @@ import java.util.List;
 
 public class RoomActivity extends BaseActivity {
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+
     private int[] tabIcons = {
             R.drawable.ic_info,
             R.drawable.ic_event,
@@ -29,7 +29,7 @@ public class RoomActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -47,9 +47,6 @@ public class RoomActivity extends BaseActivity {
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-    }
-
-    public void openReservation(View view) {
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

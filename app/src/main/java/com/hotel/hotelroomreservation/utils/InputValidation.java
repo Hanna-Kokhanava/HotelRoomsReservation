@@ -11,7 +11,7 @@ import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
-public class ValidationUtils {
+public class InputValidation {
 
     public static boolean emailAddressValidation(String email) {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
@@ -22,22 +22,17 @@ public class ValidationUtils {
                                               TextInputLayout arrivalTextInput, TextInputLayout departureTextInput) {
         boolean flag = true;
         if (!isNotEmpty(arrivalValue)) {
-            arrivalTextInput.setError("Can't by empty!");
+            arrivalTextInput.setError("Can't be empty!");
             flag = false;
         }
 
         if (!isNotEmpty(departureValue)) {
-            departureTextInput.setError("Can't by empty!");
+            departureTextInput.setError("Can't be empty!");
             return false;
         }
 
-        if (arrivalCalendar.after(departureCalendar)) {
-            arrivalTextInput.setError("Arrival date can't be more than departure date!");
-            flag = false;
-        }
-
         if (arrivalCalendar.equals(departureCalendar)) {
-            departureTextInput.setError("Departure date can't be equal with arrival date!");
+            departureTextInput.setError("Departure date can't be equal to arrival date!");
             flag = false;
         }
 
@@ -48,15 +43,15 @@ public class ValidationUtils {
         boolean flag = true;
 
         if (!isNotEmpty(name)) {
-            name.setError("Can't by empty!");
+            name.setError("Can't be empty!");
             flag = false;
         }
         if (!isNotEmpty(surname)) {
-            surname.setError("Can't by empty!");
+            surname.setError("Can't be empty!");
             flag = false;
         }
         if (!isNotEmpty(phone)) {
-            phone.setError("Can't by empty!");
+            phone.setError("Can't be empty!");
             flag = false;
         }
         if (!emailAddressValidation(email.getText().toString())) {

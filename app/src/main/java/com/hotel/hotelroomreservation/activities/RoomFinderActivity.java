@@ -118,7 +118,7 @@ public class RoomFinderActivity extends BaseActivity implements SeekBar.OnSeekBa
 
             // TODO Call method to find rooms - create new activity for list of rooms displaying
         } else {
-            arrivalTextInput.setError(getString(R.string.invalid_date));
+
         }
     }
 

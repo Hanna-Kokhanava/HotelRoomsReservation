@@ -3,7 +3,6 @@ package com.hotel.hotelroomreservation.fragments;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,11 @@ import com.firebase.client.ValueEventListener;
 import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.dialogs.ConfirmationDialog;
+import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
-import com.hotel.hotelroomreservation.model.ReservationDate;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.ValidationUtils;
+import com.hotel.hotelroomreservation.utils.InternetValidation;
+import com.hotel.hotelroomreservation.utils.InputValidation;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.ParseException;
@@ -28,7 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -232,9 +231,13 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     }
 
     public void makeReservation() {
-        if (ValidationUtils.calendarsValidation(arrivalCalendar, departureCalendar, arrivalValue, departureValue, arrivalTextInput, departureTextInput)
-                && ValidationUtils.inputFieldsValidation(name, surname, email, phone)) {
-            new ConfirmationDialog("Booking confirmation", "Do you really want to book " + room.getName() + "?", formReservationObject(), getActivity());
+        if (InternetValidation.isConnected(getActivity())) {
+            if (InputValidation.calendarsValidation(arrivalCalendar, departureCalendar, arrivalValue, departureValue, arrivalTextInput, departureTextInput)
+                    && InputValidation.inputFieldsValidation(name, surname, email, phone)) {
+                new ConfirmationDialog("Booking confirmation", "Do you really want to book " + room.getName() + "?", formReservationObject(), getActivity());
+            }
+        } else {
+            new ErrorDialog(getActivity(), "Sorry! You have no Internet connection to make a reservation!");
         }
     }
 
