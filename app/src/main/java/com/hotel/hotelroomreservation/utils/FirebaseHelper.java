@@ -1,7 +1,5 @@
 package com.hotel.hotelroomreservation.utils;
 
-import android.util.Log;
-
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -15,11 +13,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class FirebaseHelper {
     private static Firebase firebase;
-    private static Calendar[] calendarReservationDates;
     private static List<Date> arrivalDates;
+    private static Calendar[] calendarDates;
 
     public static void makeReservation(Reservation reservation) {
         firebase = App.getInstance().getFirebaseConnection();
@@ -27,25 +26,70 @@ public class FirebaseHelper {
         firebase.setValue(reservation);
     }
 
-//    public void getReservationDates(int id) {
-//        firebase = App.getInstance().getFirebaseConnection();
-//        firebase = firebase.child("bookings").child(String.valueOf(id));
-//
-//        Log.i("tag", String.valueOf("============="));
-//
-//        firebase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Log.i("tag", String.valueOf("+++++++++++"));
-//                for (DataSnapshot roomSnapshot : dataSnapshot.getChildren()) {
-//                    Reservation reservation = roomSnapshot.getValue(Reservation.class);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) {
-//
-//            }
-//        });
-//    }
+    public static void getRoomReservationDates(int id) {
+        final List<Calendar> reservationDates = new ArrayList<>();
+        final List<Date> arrivalDates = new ArrayList<>();
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        firebase = App.getInstance().getFirebaseConnection();
+        firebase = firebase.child("bookings").child(String.valueOf(id));
+
+        firebase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Date dateArrival = null;
+                Date dateDeparture = null;
+
+                for (DataSnapshot roomSnapshot : dataSnapshot.getChildren()) {
+                    Reservation reservation = roomSnapshot.getValue(Reservation.class);
+
+                    try {
+                        dateArrival = sdf.parse(reservation.getArrival());
+                        dateDeparture = sdf.parse(reservation.getDeparture());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    arrivalDates.add(dateArrival);
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dateArrival);
+
+                    while (calendar.getTime().before(dateDeparture)) {
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(calendar.getTime());
+                        reservationDates.add(c);
+                        calendar.add(Calendar.DATE, 1);
+                    }
+                }
+
+                calendarDates = new Calendar[reservationDates.size()];
+                calendarDates = reservationDates.toArray(calendarDates);
+
+                setCalendarDates(calendarDates);
+                setArrivalDates(arrivalDates);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    public static List<Date> getArrivalDates() {
+        return arrivalDates;
+    }
+
+    public static void setArrivalDates(List<Date> arrivalDates) {
+        FirebaseHelper.arrivalDates = arrivalDates;
+    }
+
+    public static Calendar[] getCalendarDates() {
+        return calendarDates;
+    }
+
+    public static void setCalendarDates(Calendar[] calendarDates) {
+        FirebaseHelper.calendarDates = calendarDates;
+    }
 }

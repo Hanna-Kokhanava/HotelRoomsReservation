@@ -9,21 +9,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
-import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.R;
+import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.dialogs.ConfirmationDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.InternetValidation;
-import com.hotel.hotelroomreservation.utils.InputValidation;
+import com.hotel.hotelroomreservation.utils.FirebaseHelper;
+import com.hotel.hotelroomreservation.utils.validations.CalendarValidation;
+import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
+import com.hotel.hotelroomreservation.utils.validations.InputValidation;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,8 +45,6 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     private EditText email;
     private EditText phone;
 
-    private Button checkAvailability;
-
     public RoomBookingFragment() {
         // Required empty public constructor
     }
@@ -60,10 +55,16 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_room_booking, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_room_booking, container, false);
+        initialize(view);
+        FirebaseHelper.getRoomReservationDates(room.getNumber());
+
+        return view;
+    }
+
+    private void initialize(View view) {
         arrivalCalendar = Calendar.getInstance();
         departureCalendar = Calendar.getInstance();
 
@@ -79,11 +80,11 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
         Bundle bundle = getActivity().getIntent().getExtras();
         room = new Room();
-        room = bundle.getParcelable("Room");
+        room = bundle.getParcelable(Constants.ROOM_INTENT_KEY);
 
         arrivalDates = new ArrayList<>();
 
-        checkAvailability = (Button) view.findViewById(R.id.makeReservation);
+        Button checkAvailability = (Button) view.findViewById(R.id.makeReservation);
         checkAvailability.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,8 +94,6 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
         arrivalValue.setOnClickListener(this);
         departureValue.setOnClickListener(this);
-
-        return view;
     }
 
     @Override
@@ -109,96 +108,12 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void setArrivalDates(List<Date> arrivalDates) {
-        this.arrivalDates = arrivalDates;
-    }
-
-    public List<Date> getArrivalDates() {
-        return arrivalDates;
-    }
-
     private void getReservationsList(final EditText editText, final Calendar calendar, final boolean flag) {
-        Firebase firebase = App.getInstance().getFirebaseConnection();
-        firebase = firebase.child("bookings").child(String.valueOf(room.getNumber()));
-
-        final List<Calendar> reservationDates = new ArrayList<>();
-        final List<Date> arrivalDates = new ArrayList<>();
-
-
         if (flag) {
-            Date dateArrival = arrivalCalendar.getTime();
-            List<Date> arrival = getArrivalDates();
-            List<Calendar> selectableDates = new ArrayList<>();
-
-            Collections.sort(arrival);
-
-            for (Date date : arrival) {
-                if (dateArrival.before(date)) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(dateArrival);
-
-                    while (cal.getTime().getTime() <= date.getTime()) {
-                        Calendar c = Calendar.getInstance();
-                        c.setTime(cal.getTime());
-                        selectableDates.add(c);
-                        cal.add(Calendar.DATE, 1);
-                        cal.set(Calendar.MILLISECOND, 0);
-                        cal.set(Calendar.HOUR, 0);
-                        cal.set(Calendar.MINUTE, 0);
-                        cal.set(Calendar.SECOND, 0);
-                        cal.set(Calendar.HOUR_OF_DAY, 0);
-                    }
-                    break;
-                }
-            }
-            Calendar[] calendarDates = new Calendar[selectableDates.size()];
-            calendarDates = selectableDates.toArray(calendarDates);
-            initializeDatePicker(calendarDates, calendar, editText, flag);
-
+            initializeDatePicker(CalendarValidation.getSelectableDates(arrivalCalendar, arrivalDates), calendar, editText, flag);
         } else {
-            firebase.addValueEventListener(new ValueEventListener() {
-
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot roomSnapshot : dataSnapshot.getChildren()) {
-                        Reservation reservation = roomSnapshot.getValue(Reservation.class);
-
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        Date dateArrival = null;
-                        Date dateDeparture = null;
-
-                        try {
-                            dateArrival = sdf.parse(reservation.getArrival());
-                            dateDeparture = sdf.parse(reservation.getDeparture());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-                        arrivalDates.add(dateArrival);
-
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(dateArrival);
-
-                        while (calendar.getTime().before(dateDeparture)) {
-                            Calendar c = Calendar.getInstance();
-                            c.setTime(calendar.getTime());
-                            reservationDates.add(c);
-                            calendar.add(Calendar.DATE, 1);
-                        }
-                    }
-
-                    setArrivalDates(arrivalDates);
-
-                    Calendar[] calendarDates = new Calendar[reservationDates.size()];
-                    calendarDates = reservationDates.toArray(calendarDates);
-                    initializeDatePicker(calendarDates, calendar, editText, flag);
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-            });
+            initializeDatePicker(FirebaseHelper.getCalendarDates(), calendar, editText, flag);
+            arrivalDates = FirebaseHelper.getArrivalDates();
         }
     }
 
@@ -223,7 +138,9 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         pickerDialog.setMaxDate(c);
 
         if (flag) {
-            pickerDialog.setSelectableDays(reservationDates);
+            if (reservationDates.length != 0) {
+                pickerDialog.setSelectableDays(reservationDates);
+            }
         } else {
             pickerDialog.setDisabledDays(reservationDates);
         }
@@ -234,7 +151,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         if (InternetValidation.isConnected(getActivity())) {
             if (InputValidation.calendarsValidation(arrivalCalendar, departureCalendar, arrivalValue, departureValue, arrivalTextInput, departureTextInput)
                     && InputValidation.inputFieldsValidation(name, surname, email, phone)) {
-                new ConfirmationDialog("Booking confirmation", "Do you really want to book " + room.getName() + "?", formReservationObject(), getActivity());
+                new ConfirmationDialog(getActivity(), room, formReservationObject());
             }
         } else {
             new ErrorDialog(getActivity(), "Sorry! You have no Internet connection to make a reservation!");

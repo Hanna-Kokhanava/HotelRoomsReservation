@@ -1,4 +1,4 @@
-package com.hotel.hotelroomreservation.utils;
+package com.hotel.hotelroomreservation.utils.validations;
 
 import android.app.Activity;
 import android.content.Context;

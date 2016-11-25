@@ -101,8 +101,6 @@ public class MainActivity extends BaseActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-                Log.i("tag", "=======");
                 switch (menuItem.getItemId()) {
                     case R.id.tab_home:
                         drawer.closeDrawers();

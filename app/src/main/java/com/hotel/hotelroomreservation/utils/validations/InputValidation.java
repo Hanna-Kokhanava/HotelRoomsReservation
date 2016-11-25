@@ -1,4 +1,4 @@
-package com.hotel.hotelroomreservation.utils;
+package com.hotel.hotelroomreservation.utils.validations;
 
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
@@ -29,6 +29,11 @@ public class InputValidation {
         if (!isNotEmpty(departureValue)) {
             departureTextInput.setError("Can't be empty!");
             return false;
+        }
+
+        if (arrivalCalendar.after(departureCalendar)) {
+            arrivalTextInput.setError("Arrival date can't be more than departure date!");
+            flag = false;
         }
 
         if (arrivalCalendar.equals(departureCalendar)) {
