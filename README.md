@@ -1,11 +1,15 @@
 # Hotel Room Reservation Android application.
 
-![android emulator - nexus_5x_api_235554](https://cloud.githubusercontent.com/assets/11444200/20430697/ded13254-ada6-11e6-8092-75e3c1d4d8f1.jpg)
+![image](https://cloud.githubusercontent.com/assets/11444200/20619206/4a3136ae-b304-11e6-842f-c753f2234618.png)
 
-![android emulator - nexus_5x_api_2355541](https://cloud.githubusercontent.com/assets/11444200/20430775/638c970e-ada7-11e6-87c2-5d8264f3c928.jpg)
+![image](https://cloud.githubusercontent.com/assets/11444200/20619305/dc6b5dba-b304-11e6-9989-5a32b9780c67.png)
 
-![android emulator - nexus_5x_api_2355542](https://cloud.githubusercontent.com/assets/11444200/20430776/64598fde-ada7-11e6-9ea0-97960c9380e4.jpg)
+![image](https://cloud.githubusercontent.com/assets/11444200/20619338/14f3cee2-b305-11e6-9b4e-986ba899fb68.png)
 
-![android emulator - nexus_5x_api_2355543](https://cloud.githubusercontent.com/assets/11444200/20430778/65a28436-ada7-11e6-9343-62fb3892bb79.jpg)
+![image](https://cloud.githubusercontent.com/assets/11444200/20619356/26127b88-b305-11e6-9a46-e339294f8e95.png)
 
-![android emulator - nexus_5x_api_2355544](https://cloud.githubusercontent.com/assets/11444200/20430779/66aab632-ada7-11e6-9cca-5454ce0aaea2.jpg)
+![image](https://cloud.githubusercontent.com/assets/11444200/20619378/3cc15f0c-b305-11e6-9f49-be8d27c0cb9a.png)
+
+![image](https://cloud.githubusercontent.com/assets/11444200/20619389/4a6c5576-b305-11e6-9b3a-a48176002c86.png)
+
+![image](https://cloud.githubusercontent.com/assets/11444200/20619406/6b0350aa-b305-11e6-930a-9f1db3db3c17.png)
