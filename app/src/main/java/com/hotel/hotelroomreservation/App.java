@@ -8,7 +8,6 @@ import com.hotel.hotelroomreservation.constants.Addresses;
 
 public class App extends Application {
     public static App app;
-    private Firebase firebase;
 
     @Override
     public void onCreate() {
@@ -29,7 +28,6 @@ public class App extends Application {
     }
 
     public Firebase getFirebaseConnection() {
-        firebase = new Firebase(Addresses.FIREBASE_URL);
-        return firebase;
+        return new Firebase(Addresses.FIREBASE_URL);
     }
 }

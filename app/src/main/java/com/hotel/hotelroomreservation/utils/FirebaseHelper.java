@@ -5,6 +5,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.hotel.hotelroomreservation.App;
+import com.hotel.hotelroomreservation.constants.Addresses;
 import com.hotel.hotelroomreservation.model.Reservation;
 
 import java.text.ParseException;
@@ -22,7 +23,7 @@ public class FirebaseHelper {
 
     public static void makeReservation(Reservation reservation) {
         firebase = App.getInstance().getFirebaseConnection();
-        firebase = firebase.child("bookings").child(String.valueOf(reservation.getId())).push();
+        firebase = firebase.child(Addresses.BOOKINGS).child(String.valueOf(reservation.getId())).push();
         firebase.setValue(reservation);
     }
 
@@ -32,7 +33,7 @@ public class FirebaseHelper {
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         firebase = App.getInstance().getFirebaseConnection();
-        firebase = firebase.child("bookings").child(String.valueOf(id));
+        firebase = firebase.child(Addresses.BOOKINGS).child(String.valueOf(id));
 
         firebase.addValueEventListener(new ValueEventListener() {
             @Override

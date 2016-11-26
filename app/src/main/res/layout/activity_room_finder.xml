@@ -75,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/departure_textInput"
+                android:layout_toEndOf="@id/guests_textView"
                 android:layout_toRightOf="@id/guests_textView"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:progressDrawable="@drawable/seekbar_progressbar"

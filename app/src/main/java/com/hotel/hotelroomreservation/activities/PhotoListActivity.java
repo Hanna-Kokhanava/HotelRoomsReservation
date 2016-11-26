@@ -33,7 +33,6 @@ public class PhotoListActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         setBitmaps();
     }
 
@@ -53,7 +52,7 @@ public class PhotoListActivity extends BaseActivity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                Log.i("tag", firebaseError.getMessage());
+
             }
         });
     }

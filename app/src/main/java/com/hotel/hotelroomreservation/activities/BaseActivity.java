@@ -8,7 +8,6 @@ import android.view.View;
 import com.hotel.hotelroomreservation.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    private Toolbar toolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +22,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void toolbarInitialize(View view) {
-        toolBar = (Toolbar) view.findViewById(R.id.toolbar_actionbar);
+        Toolbar toolBar = (Toolbar) view.findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolBar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeButtonEnabled(true);
         }

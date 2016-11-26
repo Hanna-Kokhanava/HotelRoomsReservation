@@ -9,7 +9,7 @@ public class ErrorDialog {
 
     public ErrorDialog(final Activity activity, final String errorMessage) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.DialogTheme);
-        builder.setTitle("Error");
+        builder.setTitle(R.string.error_dialog);
         builder.setMessage(errorMessage);
         builder.setIcon(R.drawable.ic_mood_bad_black_24dp);
         builder.setPositiveButton(activity.getString(R.string.OK), null);

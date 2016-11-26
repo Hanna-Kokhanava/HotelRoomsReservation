@@ -45,8 +45,9 @@ public class RoomActivity extends BaseActivity {
     }
 
     private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(tabIcons[i]);
+        }
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

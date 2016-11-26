@@ -9,7 +9,6 @@ import com.hotel.hotelroomreservation.R;
 import com.wang.avi.AVLoadingIndicatorView;
 
 public class AppWelcomeActivity extends AppCompatActivity {
-    private static int SPLASH_TIME_OUT = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +20,14 @@ public class AppWelcomeActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
+
             @Override
             public void run() {
                 Intent i = new Intent(AppWelcomeActivity.this, MainActivity.class);
                 startActivity(i);
                 finish();
             }
-        }, SPLASH_TIME_OUT);
+        }, 3000);
     }
 
     private void startAnim(AVLoadingIndicatorView avi) {

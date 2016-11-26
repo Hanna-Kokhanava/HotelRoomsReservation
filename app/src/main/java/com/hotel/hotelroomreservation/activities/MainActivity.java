@@ -2,13 +2,13 @@ package com.hotel.hotelroomreservation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,7 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
-    private static final int START_ITEM = 0;
+    private static final int START_ID = 0;
+
     private Firebase firebase;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -56,8 +57,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        navigationView.getMenu().getItem(START_ITEM).setChecked(true);
+        navigationView.getMenu().getItem(START_ID).setChecked(true);
         setRoomList();
     }
 
@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onCancelled(FirebaseError error) {
-                Log.i("Firebase", "The reading is failed: " + error.getMessage());
+
             }
         });
     }
@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity {
     private void setUpNavigationView() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.tab_home:
                         drawer.closeDrawers();
@@ -134,10 +134,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-
             case R.id.about_app:
                 startActivity(new Intent(this, AboutAppActivity.class));
                 return true;

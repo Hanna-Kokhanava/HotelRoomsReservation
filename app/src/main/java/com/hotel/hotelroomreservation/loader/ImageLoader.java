@@ -31,7 +31,6 @@ public class ImageLoader {
         Bitmap bitmap = memoryCache.getBitmap(url);
 
         if (bitmap != null) {
-            Log.i("tag", "Get bitmap from memory cache");
             imageView.setImageBitmap(bitmap);
         } else {
             queuePhoto(url, imageView);
@@ -93,8 +92,8 @@ public class ImageLoader {
 
                 BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
                 handler.post(bd);
+
             } catch (Throwable th) {
-                //TODO don't ignore exception
                 th.printStackTrace();
             }
         }

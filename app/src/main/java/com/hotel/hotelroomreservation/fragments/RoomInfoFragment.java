@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.hotel.hotelroomreservation.R;
+import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.loader.ImageLoader;
 import com.hotel.hotelroomreservation.model.Room;
 
@@ -38,7 +39,7 @@ public class RoomInfoFragment extends Fragment {
 
         Bundle bundle = getActivity().getIntent().getExtras();
         room = new Room();
-        room = bundle.getParcelable("Room");
+        room = bundle.getParcelable(Constants.ROOM_INTENT_KEY);
 
         ImageLoader imageLoader = new ImageLoader();
 

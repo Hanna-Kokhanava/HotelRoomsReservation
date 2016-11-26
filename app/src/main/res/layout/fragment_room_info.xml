@@ -22,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/room_image"
                 android:scaleType="fitCenter" />
 
             <TextView
@@ -30,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/roomPhoto"
                 android:layout_margin="8dp"
-                android:background="#80000000"
+                android:background="@color/transparentBlack"
                 android:text="@string/room_name"
                 android:theme="@style/PrintText" />
 

@@ -5,6 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
     android:background="@color/colorPrimary"
-    android:title="@string/hotel_room_reservation"
+    android:title="@string/app_name"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:titleTextAppearance="@style/Toolbar.TitleText" />
