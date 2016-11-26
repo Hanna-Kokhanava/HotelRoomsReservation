@@ -17,16 +17,16 @@ import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
 import com.hotel.hotelroomreservation.utils.FirebaseHelper;
 import com.hotel.hotelroomreservation.utils.validations.CalendarValidation;
-import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 import com.hotel.hotelroomreservation.utils.validations.InputValidation;
+import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class RoomBookingFragment extends Fragment implements View.OnClickListener {
     private List<Date> arrivalDates;
@@ -72,6 +72,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         departureTextInput = (TextInputLayout) view.findViewById(R.id.departure_textInput);
         arrivalValue = (EditText) view.findViewById(R.id.arrival_value);
         departureValue = (EditText) view.findViewById(R.id.departure_value);
+        departureValue.setEnabled(false);
 
         name = (EditText) view.findViewById(R.id.nameText);
         surname = (EditText) view.findViewById(R.id.surnameText);
@@ -108,16 +109,16 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void getReservationsList(final EditText editText, final Calendar calendar, final boolean flag) {
-        if (flag) {
-            initializeDatePicker(CalendarValidation.getSelectableDates(arrivalCalendar, arrivalDates), calendar, editText, flag);
+    private void getReservationsList(final EditText editText, final Calendar calendar, final boolean isDeparture) {
+        if (isDeparture) {
+            initializeDatePicker(CalendarValidation.getSelectableDates(arrivalCalendar, arrivalDates), calendar, editText, true);
         } else {
-            initializeDatePicker(FirebaseHelper.getCalendarDates(), calendar, editText, flag);
+            initializeDatePicker(FirebaseHelper.getCalendarDates(), calendar, editText, false);
             arrivalDates = FirebaseHelper.getArrivalDates();
         }
     }
 
-    private void initializeDatePicker(Calendar[] reservationDates, final Calendar calendar, final EditText editText, final boolean flag) {
+    private void initializeDatePicker(Calendar[] reservationDates, final Calendar calendar, final EditText editText, final boolean isDeparture) {
         arrivalTextInput.setError("");
         departureTextInput.setError("");
 
@@ -129,6 +130,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
                         calendar.set(Calendar.MONTH, month);
                         calendar.set(Calendar.DAY_OF_MONTH, day);
                         editText.setText(getString(R.string.default_date, year, month + 1, day));
+                        departureValue.setEnabled(true);
                     }
                 }, currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), currentCalendar.get(Calendar.DAY_OF_MONTH));
         pickerDialog.setMinDate(currentCalendar);
@@ -137,9 +139,11 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         c.set(2020, 0, 1);
         pickerDialog.setMaxDate(c);
 
-        if (flag) {
+        if (isDeparture) {
             if (reservationDates.length != 0) {
                 pickerDialog.setSelectableDays(reservationDates);
+            } else {
+                pickerDialog.setMinDate(arrivalCalendar);
             }
         } else {
             pickerDialog.setDisabledDays(reservationDates);
@@ -154,12 +158,12 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
                 new ConfirmationDialog(getActivity(), room, formReservationObject());
             }
         } else {
-            new ErrorDialog(getActivity(), "Sorry! You have no Internet connection to make a reservation!");
+            new ErrorDialog(getActivity(), getActivity().getString(R.string.no_internet_warning));
         }
     }
 
     private Reservation formReservationObject() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         String arrivalDate = format.format(arrivalCalendar.getTime());
         String departureDate = format.format(departureCalendar.getTime());
 

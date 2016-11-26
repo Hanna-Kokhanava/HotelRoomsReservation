@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 import com.hotel.hotelroomreservation.R;
+import com.hotel.hotelroomreservation.fragments.RoomBookingFragment;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
 import com.hotel.hotelroomreservation.utils.FirebaseHelper;
@@ -14,11 +15,13 @@ public class ConfirmationDialog {
     public ConfirmationDialog(final Activity activity, final Room room, final Reservation reservation) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.DialogTheme);
         builder.setTitle(R.string.confirmation_title);
-        builder.setMessage(activity.getString(R.string.confirmation_text) + room.getName() + activity.getString(R.string.question));
         builder.setIcon(R.drawable.ic_hotel);
+        builder.setMessage(activity.getString(R.string.room) + room.getName() + activity.getString(R.string.dialog_arrival)
+                + reservation.getArrival() + activity.getString(R.string.dialog_departure)
+                + reservation.getDeparture() + activity.getString(R.string.dialog_price)
+                + room.getPrice() + activity.getString(R.string.dollar));
 
-        String positiveText = activity.getString(R.string.OK);
-        builder.setPositiveButton(positiveText,
+        builder.setPositiveButton(activity.getString(R.string.OK),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -27,7 +30,7 @@ public class ConfirmationDialog {
                     }
                 });
 
-        // TODO Cancel button
+        builder.setNegativeButton(R.string.cancel, null);
 
         AlertDialog dialog = builder.create();
         dialog.show();
