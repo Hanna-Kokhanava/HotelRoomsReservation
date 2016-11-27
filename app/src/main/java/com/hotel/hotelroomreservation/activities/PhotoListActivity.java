@@ -13,6 +13,7 @@ import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.PhotoAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
+import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class PhotoListActivity extends BaseActivity {
 
     private void setBitmaps() {
         final List<String> hotelPhotosUrls = new ArrayList<>();
-        App.getInstance().getFirebaseConnection().child(Constants.PHOTOS_KEY).addValueEventListener(new ValueEventListener() {
+        ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection().child(Constants.PHOTOS_KEY).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {

@@ -56,15 +56,14 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_room_booking, container, false);
-        initialize(view);
+        fieldsInitialization(view);
         FirebaseHelper.getRoomReservationDates(room.getNumber());
 
         return view;
     }
 
-    private void initialize(View view) {
+    private void fieldsInitialization(View view) {
         arrivalCalendar = Calendar.getInstance();
         departureCalendar = Calendar.getInstance();
 

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.hotel.hotelroomreservation.App;
+import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +16,7 @@ import java.io.IOException;
 public class FileCache {
     private String directoryName = "images";
     private String filename;
-    private File directory = App.getInstance().getApplicationContext().getDir(directoryName, Context.MODE_PRIVATE);
+    private File directory = ContextHolder.getInstance().getContext().getDir(directoryName, Context.MODE_PRIVATE);
 
     public void putBitmap(Bitmap bitmap, String url) {
         filename = String.valueOf(url.hashCode() + ".png");

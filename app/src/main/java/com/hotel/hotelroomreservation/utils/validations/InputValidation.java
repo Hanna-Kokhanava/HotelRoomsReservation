@@ -23,22 +23,22 @@ public class InputValidation {
                                               TextInputLayout arrivalTextInput, TextInputLayout departureTextInput) {
         boolean flag = true;
         if (!isNotEmpty(arrivalValue)) {
-            arrivalTextInput.setError(App.getInstance().getString(R.string.validation_empty));
+            arrivalTextInput.setError(ContextHolder.getInstance().getContext().getString(R.string.validation_empty));
             flag = false;
         }
 
         if (!isNotEmpty(departureValue)) {
-            departureTextInput.setError(App.getInstance().getString(R.string.validation_empty));
+            departureTextInput.setError(ContextHolder.getInstance().getContext().getString(R.string.validation_empty));
             return false;
         }
 
         if (arrivalCalendar.after(departureCalendar)) {
-            arrivalTextInput.setError(App.getInstance().getString(R.string.more_validation));
+            arrivalTextInput.setError(ContextHolder.getInstance().getContext().getString(R.string.more_validation));
             flag = false;
         }
 
         if (arrivalCalendar.equals(departureCalendar)) {
-            departureTextInput.setError(App.getInstance().getString(R.string.equal_validaton));
+            departureTextInput.setError(ContextHolder.getInstance().getContext().getString(R.string.equal_validaton));
             flag = false;
         }
 
@@ -49,19 +49,19 @@ public class InputValidation {
         boolean flag = true;
 
         if (!isNotEmpty(name)) {
-            name.setError(App.getInstance().getString(R.string.validation_empty));
+            name.setError(ContextHolder.getInstance().getContext().getString(R.string.validation_empty));
             flag = false;
         }
         if (!isNotEmpty(surname)) {
-            surname.setError(App.getInstance().getString(R.string.validation_empty));
+            surname.setError(ContextHolder.getInstance().getContext().getString(R.string.validation_empty));
             flag = false;
         }
         if (!isNotEmpty(phone)) {
-            phone.setError(App.getInstance().getString(R.string.validation_empty));
+            phone.setError(ContextHolder.getInstance().getContext().getString(R.string.validation_empty));
             flag = false;
         }
         if (!emailAddressValidation(email.getText().toString())) {
-            email.setError(App.getInstance().getString(R.string.email_validation));
+            email.setError(ContextHolder.getInstance().getContext().getString(R.string.email_validation));
             flag = false;
         }
         return flag;

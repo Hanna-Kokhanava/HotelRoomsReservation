@@ -21,6 +21,7 @@ import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class MainActivity extends BaseActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.rooms_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        firebase = App.getInstance().getFirebaseConnection();
+        firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
         firebase.keepSynced(true);
     }
 

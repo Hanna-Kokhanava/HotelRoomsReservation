@@ -1,4 +1,4 @@
-package com.hotel.hotelroomreservation.backend.model;
+package com.hotel.hotelroomreservation.backend.constants;
 
 public interface Addresses {
     String ACCESS_KEY = "199cfad9da5bfc16bba963d56a55ab06";

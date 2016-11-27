@@ -47,6 +47,7 @@ public class RoomInfoFragment extends Fragment {
         roomVisitors.setText(String.valueOf(getActivity().getApplicationContext().getResources().getString(R.string.guests, room.getVisitors())));
         roomPrice.setText(String.valueOf(getActivity().getApplicationContext().getResources().getString(R.string.price, room.getPrice())));
         ratingBar.setRating(room.getRating());
+        
         imageLoader.displayImage(room.getUrl(), roomImage);
 
         return view;

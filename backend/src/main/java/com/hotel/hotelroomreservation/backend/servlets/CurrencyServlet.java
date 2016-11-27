@@ -1,6 +1,6 @@
 package com.hotel.hotelroomreservation.backend.servlets;
 
-import com.hotel.hotelroomreservation.backend.model.Addresses;
+import com.hotel.hotelroomreservation.backend.constants.Addresses;
 
 import org.json.JSONObject;
 

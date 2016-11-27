@@ -2,29 +2,21 @@ package com.hotel.hotelroomreservation;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.firebase.client.Firebase;
 import com.hotel.hotelroomreservation.constants.Addresses;
+import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
 
 public class App extends Application {
-    public static App app;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        app = this;
+        ContextHolder.getInstance().setContext(this);
         Firebase.setAndroidContext(this);
         Firebase.getDefaultConfig().setPersistenceEnabled(true);
-    }
-
-    @Override
-    public void unregisterActivityLifecycleCallbacks(ActivityLifecycleCallbacks callback) {
-        super.unregisterActivityLifecycleCallbacks(callback);
-    }
-
-    public static App getInstance() {
-        return app;
     }
 
     public Firebase getFirebaseConnection() {
