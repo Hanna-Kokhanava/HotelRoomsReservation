@@ -6,7 +6,9 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.constants.Addresses;
+import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.model.Reservation;
+import com.hotel.hotelroomreservation.model.Room;
 import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
 
 import java.text.ParseException;
@@ -21,6 +23,41 @@ public class FirebaseHelper {
     private static Firebase firebase;
     private static List<Date> arrivalDates;
     private static Calendar[] calendarDates;
+
+    private FirebaseCallback <Room> listener;
+
+    public FirebaseHelper() {
+        this.listener = null;
+    }
+
+    public void setFirebaseHelperListener(FirebaseCallback <Room> listener) {
+        this.listener = listener;
+        setRoomList();
+    }
+
+    private void setRoomList() {
+        firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
+        firebase.keepSynced(true);
+        firebase.child(Constants.ROOMS_KEY).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                List<Room> rooms = new ArrayList<>();
+
+                for (DataSnapshot roomSnapshot : snapshot.getChildren()) {
+                    Room room = roomSnapshot.getValue(Room.class);
+                    rooms.add(room);
+                }
+
+                listener.onSuccess(rooms);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError error) {
+
+            }
+        });
+    }
 
     public static void makeReservation(Reservation reservation) {
         firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();

@@ -12,27 +12,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
-import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
+import com.hotel.hotelroomreservation.utils.FirebaseCallback;
+import com.hotel.hotelroomreservation.utils.FirebaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
-    private static final int START_ID = 0;
+    private static final int START_TAB_ID = 0;
 
-    private Firebase firebase;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -42,60 +35,45 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fieldsInitialization();
+    }
+
+    private void fieldsInitialization() {
         toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        setUpNavigationView();
-
         mRecyclerView = (RecyclerView) findViewById(R.id.rooms_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
-        firebase.keepSynced(true);
+        setUpNavigationView();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        navigationView.getMenu().getItem(START_ID).setChecked(true);
-        setRoomList();
-    }
+        navigationView.getMenu().getItem(START_TAB_ID).setChecked(true);
 
-    private void setRoomList() {
-        firebase.child(Constants.ROOMS_KEY).addValueEventListener(new ValueEventListener() {
-            List<Room> rooms;
-
+        FirebaseHelper object = new FirebaseHelper();
+        object.setFirebaseHelperListener(new FirebaseCallback<Room>() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                rooms = new ArrayList<>();
-
-                for (DataSnapshot roomSnapshot : snapshot.getChildren()) {
-                    Room room = roomSnapshot.getValue(Room.class);
-                    rooms.add(room);
-                }
-
-                if (mAdapter == null) {
-                    mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(Room room) {
-                            Intent intent = new Intent(MainActivity.this, RoomActivity.class);
-                            intent.putExtra(Constants.ROOM_INTENT_KEY, room);
-                            startActivity(intent);
-                        }
-                    });
-                } else {
-                    mAdapter.notifyDataSetChanged();
-                }
-
-                mRecyclerView.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError error) {
-
+            public void onSuccess(List<Room> roomsList) {
+                setRoomList(roomsList);
             }
         });
+    }
+
+    private void setRoomList(List<Room> rooms) {
+        RecyclerView.Adapter mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Room room) {
+                Intent intent = new Intent(MainActivity.this, RoomActivity.class);
+                intent.putExtra(Constants.ROOM_INTENT_KEY, room);
+                startActivity(intent);
+            }
+        });
+
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void setUpNavigationView() {
@@ -124,7 +102,6 @@ public class MainActivity extends BaseActivity {
         drawer.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

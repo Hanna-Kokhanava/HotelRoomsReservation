@@ -6,13 +6,6 @@
     tools:context=".activities.MainActivity1">
 
     <item
-        android:id="@+id/settings"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:title="@string/settings">
-    </item>
-
-    <item
         android:id="@+id/about_app"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
