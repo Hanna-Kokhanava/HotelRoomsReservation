@@ -1,4 +1,4 @@
-package com.hotel.hotelroomreservation.utils;
+package com.hotel.hotelroomreservation.utils.firebase;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -23,14 +23,13 @@ public class FirebaseHelper {
     private static Firebase firebase;
     private static List<Date> arrivalDates;
     private static Calendar[] calendarDates;
-
-    private FirebaseCallback <Room> listener;
+    private FirebaseCallback<Room> listener;
 
     public FirebaseHelper() {
         this.listener = null;
     }
 
-    public void setFirebaseHelperListener(FirebaseCallback <Room> listener) {
+    public void setFirebaseHelperListener(FirebaseCallback<Room> listener) {
         this.listener = listener;
         setRoomList();
     }

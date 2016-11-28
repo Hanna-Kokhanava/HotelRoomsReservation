@@ -1,4 +1,4 @@
-package com.hotel.hotelroomreservation.utils;
+package com.hotel.hotelroomreservation.utils.firebase;
 
 import com.hotel.hotelroomreservation.model.Reservation;
 

@@ -5,10 +5,9 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.fragments.RoomBookingFragment;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.FirebaseHelper;
+import com.hotel.hotelroomreservation.utils.firebase.FirebaseHelper;
 
 public class ConfirmationDialog {
 

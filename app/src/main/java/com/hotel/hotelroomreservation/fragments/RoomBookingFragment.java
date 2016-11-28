@@ -15,7 +15,7 @@ import com.hotel.hotelroomreservation.dialogs.ConfirmationDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.FirebaseHelper;
+import com.hotel.hotelroomreservation.utils.firebase.FirebaseHelper;
 import com.hotel.hotelroomreservation.utils.validations.CalendarValidation;
 import com.hotel.hotelroomreservation.utils.validations.InputValidation;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;

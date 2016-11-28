@@ -11,13 +11,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.FirebaseCallback;
-import com.hotel.hotelroomreservation.utils.FirebaseHelper;
+import com.hotel.hotelroomreservation.utils.firebase.FirebaseCallback;
+import com.hotel.hotelroomreservation.utils.firebase.FirebaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ public class MainActivity extends BaseActivity {
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+    private ProgressBar progressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,9 @@ public class MainActivity extends BaseActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rooms_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        progressView = (ProgressBar) findViewById(R.id.progress_bar);
+        progressView.setVisibility(View.VISIBLE);
 
         setUpNavigationView();
     }
@@ -64,6 +70,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setRoomList(List<Room> rooms) {
+        progressView.setVisibility(View.GONE);
+
         RecyclerView.Adapter mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Room room) {
