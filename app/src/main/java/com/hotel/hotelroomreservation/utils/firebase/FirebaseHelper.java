@@ -20,16 +20,15 @@ import java.util.List;
 import java.util.Locale;
 
 public class FirebaseHelper {
-    private static Firebase firebase;
-    private static List<Date> arrivalDates;
-    private static Calendar[] calendarDates;
-    private FirebaseCallback<Room> listener;
+    private Firebase firebase;
+    private FirebaseCallback.RoomInfoCallback listener;
+    private FirebaseCallback.ReservationCallback reservationListener;
 
     public FirebaseHelper() {
         this.listener = null;
     }
 
-    public void setFirebaseHelperListener(FirebaseCallback<Room> listener) {
+    public void setRoomListListener(FirebaseCallback.RoomInfoCallback listener) {
         this.listener = listener;
         setRoomList();
     }
@@ -58,13 +57,18 @@ public class FirebaseHelper {
         });
     }
 
-    public static void makeReservation(Reservation reservation) {
+    public void makeReservation(Reservation reservation) {
         firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
         firebase = firebase.child(Addresses.BOOKINGS).child(String.valueOf(reservation.getId())).push();
         firebase.setValue(reservation);
     }
 
-    public static void getRoomReservationDates(int id) {
+    public void setReservationListener(FirebaseCallback.ReservationCallback listener, int id) {
+        this.reservationListener = listener;
+        getRoomReservationDates(id);
+    }
+
+    private void getRoomReservationDates(int id) {
         final List<Calendar> reservationDates = new ArrayList<>();
         final List<Date> arrivalDates = new ArrayList<>();
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -101,11 +105,7 @@ public class FirebaseHelper {
                     }
                 }
 
-                calendarDates = new Calendar[reservationDates.size()];
-                calendarDates = reservationDates.toArray(calendarDates);
-
-                setCalendarDates(calendarDates);
-                setArrivalDates(arrivalDates);
+                reservationListener.onSuccess(arrivalDates, reservationDates);
             }
 
             @Override
@@ -113,21 +113,5 @@ public class FirebaseHelper {
 
             }
         });
-    }
-
-    public static List<Date> getArrivalDates() {
-        return arrivalDates;
-    }
-
-    public static void setArrivalDates(List<Date> arrivalDates) {
-        FirebaseHelper.arrivalDates = arrivalDates;
-    }
-
-    public static Calendar[] getCalendarDates() {
-        return calendarDates;
-    }
-
-    public static void setCalendarDates(Calendar[] calendarDates) {
-        FirebaseHelper.calendarDates = calendarDates;
     }
 }

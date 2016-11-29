@@ -15,6 +15,7 @@ import com.hotel.hotelroomreservation.dialogs.ConfirmationDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.utils.firebase.FirebaseCallback;
 import com.hotel.hotelroomreservation.utils.firebase.FirebaseHelper;
 import com.hotel.hotelroomreservation.utils.validations.CalendarValidation;
 import com.hotel.hotelroomreservation.utils.validations.InputValidation;
@@ -30,6 +31,7 @@ import java.util.Locale;
 
 public class RoomBookingFragment extends Fragment implements View.OnClickListener {
     private List<Date> arrivalDates;
+    private Calendar[] reservationCalendars;
     private Room room;
 
     private final Calendar currentCalendar = Calendar.getInstance();
@@ -58,7 +60,17 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_room_booking, container, false);
         fieldsInitialization(view);
-        FirebaseHelper.getRoomReservationDates(room.getNumber());
+
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
+        firebaseHelper.setReservationListener(new FirebaseCallback.ReservationCallback<Date, Calendar>() {
+            @Override
+            public void onSuccess(List<Date> arrivalDatesList, List<Calendar> reservationDatesList) {
+                arrivalDates = arrivalDatesList;
+
+                Calendar[] calendarDates = new Calendar[reservationDatesList.size()];
+                reservationCalendars = reservationDatesList.toArray(calendarDates);
+            }
+        }, room.getNumber());
 
         return view;
     }
@@ -112,8 +124,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         if (isDeparture) {
             initializeDatePicker(CalendarValidation.getSelectableDates(arrivalCalendar, arrivalDates), calendar, editText, true);
         } else {
-            initializeDatePicker(FirebaseHelper.getCalendarDates(), calendar, editText, false);
-            arrivalDates = FirebaseHelper.getArrivalDates();
+            initializeDatePicker(reservationCalendars, calendar, editText, false);
         }
     }
 
