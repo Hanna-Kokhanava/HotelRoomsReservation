@@ -5,7 +5,7 @@ import java.util.List;
 public interface FirebaseCallback {
 
     interface RoomInfoCallback <T> {
-        void onSuccess(List<T> roomsList);
+        void onSuccess(List<T> dataList);
     }
 
     interface ReservationCallback<T1, T2> {

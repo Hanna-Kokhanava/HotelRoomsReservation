@@ -13,6 +13,9 @@ import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.PhotoAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
+import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.utils.firebase.FirebaseCallback;
+import com.hotel.hotelroomreservation.utils.firebase.FirebaseHelper;
 import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
 
 import java.util.ArrayList;
@@ -34,26 +37,13 @@ public class PhotoListActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        setBitmaps();
-    }
 
-    private void setBitmaps() {
-        final List<String> hotelPhotosUrls = new ArrayList<>();
-        ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection().child(Constants.PHOTOS_KEY).addValueEventListener(new ValueEventListener() {
-
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
+        firebaseHelper.getBitmapList(new FirebaseCallback.RoomInfoCallback<String>() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
-                    hotelPhotosUrls.add((String) urlSnapshot.getValue());
-                }
-
-                bitmapAdapter = new PhotoAdapter(hotelPhotosUrls);
+            public void onSuccess(List<String> bitmapsList) {
+                bitmapAdapter = new PhotoAdapter(bitmapsList);
                 photosRecyclerView.setAdapter(bitmapAdapter);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
             }
         });
     }

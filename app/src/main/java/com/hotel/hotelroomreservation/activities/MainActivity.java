@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity {
         navigationView.getMenu().getItem(START_TAB_ID).setChecked(true);
 
         FirebaseHelper firebaseHelper = new FirebaseHelper();
-        firebaseHelper.setRoomListListener(new FirebaseCallback.RoomInfoCallback<Room>() {
+        firebaseHelper.getRoomList(new FirebaseCallback.RoomInfoCallback<Room>() {
             @Override
             public void onSuccess(List<Room> roomsList) {
                 setRoomList(roomsList);

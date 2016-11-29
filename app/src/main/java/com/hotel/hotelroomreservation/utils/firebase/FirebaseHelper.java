@@ -21,19 +21,8 @@ import java.util.Locale;
 
 public class FirebaseHelper {
     private Firebase firebase;
-    private FirebaseCallback.RoomInfoCallback listener;
-    private FirebaseCallback.ReservationCallback reservationListener;
 
-    public FirebaseHelper() {
-        this.listener = null;
-    }
-
-    public void setRoomListListener(FirebaseCallback.RoomInfoCallback listener) {
-        this.listener = listener;
-        setRoomList();
-    }
-
-    private void setRoomList() {
+    public void getRoomList(final FirebaseCallback.RoomInfoCallback<Room> listener) {
         firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
         firebase.keepSynced(true);
         firebase.child(Constants.ROOMS_KEY).addValueEventListener(new ValueEventListener() {
@@ -57,25 +46,13 @@ public class FirebaseHelper {
         });
     }
 
-    public void makeReservation(Reservation reservation) {
-        firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
-        firebase = firebase.child(Addresses.BOOKINGS).child(String.valueOf(reservation.getId())).push();
-        firebase.setValue(reservation);
-    }
-
-    public void setReservationListener(FirebaseCallback.ReservationCallback listener, int id) {
-        this.reservationListener = listener;
-        getRoomReservationDates(id);
-    }
-
-    private void getRoomReservationDates(int id) {
+    public void getReservationList(final FirebaseCallback.ReservationCallback<Date, Calendar> listener, int id) {
         final List<Calendar> reservationDates = new ArrayList<>();
         final List<Date> arrivalDates = new ArrayList<>();
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
         firebase = firebase.child(Addresses.BOOKINGS).child(String.valueOf(id));
-
         firebase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -105,7 +82,35 @@ public class FirebaseHelper {
                     }
                 }
 
-                reservationListener.onSuccess(arrivalDates, reservationDates);
+                listener.onSuccess(arrivalDates, reservationDates);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    public static void makeReservation(Reservation reservation) {
+        Firebase firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
+        firebase = firebase.child(Addresses.BOOKINGS).child(String.valueOf(reservation.getId())).push();
+        firebase.setValue(reservation);
+    }
+
+    public void getBitmapList(final FirebaseCallback.RoomInfoCallback<String> listener) {
+        firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
+        firebase = firebase.child(Constants.PHOTOS_KEY);
+        firebase.addValueEventListener(new ValueEventListener() {
+            List<String> hotelPhotosUrls = new ArrayList<>();
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
+                    hotelPhotosUrls.add((String) urlSnapshot.getValue());
+                }
+
+                listener.onSuccess(hotelPhotosUrls);
             }
 
             @Override

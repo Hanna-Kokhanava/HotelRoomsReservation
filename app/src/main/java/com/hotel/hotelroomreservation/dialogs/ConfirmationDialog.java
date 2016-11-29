@@ -24,7 +24,7 @@ public class ConfirmationDialog {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        FirebaseHelper.makeReservation(reservation);
+                        FirebaseHelper.makeReservation(reservation);
                         activity.finish();
                     }
                 });

@@ -62,7 +62,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         fieldsInitialization(view);
 
         FirebaseHelper firebaseHelper = new FirebaseHelper();
-        firebaseHelper.setReservationListener(new FirebaseCallback.ReservationCallback<Date, Calendar>() {
+        firebaseHelper.getReservationList(new FirebaseCallback.ReservationCallback<Date, Calendar>() {
             @Override
             public void onSuccess(List<Date> arrivalDatesList, List<Calendar> reservationDatesList) {
                 arrivalDates = arrivalDatesList;
