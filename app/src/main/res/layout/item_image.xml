@@ -5,10 +5,10 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/img_thumb"
+        android:id="@+id/hotel_img"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:layout_margin="5dp"
+        android:layout_margin="4dp"
         android:contentDescription="@string/app_name"
         android:scaleType="centerCrop" />
 

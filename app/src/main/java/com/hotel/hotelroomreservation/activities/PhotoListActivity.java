@@ -1,13 +1,11 @@
 package com.hotel.hotelroomreservation.activities;
 
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -22,11 +20,9 @@ import java.util.List;
 
 public class PhotoListActivity extends BaseActivity {
     private List<String> images;
-    private BitmapFactory.Options options;
     private ViewPager viewPager;
     private FragmentStatePagerAdapter adapter;
-    private LinearLayout thumbnailsContainer;
-
+    private LinearLayout imagesContainer;
     private ImageLoader imageLoader;
 
     @Override
@@ -38,7 +34,7 @@ public class PhotoListActivity extends BaseActivity {
         imageLoader = new ImageLoader();
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        thumbnailsContainer = (LinearLayout) findViewById(R.id.container);
+        imagesContainer = (LinearLayout) findViewById(R.id.imagesContainer);
         View btnNext = findViewById(R.id.next);
         View btnPrev = findViewById(R.id.prev);
 
@@ -54,7 +50,7 @@ public class PhotoListActivity extends BaseActivity {
                 adapter = new ViewPagerAdapter(getSupportFragmentManager(), images);
                 viewPager.setAdapter(adapter);
 
-                inflateThumbnails();
+                inflateImages();
             }
         });
     }
@@ -65,12 +61,10 @@ public class PhotoListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (i > 0) {
-                    //next page
                     if (viewPager.getCurrentItem() < viewPager.getAdapter().getCount() - 1) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                     }
                 } else {
-                    //previous page
                     if (viewPager.getCurrentItem() > 0) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
                     }
@@ -79,14 +73,18 @@ public class PhotoListActivity extends BaseActivity {
         };
     }
 
-    private void inflateThumbnails() {
-        for (int i = 0; i < images.size(); i++) {
-            View imageLayout = getLayoutInflater().inflate(R.layout.item_image, null);
-            ImageView imageView = (ImageView) imageLayout.findViewById(R.id.img_thumb);
-            imageView.setOnClickListener(onChagePageClickListener(i));
+    private void inflateImages() {
+        final ViewGroup nullParent = null;
+        View imageLayout;
+        ImageView imageView;
 
+        for (int i = 0; i < images.size(); i++) {
+            imageLayout = getLayoutInflater().inflate(R.layout.item_image, nullParent);
+            imageView = (ImageView) imageLayout.findViewById(R.id.hotel_img);
+
+            imageView.setOnClickListener(onChagePageClickListener(i));
             imageLoader.displayImage(images.get(i), imageView);
-            thumbnailsContainer.addView(imageLayout);
+            imagesContainer.addView(imageLayout);
         }
     }
 
@@ -97,11 +95,6 @@ public class PhotoListActivity extends BaseActivity {
                 viewPager.setCurrentItem(i);
             }
         };
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override

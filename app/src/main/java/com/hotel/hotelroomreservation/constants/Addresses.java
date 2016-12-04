@@ -6,6 +6,8 @@ public class Addresses {
     public final static String CURRENCY_RATE = "/rate";
 
     /* For Firebase */
-    public final static String BOOKINGS = "/bookings";
+    public final static String BOOKINGS = "bookings";
+    public final static String PHOTOS_KEY = "photos";
+    public final static String ROOMS_KEY = "rooms";
 
 }

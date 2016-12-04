@@ -36,16 +36,18 @@ public class FileCache {
         File file = new File(directory, filename);
 
         try {
-            return BitmapFactory.decodeStream(new FileInputStream(file));
+            if (file.exists()) {
+                return BitmapFactory.decodeStream(new FileInputStream(file));
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private static void deleteFolder(File file){
-        if (file.exists()){
-            for(File f:file.listFiles())
+    private static void deleteFolder(File file) {
+        if (file.exists()) {
+            for (File f : file.listFiles())
                 f.delete();
 
             file.delete();

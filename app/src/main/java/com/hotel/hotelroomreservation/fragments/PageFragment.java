@@ -1,10 +1,7 @@
 package com.hotel.hotelroomreservation.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +11,16 @@ import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.loader.ImageLoader;
 
 public class PageFragment extends Fragment {
-    private String imageUrl;
+    private static final String IMAGE_SOURCE = "image_source";
     private ImageLoader imageLoader;
-    private Bitmap bitmap;
+    private String imageUrl;
 
     public static PageFragment getInstance(String url) {
-        PageFragment f = new PageFragment();
+        PageFragment pageFragment = new PageFragment();
         Bundle args = new Bundle();
-        args.putString("image_source", url);
-        f.setArguments(args);
-        return f;
+        args.putString(IMAGE_SOURCE, url);
+        pageFragment.setArguments(args);
+        return pageFragment;
     }
 
     @Override
@@ -31,7 +28,7 @@ public class PageFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         imageLoader = new ImageLoader();
-        imageUrl = getArguments().getString("image_source");
+        imageUrl = getArguments().getString(IMAGE_SOURCE);
     }
 
     @Override
@@ -42,14 +39,8 @@ public class PageFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
-
         imageLoader.displayImage(imageUrl, imageView);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        bitmap = null;
     }
 }

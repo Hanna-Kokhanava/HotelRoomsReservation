@@ -3,27 +3,26 @@ package com.hotel.hotelroomreservation.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
 import com.hotel.hotelroomreservation.fragments.PageFragment;
 
 import java.util.List;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
-    private List<String> images;
+    private List<String> imageUrls;
 
-    public ViewPagerAdapter(FragmentManager fm, List<String> imagesList) {
+    public ViewPagerAdapter(FragmentManager fm, List<String> imageUrlsList) {
         super(fm);
-        this.images = imagesList;
+        this.imageUrls = imageUrlsList;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return PageFragment.getInstance(images.get(position));
+        return PageFragment.getInstance(imageUrls.get(position));
     }
 
     @Override
     public int getCount() {
-        return images.size();
+        return imageUrls.size();
     }
 }

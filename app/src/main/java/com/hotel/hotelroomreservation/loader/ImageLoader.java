@@ -52,6 +52,7 @@ public class ImageLoader {
             b = HTTPClient.getPhoto(url);
             fileCache.putBitmap(b, url);
             return b;
+
         } catch (Throwable ex) {
             ex.printStackTrace();
             if (ex instanceof OutOfMemoryError) {

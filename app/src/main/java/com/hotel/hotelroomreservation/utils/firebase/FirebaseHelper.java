@@ -1,7 +1,5 @@
 package com.hotel.hotelroomreservation.utils.firebase;
 
-import android.util.Log;
-
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -21,13 +19,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class FirebaseHelper {
+public class FirebaseHelper implements IFirebaseHelper {
     private Firebase firebase;
 
     public void getRoomList(final FirebaseCallback.RoomInfoCallback<Room> listener) {
         firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
         firebase.keepSynced(true);
-        firebase.child(Constants.ROOMS_KEY).addValueEventListener(new ValueEventListener() {
+        firebase.child(Addresses.ROOMS_KEY).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -48,10 +46,10 @@ public class FirebaseHelper {
         });
     }
 
-    public void getReservationList(final FirebaseCallback.ReservationCallback<Date, Calendar> listener, int id) {
+    public void getReservationListById(final FirebaseCallback.ReservationCallback<Date, Calendar> listener, int id) {
         final List<Calendar> reservationDates = new ArrayList<>();
         final List<Date> arrivalDates = new ArrayList<>();
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        final SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
 
         firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
         firebase = firebase.child(Addresses.BOOKINGS).child(String.valueOf(id));
@@ -94,7 +92,7 @@ public class FirebaseHelper {
         });
     }
 
-    public static void makeReservation(Reservation reservation) {
+    public void makeReservation(Reservation reservation) {
         Firebase firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
         firebase = firebase.child(Addresses.BOOKINGS).child(String.valueOf(reservation.getId())).push();
         firebase.setValue(reservation);
@@ -102,7 +100,7 @@ public class FirebaseHelper {
 
     public void getBitmapList(final FirebaseCallback.RoomInfoCallback<String> listener) {
         firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
-        firebase = firebase.child(Constants.PHOTOS_KEY);
+        firebase = firebase.child(Addresses.PHOTOS_KEY);
         firebase.addValueEventListener(new ValueEventListener() {
             List<String> hotelPhotosUrls = new ArrayList<>();
 
