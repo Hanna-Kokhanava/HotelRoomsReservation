@@ -123,9 +123,4 @@ public class ImageLoader {
             }
         }
     }
-
-//    public void clearCache() {
-//        memoryCache.clear();
-//        fileCache.clear();
-//    }
 }

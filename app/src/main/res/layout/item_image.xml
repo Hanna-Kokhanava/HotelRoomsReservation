@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/hotel_img"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_margin="4dp"
         android:contentDescription="@string/app_name"
         android:scaleType="centerCrop" />
