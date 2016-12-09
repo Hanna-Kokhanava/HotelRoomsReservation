@@ -1,6 +1,6 @@
 # Hotel Room Reservation Android application.
 
-This project uses Dropbox like remote storage and have a backend part.
+This project uses the Dropbox as the remote storage and has a backend module, deployed on Google App Engine.
 
 ![image](https://cloud.githubusercontent.com/assets/11444200/20619206/4a3136ae-b304-11e6-842f-c753f2234618.png)
 
