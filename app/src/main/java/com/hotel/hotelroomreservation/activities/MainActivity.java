@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +17,10 @@ import android.widget.ProgressBar;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
-import com.hotel.hotelroomreservation.constants.Addresses;
 import com.hotel.hotelroomreservation.constants.Constants;
-import com.hotel.hotelroomreservation.http.HTTPClient;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.firebase.FirebaseCallback;
-import com.hotel.hotelroomreservation.utils.firebase.FirebaseHelper;
+import com.hotel.hotelroomreservation.utils.dropbox.DropboxCallback;
+import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,13 +61,22 @@ public class MainActivity extends BaseActivity {
         super.onStart();
         navigationView.getMenu().getItem(START_TAB_ID).setChecked(true);
 
-        FirebaseHelper firebaseHelper = new FirebaseHelper();
-        firebaseHelper.getRoomList(new FirebaseCallback.RoomInfoCallback<Room>() {
+        new Thread(new Runnable() {
             @Override
-            public void onSuccess(List<Room> roomsList) {
-                setRoomList(roomsList);
+            public void run() {
+                DropboxHelper dropboxHelper = new DropboxHelper();
+                dropboxHelper.getRoomList(new DropboxCallback.RoomInfoCallback<Room>() {
+                    @Override
+                    public void onSuccess(List<Room> roomsList) {
+//                        setRoomList(roomsList);
+
+//                        for (Room room : roomsList) {
+//                            Log.i("tag", room.getPrice() + " " + room.getName());
+//                        }
+                    }
+                });
             }
-        });
+        }).start();
     }
 
     private void setRoomList(List<Room> rooms) {

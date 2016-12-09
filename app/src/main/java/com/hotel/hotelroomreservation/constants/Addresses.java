@@ -9,5 +9,4 @@ public class Addresses {
     public final static String BOOKINGS = "bookings";
     public final static String PHOTOS = "photos";
     public final static String ROOMS = "rooms";
-
 }

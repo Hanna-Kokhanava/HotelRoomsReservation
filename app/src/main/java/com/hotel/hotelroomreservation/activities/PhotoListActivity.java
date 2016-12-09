@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.ViewPagerAdapter;
 import com.hotel.hotelroomreservation.loader.ImageLoader;
-import com.hotel.hotelroomreservation.utils.firebase.FirebaseCallback;
-import com.hotel.hotelroomreservation.utils.firebase.FirebaseHelper;
+import com.hotel.hotelroomreservation.utils.dropbox.DropboxCallback;
+import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +41,8 @@ public class PhotoListActivity extends BaseActivity {
         btnPrev.setOnClickListener(onClickListener(0));
         btnNext.setOnClickListener(onClickListener(1));
 
-        FirebaseHelper firebaseHelper = new FirebaseHelper();
-        firebaseHelper.getBitmapList(new FirebaseCallback.RoomInfoCallback<String>() {
+        DropboxHelper dropboxHelper = new DropboxHelper();
+        dropboxHelper.getBitmapList(new DropboxCallback.RoomInfoCallback<String>() {
             @Override
             public void onSuccess(List<String> bitmapsList) {
                 images = bitmapsList;

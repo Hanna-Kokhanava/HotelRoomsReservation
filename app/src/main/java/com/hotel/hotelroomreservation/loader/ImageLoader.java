@@ -48,6 +48,7 @@ public class ImageLoader {
 
         try {
             b = HTTPClient.getPhoto(url);
+
             fileCache.putBitmap(b, url);
             return b;
 

@@ -15,8 +15,8 @@ import com.hotel.hotelroomreservation.dialogs.ConfirmationDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.firebase.FirebaseCallback;
-import com.hotel.hotelroomreservation.utils.firebase.FirebaseHelper;
+import com.hotel.hotelroomreservation.utils.dropbox.DropboxCallback;
+import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.CalendarValidation;
 import com.hotel.hotelroomreservation.utils.validations.InputValidation;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
@@ -61,8 +61,8 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_room_booking, container, false);
         fieldsInitialization(view);
 
-        FirebaseHelper firebaseHelper = new FirebaseHelper();
-        firebaseHelper.getReservationListById(new FirebaseCallback.ReservationCallback<Date, Calendar>() {
+        DropboxHelper dropboxHelper = new DropboxHelper();
+        dropboxHelper.getReservationListById(new DropboxCallback.ReservationCallback<Date, Calendar>() {
             @Override
             public void onSuccess(List<Date> arrivalDatesList, List<Calendar> reservationDatesList) {
                 arrivalDates = arrivalDatesList;

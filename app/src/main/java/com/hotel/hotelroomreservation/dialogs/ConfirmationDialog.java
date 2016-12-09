@@ -7,7 +7,7 @@ import android.support.v7.app.AlertDialog;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.firebase.FirebaseHelper;
+import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 
 public class ConfirmationDialog {
 
@@ -24,7 +24,7 @@ public class ConfirmationDialog {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FirebaseHelper().makeReservation(reservation);
+                        new DropboxHelper().makeReservation(reservation);
                         activity.finish();
                     }
                 });

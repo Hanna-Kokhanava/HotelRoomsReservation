@@ -3,9 +3,6 @@ package com.hotel.hotelroomreservation.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Room implements Parcelable {
     private String name;
     private int number;
@@ -39,10 +36,7 @@ public class Room implements Parcelable {
         url = in.readString();
     }
 
-    @JsonCreator
-    public Room(@JsonProperty("name") String name, @JsonProperty("number") int number,
-                @JsonProperty("rating") int rating, @JsonProperty("visitors") int visitors,
-                @JsonProperty("price") int price, @JsonProperty("url") String url) {
+    public Room(String name, int number, int rating, int visitors, int price, String url) {
         this.name = name;
         this.number = number;
         this.rating = rating;

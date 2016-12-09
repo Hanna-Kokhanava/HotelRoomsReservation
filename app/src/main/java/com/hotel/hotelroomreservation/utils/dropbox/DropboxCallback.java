@@ -1,8 +1,8 @@
-package com.hotel.hotelroomreservation.utils.firebase;
+package com.hotel.hotelroomreservation.utils.dropbox;
 
 import java.util.List;
 
-public interface FirebaseCallback {
+public interface DropboxCallback {
 
     interface RoomInfoCallback <T> {
         void onSuccess(List<T> dataList);
