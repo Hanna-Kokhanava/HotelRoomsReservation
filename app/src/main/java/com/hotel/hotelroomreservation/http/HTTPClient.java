@@ -56,6 +56,7 @@ public class HTTPClient {
             URL url = new URL(URL);
             HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
             connection.setRequestMethod("GET");
+//            connection.setRequestProperty("fileName", "file name");
 
             if (connection.getResponseCode() == 200) {
                 InputStream inputStream = connection.getInputStream();

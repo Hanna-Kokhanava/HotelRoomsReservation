@@ -1,9 +1,7 @@
 package com.hotel.hotelroomreservation.loader;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.http.HTTPClient;

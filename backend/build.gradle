@@ -28,6 +28,7 @@ dependencies {
     compile 'com.google.firebase:firebase-server-sdk:3.0.1'
     compile 'com.google.appengine:appengine:1.9.42'
     compile 'org.apache.httpcomponents:httpclient:4.5.2'
+    compile 'com.dropbox.core:dropbox-core-sdk:2.1.2'
 }
 
 appengine {
