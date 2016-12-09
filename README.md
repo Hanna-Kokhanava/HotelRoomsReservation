@@ -1,5 +1,7 @@
 # Hotel Room Reservation Android application.
 
+Project in "With_Firebase" branch uses the service Firebase database as a backend.
+
 ![image](https://cloud.githubusercontent.com/assets/11444200/20619206/4a3136ae-b304-11e6-842f-c753f2234618.png)
 
 ![image](https://cloud.githubusercontent.com/assets/11444200/20619305/dc6b5dba-b304-11e6-9989-5a32b9780c67.png)
