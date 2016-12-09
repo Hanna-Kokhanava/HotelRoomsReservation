@@ -17,4 +17,7 @@ public class Constants {
     /* Date format */
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
+    /* Request parameters */
+    public static final String FILE_NAME_PARAMETER = "?file=";
+
 }

@@ -25,7 +25,7 @@ public class FirebaseHelper implements IFirebaseHelper {
     public void getRoomList(final FirebaseCallback.RoomInfoCallback<Room> listener) {
         firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
         firebase.keepSynced(true);
-        firebase.child(Addresses.ROOMS_KEY).addValueEventListener(new ValueEventListener() {
+        firebase.child(Addresses.ROOMS).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -100,7 +100,7 @@ public class FirebaseHelper implements IFirebaseHelper {
 
     public void getBitmapList(final FirebaseCallback.RoomInfoCallback<String> listener) {
         firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
-        firebase = firebase.child(Addresses.PHOTOS_KEY);
+        firebase = firebase.child(Addresses.PHOTOS);
         firebase.addValueEventListener(new ValueEventListener() {
             List<String> hotelPhotosUrls = new ArrayList<>();
 

@@ -16,7 +16,9 @@ import android.widget.ProgressBar;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
+import com.hotel.hotelroomreservation.constants.Addresses;
 import com.hotel.hotelroomreservation.constants.Constants;
+import com.hotel.hotelroomreservation.http.HTTPClient;
 import com.hotel.hotelroomreservation.model.Room;
 import com.hotel.hotelroomreservation.utils.firebase.FirebaseCallback;
 import com.hotel.hotelroomreservation.utils.firebase.FirebaseHelper;

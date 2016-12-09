@@ -15,8 +15,6 @@ public class RoomFinderActivity extends BaseActivity implements SeekBar.OnSeekBa
     private Button checkAvailability;
     private SeekBar seekBar;
 
-//    private String RATE_URL = Addresses.SERVER_URL + Addresses.CURRENCY_RATE;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -3,8 +3,8 @@ package com.hotel.hotelroomreservation.http;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.hotel.hotelroomreservation.model.Currencies;
-import com.hotel.hotelroomreservation.utils.JSONParser;
+import com.hotel.hotelroomreservation.constants.Addresses;
+import com.hotel.hotelroomreservation.constants.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HTTPClient {
-
     public static Bitmap getPhoto(String URL) {
         Bitmap bitmap = null;
         HttpURLConnection connection = null;
@@ -33,8 +32,7 @@ public class HTTPClient {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (connection != null) {
                 connection.disconnect();
             }
@@ -49,14 +47,15 @@ public class HTTPClient {
         return bitmap;
     }
 
-    public static Currencies getCurrentRate(String URL) {
-        String currencyRate = "";
+    // TODO In method call should be not null check
+    public static String getDBInfo(String fileName) {
+        String serverUrl = Addresses.SERVER_URL + Addresses.INFO;
+        String jsonInfo = "";
 
         try {
-            URL url = new URL(URL);
+            URL url = new URL(serverUrl + Constants.FILE_NAME_PARAMETER + fileName);
             HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
             connection.setRequestMethod("GET");
-//            connection.setRequestProperty("fileName", "file name");
 
             if (connection.getResponseCode() == 200) {
                 InputStream inputStream = connection.getInputStream();
@@ -69,7 +68,7 @@ public class HTTPClient {
                         str.append(line);
                     }
 
-                    currencyRate = str.toString();
+                    jsonInfo = str.toString();
 
                 } finally {
                     inputStream.close();
@@ -83,6 +82,6 @@ public class HTTPClient {
             e.printStackTrace();
         }
 
-        return JSONParser.parseCurrencyRate(currencyRate);
+        return jsonInfo;
     }
 }
