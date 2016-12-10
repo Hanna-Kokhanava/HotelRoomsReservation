@@ -1,7 +1,5 @@
 package com.hotel.hotelroomreservation.utils.dropbox;
 
-import android.util.Log;
-
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -23,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class DropboxHelper implements IDropboxHelper {
+public class DropboxHelper {
     private Firebase firebase;
     private JSONParser jsonParser;
 
@@ -31,10 +29,9 @@ public class DropboxHelper implements IDropboxHelper {
         jsonParser = new JSONParser();
     }
 
-    public void getRoomList(final DropboxCallback.RoomInfoCallback<Room> listener) {
+    public List<Room> getRoomList() {
         String roomsInfo = HTTPClient.getDBInfo(Addresses.ROOMS);
-        List<Room> rooms = jsonParser.parseRoomsInfo(roomsInfo);
-        listener.onSuccess(rooms);
+        return jsonParser.parseRoomsInfo(roomsInfo);
     }
 
     public void getReservationListById(final DropboxCallback.ReservationCallback<Date, Calendar> listener, int id) {

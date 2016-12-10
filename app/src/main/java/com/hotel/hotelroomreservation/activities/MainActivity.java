@@ -1,6 +1,7 @@
 package com.hotel.hotelroomreservation.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -61,22 +62,18 @@ public class MainActivity extends BaseActivity {
         super.onStart();
         navigationView.getMenu().getItem(START_TAB_ID).setChecked(true);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DropboxHelper dropboxHelper = new DropboxHelper();
-                dropboxHelper.getRoomList(new DropboxCallback.RoomInfoCallback<Room>() {
-                    @Override
-                    public void onSuccess(List<Room> roomsList) {
-//                        setRoomList(roomsList);
+        new RoomsInfoAsyncTask().execute();
+    }
 
-//                        for (Room room : roomsList) {
-//                            Log.i("tag", room.getPrice() + " " + room.getName());
-//                        }
-                    }
-                });
-            }
-        }).start();
+    private class RoomsInfoAsyncTask extends AsyncTask<Void, Void, List<Room>> {
+        @Override
+        protected List<Room> doInBackground(Void... voids) {
+            return new DropboxHelper().getRoomList();
+        }
+
+        protected void onPostExecute(List<Room> result) {
+            setRoomList(result);
+        }
     }
 
     private void setRoomList(List<Room> rooms) {

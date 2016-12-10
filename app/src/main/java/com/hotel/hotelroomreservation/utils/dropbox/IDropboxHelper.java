@@ -8,7 +8,7 @@ import java.util.Date;
 
 public interface IDropboxHelper {
     void makeReservation(Reservation reservation);
-    void getRoomList(DropboxCallback.RoomInfoCallback<Room> listener);
+    void getRoomList();
     void getBitmapList(DropboxCallback.RoomInfoCallback<String> listener);
     void getReservationListById(DropboxCallback.ReservationCallback<Date, Calendar> listener, int id);
 
