@@ -2,6 +2,7 @@ package com.hotel.hotelroomreservation.http;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.hotel.hotelroomreservation.constants.Addresses;
 import com.hotel.hotelroomreservation.constants.Constants;
@@ -47,7 +48,6 @@ public class HTTPClient {
         return bitmap;
     }
 
-    // TODO In method call should be not null check
     public static String getDBInfo(String fileName) {
         String serverUrl = Addresses.SERVER_URL + Addresses.INFO;
         String jsonInfo = "";
@@ -70,12 +70,15 @@ public class HTTPClient {
 
                     jsonInfo = str.toString();
 
+                    Log.i("tag", jsonInfo);
+
                 } finally {
                     inputStream.close();
                     reader.close();
                     connection.disconnect();
                 }
             } else {
+                Log.i("tag", "getDbInfo");
                 return null;
             }
         } catch (IOException e) {

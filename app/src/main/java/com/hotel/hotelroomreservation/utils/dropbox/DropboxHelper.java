@@ -1,5 +1,7 @@
 package com.hotel.hotelroomreservation.utils.dropbox;
 
+import android.util.Log;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -31,7 +33,11 @@ public class DropboxHelper {
 
     public List<Room> getRoomList() {
         String roomsInfo = HTTPClient.getDBInfo(Addresses.ROOMS);
-        return jsonParser.parseRoomsInfo(roomsInfo);
+        if (!"".equals(roomsInfo)) {
+            return jsonParser.parseRoomsInfo(roomsInfo);
+        } else {
+            return null;
+        }
     }
 
     public void getReservationListById(final DropboxCallback.ReservationCallback<Date, Calendar> listener, int id) {
@@ -86,25 +92,12 @@ public class DropboxHelper {
         firebase.setValue(reservation);
     }
 
-    public void getBitmapList(final DropboxCallback.RoomInfoCallback<String> listener) {
-        firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
-        firebase = firebase.child(Addresses.PHOTOS);
-        firebase.addValueEventListener(new ValueEventListener() {
-            List<String> hotelPhotosUrls = new ArrayList<>();
-
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
-                    hotelPhotosUrls.add((String) urlSnapshot.getValue());
-                }
-
-                listener.onSuccess(hotelPhotosUrls);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+    public List<String> getUrlsList() {
+        String photosUrlsJson = HTTPClient.getDBInfo(Addresses.PHOTOS);
+        if (photosUrlsJson != null) {
+            return jsonParser.parsePhotoUrls(photosUrlsJson);
+        } else {
+            return null;
+        }
     }
 }

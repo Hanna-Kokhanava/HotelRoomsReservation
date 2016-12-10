@@ -35,4 +35,22 @@ public class JSONParser {
 
         return rooms;
     }
+
+    public List<String> parsePhotoUrls(String photoUrlsJson) {
+        List<String> urls = new ArrayList<>();
+
+        try {
+            JSONObject json = new JSONObject(photoUrlsJson);
+            JSONArray array = json.getJSONArray(Addresses.PHOTOS);
+
+            for (int i = 0; i < array.length(); i++) {
+                urls.add(array.getString(i));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return urls;
+    }
 }

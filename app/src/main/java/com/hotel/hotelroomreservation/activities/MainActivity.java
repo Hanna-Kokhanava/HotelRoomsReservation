@@ -18,8 +18,7 @@ import android.widget.ProgressBar;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
-import com.hotel.hotelroomreservation.dialogs.ErrorBookingDialog;
-import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
+import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Room;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 
@@ -62,14 +61,14 @@ public class MainActivity extends BaseActivity {
         super.onStart();
         navigationView.getMenu().getItem(START_TAB_ID).setChecked(true);
 
-        // TODO Check if we have internet connection - from dropbox, on the other way - from SQLite (if no data in SQLite - ErrorBookingDialog)
         new RoomsInfoAsyncTask().execute();
     }
 
     private class RoomsInfoAsyncTask extends AsyncTask<Void, Void, List<Room>> {
         @Override
         protected List<Room> doInBackground(Void... voids) {
-            //TODO getRoomList, check if not null and save to SQLite, if null - Error Dialog
+            //TODO Check if we have internet connection - from dropbox, check if not null and save to SQLite, else ErrorExitDialog
+            //TODO if no connection - from SQLite (if no data in SQLite - ErrorDialog)
             return new DropboxHelper().getRoomList();
         }
 
@@ -77,7 +76,7 @@ public class MainActivity extends BaseActivity {
             if (roomsInfo != null) {
                 setRoomList(roomsInfo);
             } else {
-                new ErrorDialog(MainActivity.this, getString(R.string.server_problem));
+                new ErrorExitDialog(MainActivity.this, getString(R.string.server_problem));
             }
         }
     }

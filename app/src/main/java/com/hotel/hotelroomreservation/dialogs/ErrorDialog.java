@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 import com.hotel.hotelroomreservation.R;
+import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 
 public class ErrorDialog {
     public ErrorDialog(final Activity activity, final String errorMessage) {
@@ -12,12 +13,7 @@ public class ErrorDialog {
         builder.setTitle(R.string.error_dialog);
         builder.setMessage(errorMessage);
         builder.setIcon(R.drawable.ic_mood_bad_black_24dp);
-        builder.setPositiveButton(R.string.exit_app, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                System.exit(1);
-            }
-        });
+        builder.setPositiveButton(activity.getString(R.string.OK), null);
 
         AlertDialog dialog = builder.create();
         dialog.show();

@@ -1,8 +1,10 @@
 package com.hotel.hotelroomreservation.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +13,13 @@ import android.widget.LinearLayout;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.ViewPagerAdapter;
+import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.loader.ImageLoader;
-import com.hotel.hotelroomreservation.utils.dropbox.DropboxCallback;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PhotoGalleryActivity extends BaseActivity {
-    private List<String> images;
     private ViewPager viewPager;
     private FragmentStatePagerAdapter adapter;
     private LinearLayout imagesContainer;
@@ -30,7 +30,6 @@ public class PhotoGalleryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_list);
 
-        images = new ArrayList<>();
         imageLoader = new ImageLoader();
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -42,32 +41,41 @@ public class PhotoGalleryActivity extends BaseActivity {
         btnNext.setOnClickListener(onClickListener(1));
 
         //TODO if have internet connection - from dropbox, if no internet connection - from "adapter = " string
-        DropboxHelper dropboxHelper = new DropboxHelper();
-        dropboxHelper.getBitmapList(new DropboxCallback.RoomInfoCallback<String>() {
-            @Override
-            public void onSuccess(List<String> bitmapsList) {
-                images = bitmapsList;
-
-                adapter = new ViewPagerAdapter(getSupportFragmentManager(), images);
-                viewPager.setAdapter(adapter);
-
-                inflateImages();
-            }
-        });
+        new PhotosAsyncTask().execute();
     }
 
-    private void inflateImages() {
+    private void inflateImages(List<String> photosUrls) {
         final ViewGroup nullParent = null;
         View imageLayout;
         ImageView imageView;
 
-        for (int i = 0; i < images.size(); i++) {
+        for (int i = 0; i < photosUrls.size(); i++) {
             imageLayout = getLayoutInflater().inflate(R.layout.item_image, nullParent);
             imageView = (ImageView) imageLayout.findViewById(R.id.hotel_img);
 
             imageView.setOnClickListener(onChangePageClickListener(i));
-            imageLoader.displayImage(images.get(i), imageView);
+            imageLoader.displayImage(photosUrls.get(i), imageView);
             imagesContainer.addView(imageLayout);
+        }
+    }
+
+    private class PhotosAsyncTask extends AsyncTask<Void, Void, List<String>> {
+        @Override
+        protected List<String> doInBackground(Void... voids) {
+            //TODO Check if we have internet connection - from dropbox, check if not null and save to SQLite, else ErrorExitDialog
+            //TODO if no connection - from SQLite (if no data in SQLite - ErrorDialog)
+            return new DropboxHelper().getUrlsList();
+        }
+
+        protected void onPostExecute(List<String> photosUrls) {
+            if (photosUrls != null) {
+                adapter = new ViewPagerAdapter(getSupportFragmentManager(), photosUrls);
+                viewPager.setAdapter(adapter);
+
+                inflateImages(photosUrls);
+            } else {
+                new ErrorExitDialog(PhotoGalleryActivity.this, getString(R.string.server_problem));
+            }
         }
     }
 
