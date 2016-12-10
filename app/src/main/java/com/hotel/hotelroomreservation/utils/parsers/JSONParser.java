@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JSONParser {
-
     public List<Room> parseRoomsInfo(String roomsInfo) {
         List<Room> rooms = new ArrayList<>();
         Room room;

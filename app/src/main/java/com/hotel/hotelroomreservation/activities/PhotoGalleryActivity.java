@@ -18,7 +18,7 @@ import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotoListActivity extends BaseActivity {
+public class PhotoGalleryActivity extends BaseActivity {
     private List<String> images;
     private ViewPager viewPager;
     private FragmentStatePagerAdapter adapter;
@@ -41,6 +41,7 @@ public class PhotoListActivity extends BaseActivity {
         btnPrev.setOnClickListener(onClickListener(0));
         btnNext.setOnClickListener(onClickListener(1));
 
+        //TODO if have internet connection - from dropbox, if no internet connection - from "adapter = " string
         DropboxHelper dropboxHelper = new DropboxHelper();
         dropboxHelper.getBitmapList(new DropboxCallback.RoomInfoCallback<String>() {
             @Override
@@ -55,6 +56,20 @@ public class PhotoListActivity extends BaseActivity {
         });
     }
 
+    private void inflateImages() {
+        final ViewGroup nullParent = null;
+        View imageLayout;
+        ImageView imageView;
+
+        for (int i = 0; i < images.size(); i++) {
+            imageLayout = getLayoutInflater().inflate(R.layout.item_image, nullParent);
+            imageView = (ImageView) imageLayout.findViewById(R.id.hotel_img);
+
+            imageView.setOnClickListener(onChangePageClickListener(i));
+            imageLoader.displayImage(images.get(i), imageView);
+            imagesContainer.addView(imageLayout);
+        }
+    }
 
     private View.OnClickListener onClickListener(final int i) {
         return new View.OnClickListener() {
@@ -73,22 +88,7 @@ public class PhotoListActivity extends BaseActivity {
         };
     }
 
-    private void inflateImages() {
-        final ViewGroup nullParent = null;
-        View imageLayout;
-        ImageView imageView;
-
-        for (int i = 0; i < images.size(); i++) {
-            imageLayout = getLayoutInflater().inflate(R.layout.item_image, nullParent);
-            imageView = (ImageView) imageLayout.findViewById(R.id.hotel_img);
-
-            imageView.setOnClickListener(onChagePageClickListener(i));
-            imageLoader.displayImage(images.get(i), imageView);
-            imagesContainer.addView(imageLayout);
-        }
-    }
-
-    private View.OnClickListener onChagePageClickListener(final int i) {
+    private View.OnClickListener onChangePageClickListener(final int i) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.dialogs.ConfirmationDialog;
-import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
+import com.hotel.hotelroomreservation.dialogs.ErrorBookingDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxCallback;
@@ -168,7 +168,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
                 new ConfirmationDialog(getActivity(), room, formReservationObject());
             }
         } else {
-            new ErrorDialog(getActivity(), getActivity().getString(R.string.no_internet_warning));
+            new ErrorBookingDialog(getActivity(), getActivity().getString(R.string.no_internet_warning));
         }
     }
 

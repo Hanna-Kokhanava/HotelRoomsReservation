@@ -22,7 +22,7 @@
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.AboutAppActivity" />
         <activity android:name=".activities.RoomActivity" />
-        <activity android:name=".activities.PhotoListActivity" />
+        <activity android:name=".activities.PhotoGalleryActivity" />
         <activity android:name=".activities.RoomFinderActivity" />
     </application>
 

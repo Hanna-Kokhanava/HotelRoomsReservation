@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +18,9 @@ import android.widget.ProgressBar;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
+import com.hotel.hotelroomreservation.dialogs.ErrorBookingDialog;
+import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.dropbox.DropboxCallback;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 
 import java.util.ArrayList;
@@ -62,17 +62,23 @@ public class MainActivity extends BaseActivity {
         super.onStart();
         navigationView.getMenu().getItem(START_TAB_ID).setChecked(true);
 
+        // TODO Check if we have internet connection - from dropbox, on the other way - from SQLite (if no data in SQLite - ErrorBookingDialog)
         new RoomsInfoAsyncTask().execute();
     }
 
     private class RoomsInfoAsyncTask extends AsyncTask<Void, Void, List<Room>> {
         @Override
         protected List<Room> doInBackground(Void... voids) {
+            //TODO getRoomList, check if not null and save to SQLite, if null - Error Dialog
             return new DropboxHelper().getRoomList();
         }
 
-        protected void onPostExecute(List<Room> result) {
-            setRoomList(result);
+        protected void onPostExecute(List<Room> roomsInfo) {
+            if (roomsInfo != null) {
+                setRoomList(roomsInfo);
+            } else {
+                new ErrorDialog(MainActivity.this, getString(R.string.server_problem));
+            }
         }
     }
 
@@ -104,7 +110,7 @@ public class MainActivity extends BaseActivity {
                         drawer.closeDrawers();
                         return true;
                     case R.id.tab_gallery:
-                        startActivity(new Intent(MainActivity.this, PhotoListActivity.class));
+                        startActivity(new Intent(MainActivity.this, PhotoGalleryActivity.class));
                         drawer.closeDrawers();
                         return true;
                 }
