@@ -21,5 +21,12 @@ public class Constants {
     public final static String PRICE = "price";
     public final static String URL = "url";
 
+    /* Reservation constants */
+    public final static String ID = "id";
+    public final static String ARRIVAL = "arrival";
+    public final static String DEPARTURE = "departure";
+    public final static String SURNAME = "surname";
+    public final static String EMAIL = "email";
+
 
 }

@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import java.util.List;
 
 public class PhotoGalleryActivity extends BaseActivity {
     private ViewPager viewPager;
-    private FragmentStatePagerAdapter adapter;
     private LinearLayout imagesContainer;
     private ImageLoader imageLoader;
 
@@ -40,8 +38,27 @@ public class PhotoGalleryActivity extends BaseActivity {
         btnPrev.setOnClickListener(onClickListener(0));
         btnNext.setOnClickListener(onClickListener(1));
 
-        //TODO if have internet connection - from dropbox, if no internet connection - from "adapter = " string
         new PhotosAsyncTask().execute();
+    }
+
+    private class PhotosAsyncTask extends AsyncTask<Void, Void, List<String>> {
+        @Override
+        protected List<String> doInBackground(Void... voids) {
+            //TODO Check if we have internet connection - from dropbox, check if not null and save to SQLite, else ErrorExitDialog
+            //TODO if no connection - from SQLite (if no data in SQLite - ErrorDialog)
+            return new DropboxHelper().getUrlsList();
+        }
+
+        protected void onPostExecute(List<String> photosUrls) {
+            if (photosUrls != null) {
+                FragmentStatePagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), photosUrls);
+                viewPager.setAdapter(adapter);
+                inflateImages(photosUrls);
+
+            } else {
+                new ErrorExitDialog(PhotoGalleryActivity.this, getString(R.string.server_problem));
+            }
+        }
     }
 
     private void inflateImages(List<String> photosUrls) {
@@ -56,26 +73,6 @@ public class PhotoGalleryActivity extends BaseActivity {
             imageView.setOnClickListener(onChangePageClickListener(i));
             imageLoader.displayImage(photosUrls.get(i), imageView);
             imagesContainer.addView(imageLayout);
-        }
-    }
-
-    private class PhotosAsyncTask extends AsyncTask<Void, Void, List<String>> {
-        @Override
-        protected List<String> doInBackground(Void... voids) {
-            //TODO Check if we have internet connection - from dropbox, check if not null and save to SQLite, else ErrorExitDialog
-            //TODO if no connection - from SQLite (if no data in SQLite - ErrorDialog)
-            return new DropboxHelper().getUrlsList();
-        }
-
-        protected void onPostExecute(List<String> photosUrls) {
-            if (photosUrls != null) {
-                adapter = new ViewPagerAdapter(getSupportFragmentManager(), photosUrls);
-                viewPager.setAdapter(adapter);
-
-                inflateImages(photosUrls);
-            } else {
-                new ErrorExitDialog(PhotoGalleryActivity.this, getString(R.string.server_problem));
-            }
         }
     }
 

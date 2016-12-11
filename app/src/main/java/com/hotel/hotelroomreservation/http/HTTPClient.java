@@ -70,15 +70,12 @@ public class HTTPClient {
 
                     jsonInfo = str.toString();
 
-                    Log.i("tag", jsonInfo);
-
                 } finally {
                     inputStream.close();
                     reader.close();
                     connection.disconnect();
                 }
             } else {
-                Log.i("tag", "getDbInfo");
                 return null;
             }
         } catch (IOException e) {

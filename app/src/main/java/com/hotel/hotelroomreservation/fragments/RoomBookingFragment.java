@@ -1,5 +1,6 @@
 package com.hotel.hotelroomreservation.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -13,15 +14,16 @@ import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.dialogs.ConfirmationDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
+import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.dropbox.DropboxCallback;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.CalendarValidation;
 import com.hotel.hotelroomreservation.utils.validations.InputValidation;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,18 +63,60 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_room_booking, container, false);
         fieldsInitialization(view);
 
-        DropboxHelper dropboxHelper = new DropboxHelper();
-        dropboxHelper.getReservationListById(new DropboxCallback.ReservationCallback<Date, Calendar>() {
-            @Override
-            public void onSuccess(List<Date> arrivalDatesList, List<Calendar> reservationDatesList) {
-                arrivalDates = arrivalDatesList;
-
-                Calendar[] calendarDates = new Calendar[reservationDatesList.size()];
-                reservationCalendars = reservationDatesList.toArray(calendarDates);
-            }
-        }, room.getNumber());
+        new BookingsInfoAsyncTask().execute();
 
         return view;
+    }
+
+    private class BookingsInfoAsyncTask extends AsyncTask<Void, Void, List<Reservation>> {
+        @Override
+        protected List<Reservation> doInBackground(Void... voids) {
+            //TODO Check if we have internet connection - from dropbox, check if not null and save to SQLite, else ErrorExitDialog
+            //TODO if no connection - from SQLite (if no data in SQLite - ErrorDialog)
+            return new DropboxHelper().getReservationListById();
+        }
+
+        protected void onPostExecute(List<Reservation> reservations) {
+            if (reservations != null) {
+                setReservationDates(reservations);
+            } else {
+                new ErrorExitDialog(getActivity(), getString(R.string.server_problem));
+            }
+        }
+    }
+
+    private void setReservationDates(List<Reservation> reservations) {
+        List<Calendar> reservationDates = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
+
+        Date dateArrival = null;
+        Date dateDeparture = null;
+
+        for (Reservation reservation : reservations) {
+            if (room.getNumber() == reservation.getId()) {
+                try {
+                    dateArrival = sdf.parse(reservation.getArrival());
+                    dateDeparture = sdf.parse(reservation.getDeparture());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                arrivalDates.add(dateArrival);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(dateArrival);
+
+                while (calendar.getTime().before(dateDeparture)) {
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(calendar.getTime());
+                    reservationDates.add(c);
+                    calendar.add(Calendar.DATE, 1);
+                }
+            }
+        }
+
+        Calendar[] calendarDates = new Calendar[reservationDates.size()];
+        reservationCalendars = reservationDates.toArray(calendarDates);
     }
 
     private void fieldsInitialization(View view) {
@@ -173,7 +217,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     }
 
     private Reservation formReservationObject() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
         String arrivalDate = format.format(arrivalCalendar.getTime());
         String departureDate = format.format(departureCalendar.getTime());
 

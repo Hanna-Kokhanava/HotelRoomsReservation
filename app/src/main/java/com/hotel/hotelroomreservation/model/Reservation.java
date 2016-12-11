@@ -1,7 +1,5 @@
 package com.hotel.hotelroomreservation.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Reservation {
     private int id;
     private String arrival;
@@ -11,10 +9,8 @@ public class Reservation {
     private String number;
     private String email;
 
-    public Reservation(@JsonProperty("arrival") String arrival, @JsonProperty("departure") String departure,
-                       @JsonProperty("email") String email, @JsonProperty("id") int id,
-                       @JsonProperty("name") String name, @JsonProperty("number") String number,
-                       @JsonProperty("surname") String surname) {
+    public Reservation(String arrival, String departure, String email, int id,
+                       String name, String number, String surname) {
         this.id = id;
         this.arrival = arrival;
         this.departure = departure;

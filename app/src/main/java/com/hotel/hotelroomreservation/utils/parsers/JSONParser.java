@@ -2,6 +2,7 @@ package com.hotel.hotelroomreservation.utils.parsers;
 
 import com.hotel.hotelroomreservation.constants.Addresses;
 import com.hotel.hotelroomreservation.constants.Constants;
+import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
 
 import org.json.JSONArray;
@@ -34,6 +35,30 @@ public class JSONParser {
         }
 
         return rooms;
+    }
+
+    public List<Reservation> parseBookingsInfo(String bookingsInfo) {
+        List<Reservation> reservations = new ArrayList<>();
+        Reservation reservation;
+
+        try {
+            JSONObject json = new JSONObject(bookingsInfo);
+            JSONArray array = json.getJSONArray(Addresses.BOOKINGS);
+
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject bookingObj = array.getJSONObject(i);
+
+                reservation = new Reservation(bookingObj.getString(Constants.ARRIVAL), bookingObj.getString(Constants.DEPARTURE),
+                        bookingObj.getString(Constants.EMAIL), bookingObj.getInt(Constants.ID), bookingObj.getString(Constants.NAME),
+                        bookingObj.getString(Constants.NUMBER), bookingObj.getString(Constants.SURNAME));
+                reservations.add(reservation);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return reservations;
     }
 
     public List<String> parsePhotoUrls(String photoUrlsJson) {
