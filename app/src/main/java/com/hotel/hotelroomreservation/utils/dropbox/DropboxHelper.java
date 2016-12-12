@@ -1,18 +1,20 @@
 package com.hotel.hotelroomreservation.utils.dropbox;
 
-import com.firebase.client.Firebase;
-import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.constants.Addresses;
 import com.hotel.hotelroomreservation.http.HTTPClient;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
 import com.hotel.hotelroomreservation.utils.parsers.JSONParser;
-import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
 
 import java.util.List;
 
 public class DropboxHelper {
     private JSONParser jsonParser;
+    private String bookingsInfo;
+
+    public String getBookingsInfo() {
+        return bookingsInfo;
+    }
 
     public DropboxHelper() {
         jsonParser = new JSONParser();
@@ -29,15 +31,12 @@ public class DropboxHelper {
     }
 
     public List<Reservation> getReservationListById() {
-        String bookingsInfo = HTTPClient.getDBInfo(Addresses.BOOKINGS);
+        bookingsInfo = HTTPClient.getDBInfo(Addresses.BOOKINGS);
         return jsonParser.parseBookingsInfo(bookingsInfo);
     }
 
-    //TODO change to save in Dropbox
-    public void makeReservation(Reservation reservation) {
-        Firebase firebase = ((App) ContextHolder.getInstance().getContext()).getFirebaseConnection();
-        firebase = firebase.child(Addresses.BOOKINGS).child(String.valueOf(reservation.getId())).push();
-        firebase.setValue(reservation);
+    public void makeReservation(String reservation) {
+        HTTPClient.setDBBookingsInfo(reservation);
     }
 
     public List<String> getUrlsList() {

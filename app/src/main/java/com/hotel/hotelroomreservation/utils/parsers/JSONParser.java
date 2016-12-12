@@ -78,4 +78,30 @@ public class JSONParser {
 
         return urls;
     }
+
+    public static String parseToJson(Reservation reservation, String bookings) {
+        JSONObject obj = new JSONObject();
+
+        try {
+            JSONObject json = new JSONObject(bookings);
+            JSONArray array = json.getJSONArray(Addresses.BOOKINGS);
+
+            obj.put("arrival", reservation.getArrival());
+            obj.put("departure", reservation.getDeparture());
+            obj.put("id", reservation.getId());
+            obj.put("email", reservation.getEmail());
+            obj.put("name", reservation.getName());
+            obj.put("surname", reservation.getSurname());
+            obj.put("number", reservation.getNumber());
+
+            array.put(obj);
+
+            return json.toString();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

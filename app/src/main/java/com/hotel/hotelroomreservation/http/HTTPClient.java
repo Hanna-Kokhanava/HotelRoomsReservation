@@ -2,15 +2,20 @@ package com.hotel.hotelroomreservation.http;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import com.hotel.hotelroomreservation.constants.Addresses;
 import com.hotel.hotelroomreservation.constants.Constants;
+import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -83,5 +88,47 @@ public class HTTPClient {
         }
 
         return jsonInfo;
+    }
+
+    public static void setDBBookingsInfo(String reservation) {
+        String serverUrl = Addresses.SERVER_URL + Addresses.INFO + Constants.FILE_NAME_PARAMETER + Constants.BOOKING;
+        File file = new File(ContextHolder.getInstance().getContext().getFilesDir(),
+                Constants.BOOKING + Constants.JSON_EXTENSION);
+
+        try {
+            FileWriter writer = new FileWriter(file);
+            writer.append(reservation);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            URL url = new URL(serverUrl);
+            HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setFixedLengthStreamingMode(reservation.getBytes().length);
+
+            OutputStream outputStream = connection.getOutputStream();
+            FileInputStream inputStream = new FileInputStream(file);
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            outputStream.flush();
+            inputStream.close();
+
+            PrintWriter out = new PrintWriter(outputStream);
+            out.print(inputStream);
+            out.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

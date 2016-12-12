@@ -3,15 +3,20 @@ package com.hotel.hotelroomreservation.dialogs;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
+import com.hotel.hotelroomreservation.utils.parsers.JSONParser;
+
+import org.json.JSONObject;
 
 public class ConfirmationDialog {
 
-    public ConfirmationDialog(final Activity activity, final Room room, final Reservation reservation) {
+    public ConfirmationDialog(final Activity activity, final Room room,
+                              final Reservation reservation, final String bookings) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.DialogTheme);
         builder.setTitle(R.string.confirmation_title);
         builder.setIcon(R.drawable.ic_hotel);
@@ -24,7 +29,13 @@ public class ConfirmationDialog {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new DropboxHelper().makeReservation(reservation);
+                        final String reservationStr = JSONParser.parseToJson(reservation, bookings);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new DropboxHelper().makeReservation(reservationStr);
+                            }
+                        }).start();
                         activity.finish();
                     }
                 });

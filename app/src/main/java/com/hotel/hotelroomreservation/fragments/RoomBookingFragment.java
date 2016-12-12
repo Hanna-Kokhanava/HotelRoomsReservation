@@ -35,6 +35,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     private List<Date> arrivalDates;
     private Calendar[] reservationCalendars;
     private Room room;
+    private String bookings;
 
     private final Calendar currentCalendar = Calendar.getInstance();
     private Calendar arrivalCalendar;
@@ -48,6 +49,8 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     private EditText surname;
     private EditText email;
     private EditText phone;
+
+    private DropboxHelper dropboxHelper;
 
     public RoomBookingFragment() {
         // Required empty public constructor
@@ -73,11 +76,12 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         protected List<Reservation> doInBackground(Void... voids) {
             //TODO Check if we have internet connection - from dropbox, check if not null and save to SQLite, else ErrorExitDialog
             //TODO if no connection - from SQLite (if no data in SQLite - ErrorDialog)
-            return new DropboxHelper().getReservationListById();
+            return dropboxHelper.getReservationListById();
         }
 
         protected void onPostExecute(List<Reservation> reservations) {
             if (reservations != null) {
+                bookings = dropboxHelper.getBookingsInfo();
                 setReservationDates(reservations);
             } else {
                 new ErrorExitDialog(getActivity(), getString(R.string.server_problem));
@@ -139,6 +143,8 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         room = bundle.getParcelable(Constants.ROOM_INTENT_KEY);
 
         arrivalDates = new ArrayList<>();
+
+        dropboxHelper = new DropboxHelper();
 
         Button checkAvailability = (Button) view.findViewById(R.id.makeReservation);
         checkAvailability.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +215,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         if (InternetValidation.isConnected(getActivity())) {
             if (InputValidation.calendarsValidation(arrivalCalendar, departureCalendar, arrivalValue, departureValue, arrivalTextInput, departureTextInput)
                     && InputValidation.inputFieldsValidation(name, surname, email, phone)) {
-                new ConfirmationDialog(getActivity(), room, formReservationObject());
+                new ConfirmationDialog(getActivity(), room, formReservationObject(), bookings);
             }
         } else {
             new ErrorDialog(getActivity(), getActivity().getString(R.string.no_internet_warning));

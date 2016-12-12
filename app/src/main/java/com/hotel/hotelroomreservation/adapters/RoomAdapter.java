@@ -46,6 +46,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         }
 
         public void bind(final Room room, final OnItemClickListener listener) {
+            roomImageView.setImageDrawable(null);
+
             roomNameTextView.setText(room.getName());
             ratingBar.setRating(room.getRating());
             imageLoader.displayImage(room.getUrl(), roomImageView);
@@ -58,6 +60,11 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             });
         }
     }
+
+//    @Override
+//    public void onViewRecycled(ViewHolder holder) {
+//        super.onViewRecycled(holder);
+//    }
 
     @Override
     public RoomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

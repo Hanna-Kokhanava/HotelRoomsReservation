@@ -6,10 +6,12 @@ import com.hotel.hotelroomreservation.backend.utils.DropboxHelper;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,9 +36,16 @@ public class DropboxServlet extends HttpServlet {
             JSONObject jsonObject = new JSONObject(new String(text));
             resp.setContentType("application/json");
             resp.getWriter().write(jsonObject.toString());
+
         } else {
             resp.setContentType("application/json");
             resp.getWriter().write("");
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        DataInputStream inputStream = new DataInputStream(req.getInputStream());
+        DropboxHelper.updateBookingsFile(inputStream);
     }
 }
