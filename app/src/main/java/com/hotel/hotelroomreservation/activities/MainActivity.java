@@ -40,6 +40,8 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         fieldsInitialization();
+        setUpNavigationView();
+        new RoomsInfoAsyncTask().execute();
     }
 
     private void fieldsInitialization() {
@@ -52,16 +54,6 @@ public class MainActivity extends BaseActivity {
 
         progressView = (ProgressBar) findViewById(R.id.progress_bar);
         progressView.setVisibility(View.VISIBLE);
-
-        setUpNavigationView();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        navigationView.getMenu().getItem(START_TAB_ID).setChecked(true);
-
-        new RoomsInfoAsyncTask().execute();
     }
 
     private class RoomsInfoAsyncTask extends AsyncTask<Void, Void, List<Room>> {
@@ -121,6 +113,7 @@ public class MainActivity extends BaseActivity {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer);
         drawer.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+        navigationView.getMenu().getItem(START_TAB_ID).setChecked(true);
     }
 
     @Override

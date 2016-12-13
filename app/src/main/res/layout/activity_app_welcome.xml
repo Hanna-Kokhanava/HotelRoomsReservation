@@ -13,10 +13,10 @@
     tools:context=".activities.AppWelcomeActivity">
 
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@mipmap/ic_app"
-        android:contentDescription="@string/app_name" />
+        android:layout_width="@dimen/app_image_width"
+        android:layout_height="@dimen/app_image_height"
+        android:contentDescription="@string/app_name"
+        android:src="@mipmap/ic_app" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,5 +36,4 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         app:indicatorColor="@color/colorPrimary"
         app:indicatorName="BallPulseIndicator" />
-
 </LinearLayout>

@@ -22,16 +22,16 @@ public class DropboxServlet extends HttpServlet {
         InputStream inputStream = DropboxHelper.getFileInputStream(req.getParameter(Constants.FILE_NAME_PARAMETER));
 
         if (inputStream != null) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder text = new StringBuilder();
             String line;
 
-            while (null != (line = br.readLine())) {
+            while (null != (line = bufferedReader.readLine())) {
                 text.append(line);
             }
 
             inputStream.close();
-            br.close();
+            bufferedReader.close();
 
             JSONObject jsonObject = new JSONObject(new String(text));
             resp.setContentType("application/json");
