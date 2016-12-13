@@ -1,6 +1,5 @@
 package com.hotel.hotelroomreservation.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         private RatingBar ratingBar;
         private ImageView roomImageView;
         private ImageLoader imageLoader;
-        private Context context;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -42,7 +40,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingStarBar);
             roomImageView = (ImageView) itemView.findViewById(R.id.roomImageView);
             imageLoader = new ImageLoader();
-            this.context = itemView.getContext();
         }
 
         public void bind(final Room room, final OnItemClickListener listener) {

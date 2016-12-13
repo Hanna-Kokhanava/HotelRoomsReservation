@@ -13,8 +13,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.8">
+        android:layout_height="match_parent">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
@@ -29,8 +28,10 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
+            android:background="#80000000"
+            android:contentDescription="@string/previous_image"
+            android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/next"
@@ -40,19 +41,18 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:contentDescription="@string/app_name"
+            android:background="#80000000"
+            android:contentDescription="@string/next_image"
             android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
-    </RelativeLayout>
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/imagesContainer"
-            android:layout_width="wrap_content"
+            android:id="@+id/viewPagerCountDots"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" />
-    </HorizontalScrollView>
-
+            android:layout_alignParentBottom="true"
+            android:background="#80000000"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp" />
+    </RelativeLayout>
 </LinearLayout>

@@ -20,8 +20,13 @@ import java.util.List;
 
 public class PhotoGalleryActivity extends BaseActivity {
     private ViewPager viewPager;
-    private LinearLayout imagesContainer;
+    private LinearLayout pager_indicator;
+    private FragmentStatePagerAdapter adapter;
+    private int dotsCount;
+    private ImageView[] dots;
     private ImageLoader imageLoader;
+    private View btnNext;
+    private View btnPrev;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +34,63 @@ public class PhotoGalleryActivity extends BaseActivity {
         setContentView(R.layout.activity_photo_list);
 
         imageLoader = new ImageLoader();
-
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        imagesContainer = (LinearLayout) findViewById(R.id.imagesContainer);
-        View btnNext = findViewById(R.id.next);
-        View btnPrev = findViewById(R.id.prev);
+        pager_indicator = (LinearLayout) findViewById(R.id.viewPagerCountDots);
+
+        btnNext = findViewById(R.id.next);
+        btnPrev = findViewById(R.id.prev);
 
         btnPrev.setOnClickListener(onClickListener(0));
         btnNext.setOnClickListener(onClickListener(1));
 
         new PhotosAsyncTask().execute();
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (position == 0) {
+                    btnPrev.setVisibility(View.INVISIBLE);
+                } else if (position == 4) {
+                    btnNext.setVisibility(View.INVISIBLE);
+                } else {
+                    btnNext.setVisibility(View.VISIBLE);
+                    btnPrev.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < dotsCount; i++) {
+                    dots[i].setImageDrawable(getResources().getDrawable(R.drawable.nonselecteditem_dot));
+                }
+                dots[position].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private void setUiPageViewController() {
+        dotsCount = adapter.getCount();
+        dots = new ImageView[dotsCount];
+
+        for (int i = 0; i < dotsCount; i++) {
+            dots[i] = new ImageView(this);
+            dots[i].setImageDrawable(getResources().getDrawable(R.drawable.nonselecteditem_dot));
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+
+            params.setMargins(4, 0, 4, 0);
+            pager_indicator.addView(dots[i], params);
+        }
+
+        dots[0].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
     }
 
     private class PhotosAsyncTask extends AsyncTask<Void, Void, List<String>> {
@@ -51,8 +103,9 @@ public class PhotoGalleryActivity extends BaseActivity {
 
         protected void onPostExecute(List<String> photosUrls) {
             if (photosUrls != null) {
-                FragmentStatePagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), photosUrls);
+                adapter = new ViewPagerAdapter(getSupportFragmentManager(), photosUrls);
                 viewPager.setAdapter(adapter);
+                setUiPageViewController();
                 inflateImages(photosUrls);
 
             } else {
@@ -72,9 +125,9 @@ public class PhotoGalleryActivity extends BaseActivity {
 
             imageView.setOnClickListener(onChangePageClickListener(i));
             imageLoader.displayImage(photosUrls.get(i), imageView);
-            imagesContainer.addView(imageLayout);
         }
     }
+
 
     private View.OnClickListener onClickListener(final int i) {
         return new View.OnClickListener() {

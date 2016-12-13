@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         card_view:cardBackgroundColor="@color/cardview_light_background"
         card_view:cardCornerRadius="6dp"
         card_view:cardElevation="8dp"
@@ -27,7 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                />
 
             <LinearLayout
                 android:layout_width="wrap_content"
