@@ -2,9 +2,12 @@ package com.hotel.hotelroomreservation.loader;
 
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
+import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.http.HTTPClient;
+import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
 
 import java.util.Collections;
 import java.util.Map;
@@ -25,10 +28,15 @@ public class ImageLoader {
     }
 
     public void displayImage(String url, ImageView imageView) {
+        imageView.setScaleType(ImageView.ScaleType.CENTER);
+        imageView.setImageDrawable(ContextCompat
+                .getDrawable(ContextHolder.getInstance().getContext(), R.drawable.ic_photo_24dp));
         imageViews.put(imageView, url);
+
         Bitmap bitmap = memoryCache.getBitmap(url);
 
         if (bitmap != null) {
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageBitmap(bitmap);
         } else {
             queuePhoto(url, imageView);
@@ -86,6 +94,7 @@ public class ImageLoader {
                 }
                 Bitmap bmp = getBitmap(photoToLoad.url);
                 memoryCache.putBitmap(photoToLoad.url, bmp);
+
                 if (imageViewReused(photoToLoad)) {
                     return;
                 }
@@ -118,6 +127,8 @@ public class ImageLoader {
                 return;
             }
             if (bitmap != null) {
+
+                photoToLoad.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 photoToLoad.imageView.setImageBitmap(bitmap);
             }
         }

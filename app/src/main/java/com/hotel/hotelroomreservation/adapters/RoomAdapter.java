@@ -44,7 +44,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
         public void bind(final Room room, final OnItemClickListener listener) {
             roomImageView.setImageDrawable(null);
-
             roomNameTextView.setText(room.getName());
             ratingBar.setRating(room.getRating());
             imageLoader.displayImage(room.getUrl(), roomImageView);
