@@ -30,8 +30,7 @@
             android:layout_gravity="center"
             android:background="#80000000"
             android:contentDescription="@string/previous_image"
-            android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
-            android:visibility="gone" />
+            android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
         <ImageView
             android:id="@+id/next"
