@@ -13,13 +13,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         ContextHolder.getInstance().setContext(this);
-        Firebase.setAndroidContext(this);
-        Firebase.getDefaultConfig().setPersistenceEnabled(true);
-    }
-
-    public Firebase getFirebaseConnection() {
-        return new Firebase(Addresses.FIREBASE_URL);
     }
 }

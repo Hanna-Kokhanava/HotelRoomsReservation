@@ -24,7 +24,7 @@ public class JSONParser {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject roomObj = array.getJSONObject(i);
 
-                room = new Room(roomObj.getString(Constants.NAME), roomObj.getInt(Constants.NUMBER),
+                room = new Room(roomObj.getInt(Constants.NUMBER), roomObj.getString(Constants.NAME),
                         roomObj.getInt(Constants.RATING), roomObj.getInt(Constants.VISITORS),
                         roomObj.getInt(Constants.PRICE), roomObj.getString(Constants.URL));
                 rooms.add(room);

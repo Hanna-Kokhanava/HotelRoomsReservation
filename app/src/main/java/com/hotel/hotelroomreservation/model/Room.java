@@ -4,8 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Room implements Parcelable {
-    private String name;
     private int number;
+    private String name;
     private int rating;
     private int visitors;
     private String url;
@@ -36,7 +36,7 @@ public class Room implements Parcelable {
         url = in.readString();
     }
 
-    public Room(String name, int number, int rating, int visitors, int price, String url) {
+    public Room(int number, String name, int rating, int visitors, int price, String url) {
         this.name = name;
         this.number = number;
         this.rating = rating;

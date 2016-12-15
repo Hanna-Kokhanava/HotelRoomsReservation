@@ -20,7 +20,9 @@ import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.utils.database.RoomsDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
+import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,12 @@ public class MainActivity extends BaseActivity {
         new RoomsInfoAsyncTask().execute();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        navigationView.getMenu().getItem(START_TAB_ID).setChecked(true);
+    }
+
     private void fieldsInitialization() {
         toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -59,9 +67,24 @@ public class MainActivity extends BaseActivity {
     private class RoomsInfoAsyncTask extends AsyncTask<Void, Void, List<Room>> {
         @Override
         protected List<Room> doInBackground(Void... voids) {
-            //TODO Check if we have internet connection - from dropbox, check if not null and save to SQLite, else ErrorExitDialog
-            //TODO if no connection - from SQLite (if no data in SQLite - ErrorDialog)
-            return new DropboxHelper().getRoomList();
+            RoomsDBHelper roomsDBHelper = new RoomsDBHelper(getApplicationContext());
+            List<Room> roomsInfo;
+
+            if (InternetValidation.isConnected(MainActivity.this)) {
+                roomsInfo = new DropboxHelper().getRoomList();
+
+                if (roomsInfo != null) {
+                    roomsDBHelper.deleteAll();
+
+                    for (Room room : roomsInfo) {
+                        roomsDBHelper.save(room);
+                    }
+                }
+            } else {
+                roomsInfo = roomsDBHelper.getAllData();
+            }
+
+            return roomsInfo;
         }
 
         protected void onPostExecute(List<Room> roomsInfo) {
@@ -113,12 +136,6 @@ public class MainActivity extends BaseActivity {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer);
         drawer.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        navigationView.getMenu().getItem(START_TAB_ID).setChecked(true);
     }
 
     @Override
