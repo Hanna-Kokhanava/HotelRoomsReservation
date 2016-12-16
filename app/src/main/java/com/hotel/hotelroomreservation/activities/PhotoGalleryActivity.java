@@ -13,7 +13,11 @@ import android.widget.LinearLayout;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.ViewPagerAdapter;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
+import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.utils.database.PhotosDBHelper;
+import com.hotel.hotelroomreservation.utils.database.RoomsDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
+import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
 import java.util.List;
 
@@ -51,17 +55,34 @@ public class PhotoGalleryActivity extends BaseActivity {
     private class PhotosAsyncTask extends AsyncTask<Void, Void, List<String>> {
         @Override
         protected List<String> doInBackground(Void... voids) {
-            //TODO Check if we have internet connection - from dropbox, check if not null and save to SQLite, else ErrorExitDialog
-            //TODO if no connection - from SQLite (if no data in SQLite - ErrorDialog)
-            return new DropboxHelper().getUrlsList();
+            PhotosDBHelper photosDBHelper = new PhotosDBHelper(getApplicationContext());
+            List<String> photosUrls = null;
+
+            if (InternetValidation.isConnected(PhotoGalleryActivity.this)) {
+                photosUrls = new DropboxHelper().getUrlsList();
+
+                if (photosUrls != null) {
+                    photosDBHelper.deleteAll();
+
+                    for (String url : photosUrls) {
+                        photosDBHelper.save(url);
+                    }
+                }
+            } else {
+                if (photosDBHelper.isTableExists()) {
+                    photosUrls = photosDBHelper.getAllData();
+                }
+            }
+
+            return photosUrls;
         }
 
         protected void onPostExecute(List<String> photosUrls) {
             if (photosUrls != null) {
                 adapter = new ViewPagerAdapter(getSupportFragmentManager(), photosUrls);
                 viewPager.setAdapter(adapter);
-
                 setPageIndicatorController();
+
             } else {
                 new ErrorExitDialog(PhotoGalleryActivity.this, getString(R.string.server_problem));
             }

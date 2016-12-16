@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
         progressView.setVisibility(View.VISIBLE);
     }
 
-    private class RoomsInfoAsyncTask extends AsyncTask<Void, Void, List<Room>> {
+    private class RoomsInfoAsyncTask extends AsyncTask<Void, String, List<Room>> {
         @Override
         protected List<Room> doInBackground(Void... voids) {
             RoomsDBHelper roomsDBHelper = new RoomsDBHelper(getApplicationContext());
@@ -79,19 +79,33 @@ public class MainActivity extends BaseActivity {
                     for (Room room : roomsInfo) {
                         roomsDBHelper.save(room);
                     }
+
+                } else {
+                    roomsInfo = roomsDBHelper.getAllData();
+
+                    if (roomsInfo == null) {
+                        publishProgress(getString(R.string.server_problem));
+                    }
                 }
+
             } else {
                 roomsInfo = roomsDBHelper.getAllData();
+
+                if (roomsInfo == null) {
+                    publishProgress(getString(R.string.internet_switch_on));
+                }
             }
 
             return roomsInfo;
         }
 
+        protected void onProgressUpdate(String... errors) {
+            new ErrorExitDialog(MainActivity.this, errors[0]);
+        }
+
         protected void onPostExecute(List<Room> roomsInfo) {
             if (roomsInfo != null) {
                 setRoomList(roomsInfo);
-            } else {
-                new ErrorExitDialog(MainActivity.this, getString(R.string.server_problem));
             }
         }
     }

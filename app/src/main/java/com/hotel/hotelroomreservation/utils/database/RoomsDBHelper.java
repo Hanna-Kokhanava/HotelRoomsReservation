@@ -16,6 +16,7 @@ public class RoomsDBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_ROOMS = "rooms";
+    private static final String KEY_ID = "id";
     private static final String KEY_NUMBER = "number";
     private static final String KEY_NAME = "name";
     private static final String KEY_RATING = "rating";
@@ -29,8 +30,8 @@ public class RoomsDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_ROOMS_TABLE = "CREATE TABLE " + TABLE_ROOMS + "("
-                + KEY_NUMBER + " INTEGER," + KEY_NAME + " TEXT,"
+        String CREATE_ROOMS_TABLE = "CREATE TABLE " + TABLE_ROOMS + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_NAME + " TEXT," + KEY_NUMBER + " INTEGER,"
                 + KEY_RATING + " INTEGER," + KEY_VISITORS + " INTEGER,"
                 + KEY_URL + " TEXT," + KEY_PRICE + " INTEGER" + ")";
         sqLiteDatabase.execSQL(CREATE_ROOMS_TABLE);
@@ -84,9 +85,30 @@ public class RoomsDBHelper extends SQLiteOpenHelper {
         return rooms;
     }
 
+    public boolean isTableExists() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT tbl_name from sqlite_master where tbl_name = '"
+                + TABLE_ROOMS + "'", null);
+
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        return false;
+    }
+
     public void deleteAll() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_ROOMS);
+
+        if (isTableExists()) {
+            db.execSQL("DELETE FROM " + TABLE_ROOMS);
+        } else {
+            onCreate(db);
+        }
+
         db.close();
     }
 }

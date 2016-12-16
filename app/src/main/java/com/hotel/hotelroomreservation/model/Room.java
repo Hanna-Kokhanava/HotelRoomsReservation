@@ -4,8 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Room implements Parcelable {
-    private int number;
     private String name;
+    private int number;
     private int rating;
     private int visitors;
     private String url;
