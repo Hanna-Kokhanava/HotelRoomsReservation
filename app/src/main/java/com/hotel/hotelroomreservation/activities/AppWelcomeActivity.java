@@ -17,7 +17,7 @@ public class AppWelcomeActivity extends AppCompatActivity {
 
         AVLoadingIndicatorView avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
         startAnim(avi);
-
+        //TODO subscribe/unsubscribe in onPause/onResume
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
 

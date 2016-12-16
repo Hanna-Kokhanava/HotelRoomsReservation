@@ -12,6 +12,9 @@ import com.hotel.hotelroomreservation.model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO try/final
+//is not thread safe
+
 public class SQLiteDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "HotelInfo";
     private static final int DATABASE_VERSION = 1;

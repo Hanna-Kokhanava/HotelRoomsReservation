@@ -15,6 +15,7 @@ import com.hotel.hotelroomreservation.model.Room;
 import java.util.ArrayList;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
+    //TODO List instead of?
     private ArrayList<Room> rooms = new ArrayList<>();
     private OnItemClickListener listener;
 
@@ -22,11 +23,13 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         void onItemClick(Room room);
     }
 
+    //TODO List
     public RoomAdapter(ArrayList<Room> rooms, OnItemClickListener listener) {
         this.listener = listener;
         this.rooms = rooms;
     }
 
+    //TODO apply settings
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView roomNameTextView;
         private RatingBar ratingBar;
@@ -43,11 +46,15 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         }
 
         public void bind(final Room room, final OnItemClickListener listener) {
+            //TODO check id
+            //TODO check existing image
+            //if (id != oldId in tag)
             roomImageView.setImageDrawable(null);
             roomNameTextView.setText(room.getName());
             ratingBar.setRating(room.getRating());
             imageLoader.displayImage(room.getUrl(), roomImageView);
 
+            //TODO move to member of Adapter
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
