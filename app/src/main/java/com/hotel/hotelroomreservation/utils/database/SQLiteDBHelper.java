@@ -11,38 +11,55 @@ import com.hotel.hotelroomreservation.model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomsDBHelper extends SQLiteOpenHelper {
+public class SQLiteDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "HotelInfo";
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_ROOMS = "rooms";
-    private static final String KEY_ID = "id";
+    private static final String TABLE_PHOTOS = "photos";
+    private static final String TABLE_BOOKINGS = "bookings";
+
+    private static final String KEY_ROOMS_ID = "id";
     private static final String KEY_NUMBER = "number";
     private static final String KEY_NAME = "name";
     private static final String KEY_RATING = "rating";
     private static final String KEY_VISITORS = "visitors";
-    private static final String KEY_URL = "url";
+    private static final String KEY_ROOMS_URL = "url";
     private static final String KEY_PRICE = "price";
 
-    public RoomsDBHelper(Context context) {
+    private static final String KEY_PHOTOS_ID = "id";
+    private static final String KEY_PHOTOS_URL = "url";
+
+    private static final String CREATE_ROOMS_TABLE = "CREATE TABLE " + TABLE_ROOMS + "("
+            + KEY_ROOMS_ID + " INTEGER PRIMARY KEY,"
+            + KEY_NAME + " TEXT," + KEY_NUMBER + " INTEGER,"
+            + KEY_RATING + " INTEGER," + KEY_VISITORS + " INTEGER,"
+            + KEY_ROOMS_URL + " TEXT," + KEY_PRICE + " INTEGER" + ")";
+
+    private static final String CREATE_PHOTOS_TABLE = "CREATE TABLE " + TABLE_PHOTOS + "("
+            + KEY_PHOTOS_ID + " INTEGER PRIMARY KEY,"
+            + KEY_PHOTOS_URL + " TEXT" + ")";
+
+    public SQLiteDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_ROOMS_TABLE = "CREATE TABLE " + TABLE_ROOMS + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_NAME + " TEXT," + KEY_NUMBER + " INTEGER,"
-                + KEY_RATING + " INTEGER," + KEY_VISITORS + " INTEGER,"
-                + KEY_URL + " TEXT," + KEY_PRICE + " INTEGER" + ")";
         sqLiteDatabase.execSQL(CREATE_ROOMS_TABLE);
+        sqLiteDatabase.execSQL(CREATE_PHOTOS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ROOMS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PHOTOS);
+//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
+
+        onCreate(sqLiteDatabase);
     }
 
-    public void save(Room room) {
+    public void saveRoom(Room room) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -50,14 +67,14 @@ public class RoomsDBHelper extends SQLiteOpenHelper {
         values.put(KEY_NUMBER, room.getNumber());
         values.put(KEY_RATING, room.getRating());
         values.put(KEY_VISITORS, room.getVisitors());
-        values.put(KEY_URL, room.getUrl());
+        values.put(KEY_ROOMS_URL, room.getUrl());
         values.put(KEY_PRICE, room.getPrice());
 
         db.insert(TABLE_ROOMS, null, values);
         db.close();
     }
 
-    public List<Room> getAllData() {
+    public List<Room> getAllRooms() {
         List<Room> rooms = null;
         String query = "SELECT * FROM " + TABLE_ROOMS;
 
@@ -85,10 +102,39 @@ public class RoomsDBHelper extends SQLiteOpenHelper {
         return rooms;
     }
 
-    public boolean isTableExists() {
+    public void saveUrl(String url) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_PHOTOS_URL, url);
+
+        db.insert(TABLE_PHOTOS, null, values);
+        db.close();
+    }
+
+    public List<String> getAllPhotoUrls() {
+        List<String> urls = null;
+        String query = "SELECT * FROM " + TABLE_PHOTOS;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            urls = new ArrayList<>();
+            do {
+                urls.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return urls;
+    }
+
+    public boolean isTableExists(String tableName) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT DISTINCT tbl_name from sqlite_master where tbl_name = '"
-                + TABLE_ROOMS + "'", null);
+                + tableName + "'", null);
 
         if (cursor != null) {
             if (cursor.getCount() > 0) {
@@ -100,11 +146,11 @@ public class RoomsDBHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public void deleteAll() {
+    public void deleteAll(String tableName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        if (isTableExists()) {
-            db.execSQL("DELETE FROM " + TABLE_ROOMS);
+        if (isTableExists(tableName)) {
+            db.execSQL("DELETE FROM " + tableName);
         } else {
             onCreate(db);
         }

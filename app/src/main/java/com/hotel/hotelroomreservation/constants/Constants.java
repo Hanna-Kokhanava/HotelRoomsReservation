@@ -14,6 +14,10 @@ public class Constants {
     /* Request parameters */
     public static final String FILE_NAME_PARAMETER = "?file=";
 
+    public final static String BOOKINGS = "bookings";
+    public final static String PHOTOS = "photos";
+    public final static String ROOMS = "rooms";
+
     /* Json file keys */
     public final static String NAME = "name";
     public final static String NUMBER = "number";

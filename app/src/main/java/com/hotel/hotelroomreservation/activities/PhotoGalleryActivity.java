@@ -12,19 +12,18 @@ import android.widget.LinearLayout;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.ViewPagerAdapter;
+import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
-import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.database.PhotosDBHelper;
-import com.hotel.hotelroomreservation.utils.database.RoomsDBHelper;
+import com.hotel.hotelroomreservation.utils.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
 import java.util.List;
 
 public class PhotoGalleryActivity extends BaseActivity {
+    private FragmentStatePagerAdapter adapter;
     private ViewPager viewPager;
     private LinearLayout pager_indicator;
-    private FragmentStatePagerAdapter adapter;
     private ImageView[] dots;
 
     private int dotsCount;
@@ -52,29 +51,43 @@ public class PhotoGalleryActivity extends BaseActivity {
         viewPager.addOnPageChangeListener(onPageChangeListener());
     }
 
-    private class PhotosAsyncTask extends AsyncTask<Void, Void, List<String>> {
+    private class PhotosAsyncTask extends AsyncTask<Void, String, List<String>> {
         @Override
         protected List<String> doInBackground(Void... voids) {
-            PhotosDBHelper photosDBHelper = new PhotosDBHelper(getApplicationContext());
-            List<String> photosUrls = null;
+            SQLiteDBHelper dbHelper = new SQLiteDBHelper(getApplicationContext());
+            List<String> photosUrls;
 
             if (InternetValidation.isConnected(PhotoGalleryActivity.this)) {
                 photosUrls = new DropboxHelper().getUrlsList();
 
                 if (photosUrls != null) {
-                    photosDBHelper.deleteAll();
+                    dbHelper.deleteAll(Constants.PHOTOS);
 
                     for (String url : photosUrls) {
-                        photosDBHelper.save(url);
+                        dbHelper.saveUrl(url);
+                    }
+
+                } else {
+                    photosUrls = dbHelper.getAllPhotoUrls();
+
+                    if (photosUrls == null) {
+                        publishProgress(getString(R.string.server_problem));
                     }
                 }
+
             } else {
-                if (photosDBHelper.isTableExists()) {
-                    photosUrls = photosDBHelper.getAllData();
+                photosUrls = dbHelper.getAllPhotoUrls();
+
+                if (photosUrls == null) {
+                    publishProgress(getString(R.string.internet_switch_on));
                 }
             }
 
             return photosUrls;
+        }
+
+        protected void onProgressUpdate(String... errors) {
+            new ErrorExitDialog(PhotoGalleryActivity.this, errors[0]);
         }
 
         protected void onPostExecute(List<String> photosUrls) {
@@ -82,9 +95,6 @@ public class PhotoGalleryActivity extends BaseActivity {
                 adapter = new ViewPagerAdapter(getSupportFragmentManager(), photosUrls);
                 viewPager.setAdapter(adapter);
                 setPageIndicatorController();
-
-            } else {
-                new ErrorExitDialog(PhotoGalleryActivity.this, getString(R.string.server_problem));
             }
         }
     }

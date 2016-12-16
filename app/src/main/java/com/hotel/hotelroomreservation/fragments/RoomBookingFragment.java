@@ -74,7 +74,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     private class BookingsInfoAsyncTask extends AsyncTask<Void, Void, List<Reservation>> {
         @Override
         protected List<Reservation> doInBackground(Void... voids) {
-            //TODO Check if we have internet connection - from dropbox, check if not null and save to SQLite, else ErrorExitDialog
+            //TODO Check if we have internet connection - from dropbox, check if not null and saveRoom to SQLite, else ErrorExitDialog
             //TODO if no connection - from SQLite (if no data in SQLite - ErrorDialog)
             return dropboxHelper.getReservationListById();
         }

@@ -20,7 +20,7 @@ import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.database.RoomsDBHelper;
+import com.hotel.hotelroomreservation.utils.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
@@ -67,21 +67,21 @@ public class MainActivity extends BaseActivity {
     private class RoomsInfoAsyncTask extends AsyncTask<Void, String, List<Room>> {
         @Override
         protected List<Room> doInBackground(Void... voids) {
-            RoomsDBHelper roomsDBHelper = new RoomsDBHelper(getApplicationContext());
+            SQLiteDBHelper dbHelper = new SQLiteDBHelper(getApplicationContext());
             List<Room> roomsInfo;
 
             if (InternetValidation.isConnected(MainActivity.this)) {
                 roomsInfo = new DropboxHelper().getRoomList();
 
                 if (roomsInfo != null) {
-                    roomsDBHelper.deleteAll();
+                    dbHelper.deleteAll(Constants.ROOMS);
 
                     for (Room room : roomsInfo) {
-                        roomsDBHelper.save(room);
+                        dbHelper.saveRoom(room);
                     }
 
                 } else {
-                    roomsInfo = roomsDBHelper.getAllData();
+                    roomsInfo = dbHelper.getAllRooms();
 
                     if (roomsInfo == null) {
                         publishProgress(getString(R.string.server_problem));
@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity {
                 }
 
             } else {
-                roomsInfo = roomsDBHelper.getAllData();
+                roomsInfo = dbHelper.getAllRooms();
 
                 if (roomsInfo == null) {
                     publishProgress(getString(R.string.internet_switch_on));

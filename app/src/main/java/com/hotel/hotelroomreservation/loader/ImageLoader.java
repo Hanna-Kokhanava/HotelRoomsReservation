@@ -57,7 +57,10 @@ public class ImageLoader {
         try {
             b = HTTPClient.getPhoto(url);
 
-            fileCache.putBitmap(b, url);
+            if (b != null) {
+                fileCache.putBitmap(b, url);
+            }
+
             return b;
 
         } catch (Throwable ex) {
@@ -93,6 +96,10 @@ public class ImageLoader {
                     return;
                 }
                 Bitmap bmp = getBitmap(photoToLoad.url);
+                if (bmp == null) {
+                    return;
+                }
+
                 memoryCache.putBitmap(photoToLoad.url, bmp);
 
                 if (imageViewReused(photoToLoad)) {
