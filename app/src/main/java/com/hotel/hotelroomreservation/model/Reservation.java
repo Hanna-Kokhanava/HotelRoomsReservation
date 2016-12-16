@@ -9,6 +9,10 @@ public class Reservation {
     private String number;
     private String email;
 
+    public Reservation() {
+
+    }
+
     public Reservation(String arrival, String departure, String email, int id,
                        String name, String number, String surname) {
         this.id = id;

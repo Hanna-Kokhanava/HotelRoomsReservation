@@ -15,7 +15,6 @@ import com.hotel.hotelroomreservation.loader.ImageLoader;
 import com.hotel.hotelroomreservation.model.Room;
 
 public class RoomInfoFragment extends Fragment {
-    private Room room;
 
     public RoomInfoFragment() {
         // Required empty public constructor
@@ -38,8 +37,7 @@ public class RoomInfoFragment extends Fragment {
         RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingStarBar);
 
         Bundle bundle = getActivity().getIntent().getExtras();
-        room = new Room();
-        room = bundle.getParcelable(Constants.ROOM_INTENT_KEY);
+        Room room = bundle.getParcelable(Constants.ROOM_INTENT_KEY);
 
         ImageLoader imageLoader = new ImageLoader();
 

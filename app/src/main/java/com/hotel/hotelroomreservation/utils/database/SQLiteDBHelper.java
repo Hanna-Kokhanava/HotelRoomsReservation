@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
 
 import java.util.ArrayList;
@@ -30,6 +31,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     private static final String KEY_PHOTOS_ID = "id";
     private static final String KEY_PHOTOS_URL = "url";
 
+    private static final String KEY_ID = "room_id";
+    private static final String KEY_BOOKINGS_ID = "id";
+    private static final String KEY_ARRIVAL = "arrival";
+    private static final String KEY_DEPARTURE = "departure";
+    private static final String KEY_USER_NAME = "name";
+    private static final String KEY_SURNAME = "surname";
+    private static final String KEY_USER_NUMBER = "number";
+    private static final String KEY_EMAIL = "email";
+
     private static final String CREATE_ROOMS_TABLE = "CREATE TABLE " + TABLE_ROOMS + "("
             + KEY_ROOMS_ID + " INTEGER PRIMARY KEY,"
             + KEY_NAME + " TEXT," + KEY_NUMBER + " INTEGER,"
@@ -40,6 +50,13 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             + KEY_PHOTOS_ID + " INTEGER PRIMARY KEY,"
             + KEY_PHOTOS_URL + " TEXT" + ")";
 
+    private static final String CREATE_BOOKINGS_TABLE = "CREATE TABLE " + TABLE_BOOKINGS + "("
+            + KEY_BOOKINGS_ID + " INTEGER PRIMARY KEY,"
+            + KEY_ID + " TEXT," + KEY_ARRIVAL + " TEXT,"
+            + KEY_DEPARTURE + " TEXT," + KEY_USER_NAME + " TEXT,"
+            + KEY_SURNAME + " TEXT," + KEY_USER_NUMBER + " TEXT,"
+            + KEY_EMAIL + " TEXT" + ")";
+
     public SQLiteDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -48,13 +65,14 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_ROOMS_TABLE);
         sqLiteDatabase.execSQL(CREATE_PHOTOS_TABLE);
+        sqLiteDatabase.execSQL(CREATE_BOOKINGS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ROOMS);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PHOTOS);
-//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
 
         onCreate(sqLiteDatabase);
     }
@@ -100,6 +118,51 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         db.close();
 
         return rooms;
+    }
+
+    public void saveReservation(Reservation reservation) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_ID, reservation.getId());
+        values.put(KEY_ARRIVAL, reservation.getArrival());
+        values.put(KEY_DEPARTURE, reservation.getDeparture());
+        values.put(KEY_USER_NAME, reservation.getName());
+        values.put(KEY_SURNAME, reservation.getSurname());
+        values.put(KEY_USER_NUMBER, reservation.getNumber());
+        values.put(KEY_EMAIL, reservation.getEmail());
+
+        db.insert(TABLE_BOOKINGS, null, values);
+        db.close();
+    }
+
+    public List<Reservation> getAllBookings() {
+        List<Reservation> reservations = null;
+        String query = "SELECT * FROM " + TABLE_BOOKINGS;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            reservations = new ArrayList<>();
+            do {
+                Reservation reservation = new Reservation();
+                reservation.setId(Integer.valueOf(cursor.getString(1)));
+                reservation.setArrival(cursor.getString(2));
+                reservation.setDeparture(cursor.getString(3));
+                reservation.setName(cursor.getString(4));
+                reservation.setSurname(cursor.getString(5));
+                reservation.setNumber(cursor.getString(6));
+                reservation.setEmail(cursor.getString(7));
+
+                reservations.add(reservation);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return reservations;
     }
 
     public void saveUrl(String url) {

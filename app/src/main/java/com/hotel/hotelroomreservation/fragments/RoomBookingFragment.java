@@ -17,6 +17,7 @@ import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.utils.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.CalendarValidation;
 import com.hotel.hotelroomreservation.utils.validations.InputValidation;
@@ -71,20 +72,46 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
-    private class BookingsInfoAsyncTask extends AsyncTask<Void, Void, List<Reservation>> {
+    private class BookingsInfoAsyncTask extends AsyncTask<Void, String, List<Reservation>> {
         @Override
         protected List<Reservation> doInBackground(Void... voids) {
-            //TODO Check if we have internet connection - from dropbox, check if not null and saveRoom to SQLite, else ErrorExitDialog
-            //TODO if no connection - from SQLite (if no data in SQLite - ErrorDialog)
-            return dropboxHelper.getReservationListById();
+            SQLiteDBHelper dbHelper = new SQLiteDBHelper(getActivity().getApplicationContext());
+            List<Reservation> reservations;
+
+            if (InternetValidation.isConnected(getActivity())) {
+                reservations = new DropboxHelper().getReservationListById();
+
+                if (reservations != null) {
+                    dbHelper.deleteAll(Constants.BOOKINGS);
+
+                    for (Reservation reservation : reservations) {
+                        dbHelper.saveReservation(reservation);
+                    }
+                } else {
+                    reservations = dbHelper.getAllBookings();
+
+                    if (reservations == null) {
+                        publishProgress(getString(R.string.server_problem));
+                    }
+                }
+            } else {
+                reservations = dbHelper.getAllBookings();
+
+                if (reservations == null) {
+                    publishProgress(getString(R.string.internet_switch_on));
+                }
+            }
+
+            return reservations;
+        }
+
+        protected void onProgressUpdate(String... errors) {
+            new ErrorExitDialog(getActivity(), errors[0]);
         }
 
         protected void onPostExecute(List<Reservation> reservations) {
             if (reservations != null) {
-                bookings = dropboxHelper.getBookingsInfo();
                 setReservationDates(reservations);
-            } else {
-                new ErrorExitDialog(getActivity(), getString(R.string.server_problem));
             }
         }
     }
