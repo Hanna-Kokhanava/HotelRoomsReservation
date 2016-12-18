@@ -23,7 +23,6 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/room_image"
-                android:src="@drawable/default_image"
                 android:scaleType="fitCenter" />
 
             <TextView

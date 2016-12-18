@@ -24,7 +24,7 @@
             android:layout_width="@dimen/app_image_width"
             android:layout_height="@dimen/app_image_height"
             android:contentDescription="@string/app_name"
-            android:src="@mipmap/ic_app" />
+            android:src="@drawable/book_a_room" />
 
         <TextView
             android:layout_width="wrap_content"

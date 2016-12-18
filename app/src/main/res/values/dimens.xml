@@ -5,6 +5,6 @@
     <dimen name="nav_header_height">200dp</dimen>
     <dimen name="tabLayout_height">72dp</dimen>
     <dimen name="loading_indicator_size">40dp</dimen>
-    <dimen name="app_image_width">160dp</dimen>
-    <dimen name="app_image_height">160dp</dimen>
+    <dimen name="app_image_width">120dp</dimen>
+    <dimen name="app_image_height">120dp</dimen>
 </resources>
