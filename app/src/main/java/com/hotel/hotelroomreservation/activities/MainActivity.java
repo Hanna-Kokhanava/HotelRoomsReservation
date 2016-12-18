@@ -99,10 +99,12 @@ public class MainActivity extends BaseActivity {
             return roomsInfo;
         }
 
+        @Override
         protected void onProgressUpdate(String... errors) {
             new ErrorExitDialog(MainActivity.this, errors[0]);
         }
 
+        @Override
         protected void onPostExecute(List<Room> roomsInfo) {
             if (roomsInfo != null) {
                 setRoomList(roomsInfo);
@@ -113,7 +115,7 @@ public class MainActivity extends BaseActivity {
     private void setRoomList(List<Room> rooms) {
         progressView.setVisibility(View.GONE);
 
-        RecyclerView.Adapter mAdapter = new RoomAdapter((ArrayList<Room>) rooms, new RoomAdapter.OnItemClickListener() {
+        RecyclerView.Adapter mAdapter = new RoomAdapter(rooms, new RoomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Room room) {
                 Intent intent = new Intent(MainActivity.this, RoomActivity.class);

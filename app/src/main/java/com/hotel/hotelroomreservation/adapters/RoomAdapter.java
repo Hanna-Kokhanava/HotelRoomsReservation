@@ -13,24 +13,22 @@ import com.hotel.hotelroomreservation.loader.ImageLoader;
 import com.hotel.hotelroomreservation.model.Room;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
-    //TODO List instead of?
-    private ArrayList<Room> rooms = new ArrayList<>();
+    private List<Room> rooms = new ArrayList<>();
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
         void onItemClick(Room room);
     }
 
-    //TODO List
-    public RoomAdapter(ArrayList<Room> rooms, OnItemClickListener listener) {
+    public RoomAdapter(List<Room> rooms, OnItemClickListener listener) {
         this.listener = listener;
         this.rooms = rooms;
     }
 
-    //TODO apply settings
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView roomNameTextView;
         private RatingBar ratingBar;
         private ImageView roomImageView;
@@ -43,31 +41,22 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingStarBar);
             roomImageView = (ImageView) itemView.findViewById(R.id.roomImageView);
             imageLoader = new ImageLoader();
+
+            itemView.setOnClickListener(this);
         }
 
-        public void bind(final Room room, final OnItemClickListener listener) {
-            //TODO check id
-            //TODO check existing image
-            //if (id != oldId in tag)
-            roomImageView.setImageDrawable(null);
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            listener.onItemClick(rooms.get(position));
+        }
+
+        public void bind(final Room room) {
             roomNameTextView.setText(room.getName());
             ratingBar.setRating(room.getRating());
             imageLoader.displayImage(room.getUrl(), roomImageView);
-
-            //TODO move to member of Adapter
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onItemClick(room);
-                }
-            });
         }
     }
-
-//    @Override
-//    public void onViewRecycled(ViewHolder holder) {
-//        super.onViewRecycled(holder);
-//    }
 
     @Override
     public RoomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -77,7 +66,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RoomAdapter.ViewHolder holder, int position) {
-        holder.bind(rooms.get(position), listener);
+        holder.bind(rooms.get(position));
     }
 
     @Override

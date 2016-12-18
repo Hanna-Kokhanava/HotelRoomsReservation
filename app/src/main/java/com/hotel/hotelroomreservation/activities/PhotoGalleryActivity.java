@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -86,10 +87,12 @@ public class PhotoGalleryActivity extends BaseActivity {
             return photosUrls;
         }
 
+        @Override
         protected void onProgressUpdate(String... errors) {
             new ErrorExitDialog(PhotoGalleryActivity.this, errors[0]);
         }
 
+        @Override
         protected void onPostExecute(List<String> photosUrls) {
             if (photosUrls != null) {
                 adapter = new ViewPagerAdapter(getSupportFragmentManager(), photosUrls);
@@ -122,8 +125,8 @@ public class PhotoGalleryActivity extends BaseActivity {
             dots[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.nonselecteditem_dot));
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
             );
 
             params.setMargins(4, 0, 4, 0);

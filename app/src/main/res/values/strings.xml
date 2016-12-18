@@ -43,7 +43,7 @@
     <string name="make_reservation">Book now</string>
     <string name="default_date">%1$s-%2$s-%3$s</string>
     <string name="no_internet_warning">You have no Internet connection to make a reservation!</string>
-    <string name="server_problem">Sorry! There are some problems on server! Please, try later or leave us a comment!</string>
+    <string name="server_problem">Sorry! There are some problems on server! Please, try later or leave send a message!</string>
     <string name="exit_app">Exit app</string>
 
     <!-- Dialog strings -->
