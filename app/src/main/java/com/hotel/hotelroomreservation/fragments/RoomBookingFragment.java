@@ -38,6 +38,8 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     private Room room;
     private String bookings;
 
+    private DropboxHelper dropboxHelper;
+
     private final Calendar currentCalendar = Calendar.getInstance();
     private Calendar arrivalCalendar;
     private Calendar departureCalendar;
@@ -50,8 +52,6 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     private EditText surname;
     private EditText email;
     private EditText phone;
-
-    private DropboxHelper dropboxHelper;
 
     public RoomBookingFragment() {
         // Required empty public constructor
@@ -79,9 +79,10 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
             List<Reservation> reservations;
 
             if (InternetValidation.isConnected(getActivity())) {
-                reservations = new DropboxHelper().getReservationListById();
+                reservations = dropboxHelper.getReservationListById();
 
                 if (reservations != null) {
+                    bookings = dropboxHelper.getBookingsInfo();
                     dbHelper.deleteAll(Constants.BOOKINGS);
 
                     for (Reservation reservation : reservations) {

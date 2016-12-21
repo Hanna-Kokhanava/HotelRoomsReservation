@@ -78,7 +78,7 @@ public class PhotoGalleryActivity extends BaseActivity {
 
             } else {
                 photosUrls = dbHelper.getAllPhotoUrls();
-
+                
                 if (photosUrls == null) {
                     publishProgress(getString(R.string.internet_switch_on));
                 }

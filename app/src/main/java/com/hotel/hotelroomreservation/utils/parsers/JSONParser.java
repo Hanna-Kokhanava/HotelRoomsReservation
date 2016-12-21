@@ -14,12 +14,14 @@ import java.util.List;
 
 public class JSONParser {
     public List<Room> parseRoomsInfo(String roomsInfo) {
-        List<Room> rooms = new ArrayList<>();
+        List<Room> rooms = null;
         Room room;
 
+        JSONObject json = null;
         try {
-            JSONObject json = new JSONObject(roomsInfo);
+            json = new JSONObject(roomsInfo);
             JSONArray array = json.getJSONArray(Addresses.ROOMS);
+            rooms = new ArrayList<>();
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject roomObj = array.getJSONObject(i);
@@ -29,7 +31,6 @@ public class JSONParser {
                         roomObj.getInt(Constants.PRICE), roomObj.getString(Constants.URL));
                 rooms.add(room);
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -38,12 +39,13 @@ public class JSONParser {
     }
 
     public List<Reservation> parseBookingsInfo(String bookingsInfo) {
-        List<Reservation> reservations = new ArrayList<>();
+        List<Reservation> reservations = null;
         Reservation reservation;
 
         try {
             JSONObject json = new JSONObject(bookingsInfo);
             JSONArray array = json.getJSONArray(Addresses.BOOKINGS);
+            reservations = new ArrayList<>();
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject bookingObj = array.getJSONObject(i);
@@ -62,11 +64,12 @@ public class JSONParser {
     }
 
     public List<String> parsePhotoUrls(String photoUrlsJson) {
-        List<String> urls = new ArrayList<>();
+        List<String> urls = null;
 
         try {
             JSONObject json = new JSONObject(photoUrlsJson);
             JSONArray array = json.getJSONArray(Addresses.PHOTOS);
+            urls = new ArrayList<>();
 
             for (int i = 0; i < array.length(); i++) {
                 urls.add(array.getString(i));

@@ -1,5 +1,6 @@
 package com.hotel.hotelroomreservation.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,12 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomActivity extends BaseActivity {
-    private TabLayout tabLayout;
-
-    private int[] tabIcons = {
-            R.drawable.ic_info,
-            R.drawable.ic_event,
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +27,8 @@ public class RoomActivity extends BaseActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        setupTabIcons();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -43,12 +36,6 @@ public class RoomActivity extends BaseActivity {
         adapter.addFragment(new RoomInfoFragment(), Constants.INFO);
         adapter.addFragment(new RoomBookingFragment(), Constants.BOOKING);
         viewPager.setAdapter(adapter);
-    }
-
-    private void setupTabIcons() {
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            tabLayout.getTabAt(i).setIcon(tabIcons[i]);
-        }
     }
 
     private static class ViewPagerAdapter extends FragmentPagerAdapter {

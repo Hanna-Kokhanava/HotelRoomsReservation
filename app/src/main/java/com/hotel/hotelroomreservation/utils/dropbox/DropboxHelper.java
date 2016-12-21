@@ -20,7 +20,6 @@ public class DropboxHelper {
         jsonParser = new JSONParser();
     }
 
-    //TODO need empty checking or not?
     public List<Room> getRoomList() {
         String roomsInfo = HTTPClient.getDBInfo(Addresses.ROOMS);
         if (!"".equals(roomsInfo)) {

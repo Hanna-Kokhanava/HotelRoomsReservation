@@ -24,7 +24,6 @@ import com.hotel.hotelroomreservation.utils.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
