@@ -21,25 +21,25 @@ public class RoomInfoFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_room_info, container, false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_room_info, container, false);
 
-        TextView roomName = (TextView) view.findViewById(R.id.roomName);
-        TextView roomVisitors = (TextView) view.findViewById(R.id.roomVisitors);
-        TextView roomPrice = (TextView) view.findViewById(R.id.roomPrice);
-        ImageView roomImage = (ImageView) view.findViewById((R.id.roomPhoto));
-        RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingStarBar);
+        final TextView roomName = (TextView) view.findViewById(R.id.roomName);
+        final TextView roomVisitors = (TextView) view.findViewById(R.id.roomVisitors);
+        final TextView roomPrice = (TextView) view.findViewById(R.id.roomPrice);
+        final ImageView roomImage = (ImageView) view.findViewById((R.id.roomPhoto));
+        final RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingStarBar);
 
-        Bundle bundle = getActivity().getIntent().getExtras();
-        Room room = bundle.getParcelable(Constants.ROOM_INTENT_KEY);
+        final Bundle bundle = getActivity().getIntent().getExtras();
+        final Room room = bundle.getParcelable(Constants.ROOM_INTENT_KEY);
 
-        ImageLoader imageLoader = new ImageLoader();
+        final ImageLoader imageLoader = new ImageLoader();
 
         roomName.setText(String.valueOf(getActivity().getApplicationContext().getResources().getString(R.string.room_name, room.getName())));
         roomVisitors.setText(String.valueOf(getActivity().getApplicationContext().getResources().getString(R.string.guests, room.getVisitors())));

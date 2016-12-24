@@ -13,8 +13,8 @@ public class Reservation {
 
     }
 
-    public Reservation(String arrival, String departure, String email, int id,
-                       String name, String number, String surname) {
+    public Reservation(final String arrival, final String departure, final String email, final int id,
+                       final String name, final String number, final String surname) {
         this.id = id;
         this.arrival = arrival;
         this.departure = departure;
@@ -28,7 +28,7 @@ public class Reservation {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -36,7 +36,7 @@ public class Reservation {
         return arrival;
     }
 
-    public void setArrival(String arrival) {
+    public void setArrival(final String arrival) {
         this.arrival = arrival;
     }
 
@@ -44,7 +44,7 @@ public class Reservation {
         return departure;
     }
 
-    public void setDeparture(String departure) {
+    public void setDeparture(final String departure) {
         this.departure = departure;
     }
 
@@ -52,7 +52,7 @@ public class Reservation {
         return surname;
     }
 
-    public void setSurname(String surname) {
+    public void setSurname(final String surname) {
         this.surname = surname;
     }
 
@@ -60,7 +60,7 @@ public class Reservation {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -68,7 +68,7 @@ public class Reservation {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(final String number) {
         this.number = number;
     }
 
@@ -76,7 +76,7 @@ public class Reservation {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 }

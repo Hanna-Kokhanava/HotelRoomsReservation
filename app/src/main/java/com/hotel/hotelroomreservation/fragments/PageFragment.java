@@ -15,16 +15,16 @@ public class PageFragment extends Fragment {
     private ImageLoader imageLoader;
     private String imageUrl;
 
-    public static PageFragment getInstance(String url) {
-        PageFragment pageFragment = new PageFragment();
-        Bundle args = new Bundle();
+    public static PageFragment getInstance(final String url) {
+        final PageFragment pageFragment = new PageFragment();
+        final Bundle args = new Bundle();
         args.putString(IMAGE_SOURCE, url);
         pageFragment.setArguments(args);
         return pageFragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         imageLoader = new ImageLoader();
@@ -32,15 +32,15 @@ public class PageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_page, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.image);
+        final ImageView imageView = (ImageView) view.findViewById(R.id.image);
         imageLoader.displayImage(imageUrl, imageView);
     }
 }

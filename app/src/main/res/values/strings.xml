@@ -12,8 +12,8 @@
 
     <!-- Menu items -->
     <string name="photo_gallery">Photo gallery</string>
-    <string name="room_search">Find room</string>
-    <string name="home">Home</string>
+    <string name="about_hotel">About Hotel</string>
+    <string name="accommodations">Accommodations</string>
 
     <!-- For ActionBarDrawer -->
     <string name="openDrawer">open_drawer</string>
@@ -62,4 +62,5 @@
     <string name="room">"Room name : "</string>
     <string name="dollar">$</string>
     <string name="internet_switch_on">Please, switch on Internet connection for data retrieving!</string>
+    <string name="parsing_error">Error occured during date parsing!</string>
 </resources>

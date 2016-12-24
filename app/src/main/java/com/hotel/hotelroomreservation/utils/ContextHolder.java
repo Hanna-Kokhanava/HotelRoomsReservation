@@ -1,8 +1,8 @@
-package com.hotel.hotelroomreservation.utils.validations;
+package com.hotel.hotelroomreservation.utils;
 
 import android.content.Context;
 
-public class ContextHolder {
+public final class ContextHolder {
     private static ContextHolder instance;
     private Context context;
 

@@ -1,7 +1,6 @@
 package com.hotel.hotelroomreservation.loader;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -9,23 +8,23 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MemoryCache {
-    private Map<String, Bitmap> cache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>());
-    private long size = 0;
+    private final Map<String, Bitmap> cache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>());
+    private long size;
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 4);
 
-    public Bitmap getBitmap(String id) {
+    public Bitmap getBitmap(final String id) {
         try {
             if (!cache.containsKey(id)) {
                 return null;
             }
             return cache.get(id);
-        } catch (NullPointerException ex) {
+        } catch (final NullPointerException ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-    public void putBitmap(String id, Bitmap bitmap) {
+    public void putBitmap(final String id, final Bitmap bitmap) {
         try {
             if (cache.containsKey(id)) {
                 size -= getSizeInBytes(cache.get(id));
@@ -33,7 +32,7 @@ public class MemoryCache {
             cache.put(id, bitmap);
             size += getSizeInBytes(bitmap);
             checkSize();
-        } catch (Throwable th) {
+        } catch (final Throwable th) {
             th.printStackTrace();
         }
     }
@@ -41,9 +40,9 @@ public class MemoryCache {
     private void checkSize() {
         if (size > maxMemory) {
 
-            Iterator<Map.Entry<String, Bitmap>> iter = cache.entrySet().iterator();
+            final Iterator<Map.Entry<String, Bitmap>> iter = cache.entrySet().iterator();
             while (iter.hasNext()) {
-                Map.Entry<String, Bitmap> entry = iter.next();
+                final Map.Entry<String, Bitmap> entry = iter.next();
                 size -= getSizeInBytes(entry.getValue());
                 iter.remove();
 
@@ -58,12 +57,12 @@ public class MemoryCache {
         try {
             cache.clear();
             size = 0;
-        } catch (NullPointerException ex) {
+        } catch (final NullPointerException ex) {
             ex.printStackTrace();
         }
     }
 
-    long getSizeInBytes(Bitmap bitmap) {
+    long getSizeInBytes(final Bitmap bitmap) {
         if (bitmap == null) {
             return 0;
         }

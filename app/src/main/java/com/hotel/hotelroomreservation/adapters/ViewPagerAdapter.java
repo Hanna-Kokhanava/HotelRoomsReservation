@@ -9,15 +9,15 @@ import com.hotel.hotelroomreservation.fragments.PageFragment;
 import java.util.List;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
-    private List<String> imageUrls;
+    private final List<String> imageUrls;
 
-    public ViewPagerAdapter(FragmentManager fm, List<String> imageUrlsList) {
+    public ViewPagerAdapter(final FragmentManager fm, final List<String> imageUrlsList) {
         super(fm);
         this.imageUrls = imageUrlsList;
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public Fragment getItem(final int position) {
         return PageFragment.getInstance(imageUrls.get(position));
     }
 

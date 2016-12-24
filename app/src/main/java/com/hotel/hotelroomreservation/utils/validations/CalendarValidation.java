@@ -6,21 +6,21 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class CalendarValidation {
+public final class CalendarValidation {
 
-    public static Calendar[] getSelectableDates(Calendar arrivalCalendar, List<Date> arrivalDates) {
-        List<Calendar> selectableDates = new ArrayList<>();
-        Date dateArrival = arrivalCalendar.getTime();
+    public static Calendar[] getSelectableDates(final Calendar arrivalCalendar, final List<Date> arrivalDates) {
+        final List<Calendar> selectableDates = new ArrayList<>();
+        final Date dateArrival = arrivalCalendar.getTime();
 
         Collections.sort(arrivalDates);
 
-        for (Date date : arrivalDates) {
+        for (final Date date : arrivalDates) {
             if (dateArrival.before(date)) {
-                Calendar cal = Calendar.getInstance();
+                final Calendar cal = Calendar.getInstance();
                 cal.setTime(dateArrival);
 
                 while (cal.getTime().getTime() <= date.getTime()) {
-                    Calendar c = Calendar.getInstance();
+                    final Calendar c = Calendar.getInstance();
                     c.setTime(cal.getTime());
                     selectableDates.add(c);
 
@@ -35,7 +35,7 @@ public class CalendarValidation {
             }
         }
 
-        Calendar[] calendarDates = new Calendar[selectableDates.size()];
+        final Calendar[] calendarDates = new Calendar[selectableDates.size()];
         return selectableDates.toArray(calendarDates);
     }
 }

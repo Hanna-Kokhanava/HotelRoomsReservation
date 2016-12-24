@@ -33,6 +33,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class RoomBookingFragment extends Fragment implements View.OnClickListener {
+
+    private static final String DIALOG = "dialog";
+
     private List<Date> arrivalDates;
     private Calendar[] reservationCalendars;
     private Room room;
@@ -58,13 +61,13 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_room_booking, container, false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_room_booking, container, false);
         fieldsInitialization(view);
 
         new BookingsInfoAsyncTask().execute();
@@ -73,9 +76,10 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     }
 
     private class BookingsInfoAsyncTask extends AsyncTask<Void, String, List<Reservation>> {
+
         @Override
-        protected List<Reservation> doInBackground(Void... voids) {
-            SQLiteDBHelper dbHelper = new SQLiteDBHelper(getActivity().getApplicationContext());
+        protected List<Reservation> doInBackground(final Void... voids) {
+            final SQLiteDBHelper dbHelper = new SQLiteDBHelper(getActivity().getApplicationContext());
             List<Reservation> reservations;
 
             if (InternetValidation.isConnected(getActivity())) {
@@ -85,7 +89,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
                     bookings = dropboxHelper.getBookingsInfo();
                     dbHelper.deleteAll(Constants.BOOKINGS);
 
-                    for (Reservation reservation : reservations) {
+                    for (final Reservation reservation : reservations) {
                         dbHelper.saveReservation(reservation);
                     }
                 } else {
@@ -106,52 +110,54 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
             return reservations;
         }
 
-        protected void onProgressUpdate(String... errors) {
+        @Override
+        protected void onProgressUpdate(final String... errors) {
             new ErrorExitDialog(getActivity(), errors[0]);
         }
 
-        protected void onPostExecute(List<Reservation> reservations) {
+        @Override
+        protected void onPostExecute(final List<Reservation> reservations) {
             if (reservations != null) {
-                setReservationDates(reservations);
+                try {
+                    setReservationDates(reservations);
+                } catch (final ParseException p) {
+                    new ErrorDialog(getActivity(), getString(R.string.parsing_error));
+                }
             }
         }
-    }
 
-    private void setReservationDates(List<Reservation> reservations) {
-        List<Calendar> reservationDates = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
+        private void setReservationDates(final List<Reservation> reservations) throws ParseException {
+            final List<Calendar> reservationDates = new ArrayList<>();
+            final SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
 
-        Date dateArrival = null;
-        Date dateDeparture = null;
+            Date dateArrival;
+            Date dateDeparture;
 
-        for (Reservation reservation : reservations) {
-            if (room.getNumber() == reservation.getId()) {
-                try {
+            for (final Reservation reservation : reservations) {
+                if (room.getNumber() == reservation.getId()) {
                     dateArrival = sdf.parse(reservation.getArrival());
                     dateDeparture = sdf.parse(reservation.getDeparture());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
 
-                arrivalDates.add(dateArrival);
+                    arrivalDates.add(dateArrival);
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(dateArrival);
+                    final Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dateArrival);
 
-                while (calendar.getTime().before(dateDeparture)) {
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(calendar.getTime());
-                    reservationDates.add(c);
-                    calendar.add(Calendar.DATE, 1);
+                    while (calendar.getTime().before(dateDeparture)) {
+                        final Calendar c = Calendar.getInstance();
+                        c.setTime(calendar.getTime());
+                        reservationDates.add(c);
+                        calendar.add(Calendar.DATE, 1);
+                    }
                 }
             }
-        }
 
-        Calendar[] calendarDates = new Calendar[reservationDates.size()];
-        reservationCalendars = reservationDates.toArray(calendarDates);
+            final Calendar[] calendarDates = new Calendar[reservationDates.size()];
+            reservationCalendars = reservationDates.toArray(calendarDates);
+        }
     }
 
-    private void fieldsInitialization(View view) {
+    private void fieldsInitialization(final View view) {
         arrivalCalendar = Calendar.getInstance();
         departureCalendar = Calendar.getInstance();
 
@@ -166,7 +172,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         email = (EditText) view.findViewById(R.id.emailText);
         phone = (EditText) view.findViewById(R.id.phoneText);
 
-        Bundle bundle = getActivity().getIntent().getExtras();
+        final Bundle bundle = getActivity().getIntent().getExtras();
         room = new Room();
         room = bundle.getParcelable(Constants.ROOM_INTENT_KEY);
 
@@ -174,10 +180,11 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
         dropboxHelper = new DropboxHelper();
 
-        Button checkAvailability = (Button) view.findViewById(R.id.makeReservation);
+        final Button checkAvailability = (Button) view.findViewById(R.id.makeReservation);
         checkAvailability.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 makeReservation();
             }
         });
@@ -187,7 +194,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.arrival_value:
                 getReservationsList(arrivalValue, arrivalCalendar, false);
@@ -206,14 +213,15 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void initializeDatePicker(Calendar[] reservationDates, final Calendar calendar, final EditText editText, final boolean isDeparture) {
+    private void initializeDatePicker(final Calendar[] reservationDates, final Calendar calendar, final EditText editText, final boolean isDeparture) {
         arrivalTextInput.setError("");
         departureTextInput.setError("");
 
         final DatePickerDialog pickerDialog = DatePickerDialog.newInstance(
                 new DatePickerDialog.OnDateSetListener() {
+
                     @Override
-                    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+                    public void onDateSet(final DatePickerDialog datePickerDialog, final int year, final int month, final int day) {
                         calendar.set(Calendar.YEAR, year);
                         calendar.set(Calendar.MONTH, month);
                         calendar.set(Calendar.DAY_OF_MONTH, day);
@@ -223,8 +231,8 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
                 }, currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), currentCalendar.get(Calendar.DAY_OF_MONTH));
         pickerDialog.setMinDate(currentCalendar);
 
-        Calendar c = Calendar.getInstance();
-        c.set(2020, 0, 1);
+        final Calendar c = Calendar.getInstance();
+        c.add(Calendar.YEAR, 1);
         pickerDialog.setMaxDate(c);
 
         if (isDeparture) {
@@ -236,7 +244,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         } else {
             pickerDialog.setDisabledDays(reservationDates);
         }
-        pickerDialog.show(getActivity().getFragmentManager(), "dialog");
+        pickerDialog.show(getActivity().getFragmentManager(), DIALOG);
     }
 
     public void makeReservation() {
@@ -251,9 +259,9 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     }
 
     private Reservation formReservationObject() {
-        SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
-        String arrivalDate = format.format(arrivalCalendar.getTime());
-        String departureDate = format.format(departureCalendar.getTime());
+        final SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.ENGLISH);
+        final String arrivalDate = format.format(arrivalCalendar.getTime());
+        final String departureDate = format.format(departureCalendar.getTime());
 
         return new Reservation(arrivalDate, departureDate,
                 email.getText().toString(), room.getNumber(), name.getText().toString(),

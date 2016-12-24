@@ -9,7 +9,7 @@ import com.hotel.hotelroomreservation.utils.parsers.JSONParser;
 import java.util.List;
 
 public class DropboxHelper {
-    private JSONParser jsonParser;
+    private final JSONParser jsonParser;
     private String bookingsInfo;
 
     public String getBookingsInfo() {
@@ -21,7 +21,7 @@ public class DropboxHelper {
     }
 
     public List<Room> getRoomList() {
-        String roomsInfo = HTTPClient.getDBInfo(Addresses.ROOMS);
+        final String roomsInfo = HTTPClient.getDBInfo(Addresses.ROOMS);
         if (!"".equals(roomsInfo)) {
             return jsonParser.parseRoomsInfo(roomsInfo);
         } else {
@@ -34,12 +34,12 @@ public class DropboxHelper {
         return jsonParser.parseBookingsInfo(bookingsInfo);
     }
 
-    public void makeReservation(String reservation) {
+    public void makeReservation(final String reservation) {
         HTTPClient.setDBBookingsInfo(reservation);
     }
 
     public List<String> getUrlsList() {
-        String photosUrlsJson = HTTPClient.getDBInfo(Addresses.PHOTOS);
+        final String photosUrlsJson = HTTPClient.getDBInfo(Addresses.PHOTOS);
         if (photosUrlsJson != null) {
             return jsonParser.parsePhotoUrls(photosUrlsJson);
         } else {

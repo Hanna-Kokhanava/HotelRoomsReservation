@@ -17,24 +17,24 @@ import java.util.List;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     private List<Room> rooms = new ArrayList<>();
-    private OnItemClickListener listener;
+    private final OnItemClickListener listener;
 
     public interface OnItemClickListener {
         void onItemClick(Room room);
     }
 
-    public RoomAdapter(List<Room> rooms, OnItemClickListener listener) {
+    public RoomAdapter(final List<Room> rooms, final OnItemClickListener listener) {
         this.listener = listener;
         this.rooms = rooms;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView roomNameTextView;
-        private RatingBar ratingBar;
-        private ImageView roomImageView;
-        private ImageLoader imageLoader;
+        private final TextView roomNameTextView;
+        private final RatingBar ratingBar;
+        private final ImageView roomImageView;
+        private final ImageLoader imageLoader;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
 
             roomNameTextView = (TextView) itemView.findViewById(R.id.roomNameTextView);
@@ -46,9 +46,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         }
 
         @Override
-        public void onClick(View view) {
-            int position = getAdapterPosition();
-            listener.onItemClick(rooms.get(position));
+        public void onClick(final View view) {
+            listener.onItemClick(rooms.get(getAdapterPosition()));
         }
 
         public void bind(final Room room) {
@@ -59,13 +58,13 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     }
 
     @Override
-    public RoomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View roomView = LayoutInflater.from(parent.getContext()).inflate(R.layout.room_list_item, parent, false);
+    public RoomAdapter.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+        final View roomView = LayoutInflater.from(parent.getContext()).inflate(R.layout.room_list_item, parent, false);
         return new ViewHolder(roomView);
     }
 
     @Override
-    public void onBindViewHolder(RoomAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RoomAdapter.ViewHolder holder, final int position) {
         holder.bind(rooms.get(position));
     }
 

@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity {
     private ProgressBar progressView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -65,8 +65,8 @@ public class MainActivity extends BaseActivity {
 
     private class RoomsInfoAsyncTask extends AsyncTask<Void, String, List<Room>> {
         @Override
-        protected List<Room> doInBackground(Void... voids) {
-            SQLiteDBHelper dbHelper = new SQLiteDBHelper(getApplicationContext());
+        protected List<Room> doInBackground(final Void... voids) {
+            final SQLiteDBHelper dbHelper = new SQLiteDBHelper(getApplicationContext());
             List<Room> roomsInfo;
 
             if (InternetValidation.isConnected(MainActivity.this)) {
@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity {
                 if (roomsInfo != null) {
                     dbHelper.deleteAll(Constants.ROOMS);
 
-                    for (Room room : roomsInfo) {
+                    for (final Room room : roomsInfo) {
                         dbHelper.saveRoom(room);
                     }
 
@@ -99,43 +99,39 @@ public class MainActivity extends BaseActivity {
         }
 
         @Override
-        protected void onProgressUpdate(String... errors) {
+        protected void onProgressUpdate(final String... errors) {
             new ErrorExitDialog(MainActivity.this, errors[0]);
         }
 
         @Override
-        protected void onPostExecute(List<Room> roomsInfo) {
+        protected void onPostExecute(final List<Room> roomsInfo) {
             if (roomsInfo != null) {
-                setRoomList(roomsInfo);
+                progressView.setVisibility(View.GONE);
+
+                final RecyclerView.Adapter mAdapter = new RoomAdapter(roomsInfo, new RoomAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(final Room room) {
+                        final Intent intent = new Intent(MainActivity.this, RoomActivity.class);
+                        intent.putExtra(Constants.ROOM_INTENT_KEY, room);
+                        startActivity(intent);
+                    }
+                });
+
+                mRecyclerView.setAdapter(mAdapter);
             }
         }
-    }
-
-    private void setRoomList(List<Room> rooms) {
-        progressView.setVisibility(View.GONE);
-
-        RecyclerView.Adapter mAdapter = new RoomAdapter(rooms, new RoomAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Room room) {
-                Intent intent = new Intent(MainActivity.this, RoomActivity.class);
-                intent.putExtra(Constants.ROOM_INTENT_KEY, room);
-                startActivity(intent);
-            }
-        });
-
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void setUpNavigationView() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.tab_home:
                         drawer.closeDrawers();
                         return true;
                     case R.id.tab_search:
-                        startActivity(new Intent(MainActivity.this, RoomFinderActivity.class));
+//                        startActivity(new Intent(MainActivity.this, RoomFinderActivity.class));
                         drawer.closeDrawers();
                         return true;
                     case R.id.tab_gallery:
@@ -148,19 +144,19 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer);
+        final ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer);
         drawer.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.about_app:
                 startActivity(new Intent(this, AboutAppActivity.class));

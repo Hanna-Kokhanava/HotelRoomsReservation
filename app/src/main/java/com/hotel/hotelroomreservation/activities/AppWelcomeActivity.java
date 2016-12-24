@@ -7,11 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 public class AppWelcomeActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent i = new Intent(AppWelcomeActivity.this, MainActivity.class);
-        startActivity(i);
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 }

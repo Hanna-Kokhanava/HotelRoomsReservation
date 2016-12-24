@@ -5,14 +5,14 @@
         <item
             android:id="@+id/tab_home"
             android:icon="@drawable/ic_home"
-            android:title="@string/home" />
-        <item
-            android:id="@+id/tab_search"
-            android:icon="@drawable/ic_search"
-            android:title="@string/room_search" />
+            android:title="@string/accommodations" />
         <item
             android:id="@+id/tab_gallery"
             android:icon="@drawable/ic_collections"
             android:title="@string/photo_gallery" />
+        <item
+            android:id="@+id/tab_search"
+            android:icon="@drawable/ic_location_city_black_24dp"
+            android:title="@string/about_hotel" />
     </group>
 </menu>

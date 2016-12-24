@@ -13,42 +13,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JSONParser {
-    public List<Room> parseRoomsInfo(String roomsInfo) {
+    public List<Room> parseRoomsInfo(final String roomsInfo) {
         List<Room> rooms = null;
         Room room;
 
-        JSONObject json = null;
+        JSONObject json;
         try {
             json = new JSONObject(roomsInfo);
-            JSONArray array = json.getJSONArray(Addresses.ROOMS);
+            final JSONArray array = json.getJSONArray(Addresses.ROOMS);
             rooms = new ArrayList<>();
 
             for (int i = 0; i < array.length(); i++) {
-                JSONObject roomObj = array.getJSONObject(i);
+                final JSONObject roomObj = array.getJSONObject(i);
 
                 room = new Room(roomObj.getInt(Constants.NUMBER), roomObj.getString(Constants.NAME),
                         roomObj.getInt(Constants.RATING), roomObj.getInt(Constants.VISITORS),
                         roomObj.getInt(Constants.PRICE), roomObj.getString(Constants.URL));
                 rooms.add(room);
             }
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             e.printStackTrace();
         }
 
         return rooms;
     }
 
-    public List<Reservation> parseBookingsInfo(String bookingsInfo) {
+    public List<Reservation> parseBookingsInfo(final String bookingsInfo) {
         List<Reservation> reservations = null;
         Reservation reservation;
 
         try {
-            JSONObject json = new JSONObject(bookingsInfo);
-            JSONArray array = json.getJSONArray(Addresses.BOOKINGS);
+            final JSONObject json = new JSONObject(bookingsInfo);
+            final JSONArray array = json.getJSONArray(Addresses.BOOKINGS);
             reservations = new ArrayList<>();
 
             for (int i = 0; i < array.length(); i++) {
-                JSONObject bookingObj = array.getJSONObject(i);
+                final JSONObject bookingObj = array.getJSONObject(i);
 
                 reservation = new Reservation(bookingObj.getString(Constants.ARRIVAL), bookingObj.getString(Constants.DEPARTURE),
                         bookingObj.getString(Constants.EMAIL), bookingObj.getInt(Constants.ID), bookingObj.getString(Constants.NAME),
@@ -56,38 +56,38 @@ public class JSONParser {
                 reservations.add(reservation);
             }
 
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             e.printStackTrace();
         }
 
         return reservations;
     }
 
-    public List<String> parsePhotoUrls(String photoUrlsJson) {
+    public List<String> parsePhotoUrls(final String photoUrlsJson) {
         List<String> urls = null;
 
         try {
-            JSONObject json = new JSONObject(photoUrlsJson);
-            JSONArray array = json.getJSONArray(Addresses.PHOTOS);
+            final JSONObject json = new JSONObject(photoUrlsJson);
+            final JSONArray array = json.getJSONArray(Addresses.PHOTOS);
             urls = new ArrayList<>();
 
             for (int i = 0; i < array.length(); i++) {
                 urls.add(array.getString(i));
             }
 
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             e.printStackTrace();
         }
 
         return urls;
     }
 
-    public static String parseToJson(Reservation reservation, String bookings) {
-        JSONObject obj = new JSONObject();
+    public static String parseToJson(final Reservation reservation, final String bookings) {
+        final JSONObject obj = new JSONObject();
 
         try {
-            JSONObject json = new JSONObject(bookings);
-            JSONArray array = json.getJSONArray(Addresses.BOOKINGS);
+            final JSONObject json = new JSONObject(bookings);
+            final JSONArray array = json.getJSONArray(Addresses.BOOKINGS);
 
             obj.put("arrival", reservation.getArrival());
             obj.put("departure", reservation.getDeparture());
@@ -101,7 +101,7 @@ public class JSONParser {
 
             return json.toString();
 
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             e.printStackTrace();
         }
 

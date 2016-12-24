@@ -25,7 +25,6 @@
         <activity android:name=".activities.AboutAppActivity" />
         <activity android:name=".activities.RoomActivity" />
         <activity android:name=".activities.PhotoGalleryActivity" />
-        <activity android:name=".activities.RoomFinderActivity" />
     </application>
 
 </manifest>

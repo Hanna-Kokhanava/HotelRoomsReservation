@@ -5,11 +5,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-public class InternetValidation {
+public final class InternetValidation {
 
-    public static boolean isConnected(Activity activity) {
-        ConnectivityManager ConnectionManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = ConnectionManager.getActiveNetworkInfo();
+    public static boolean isConnected(final Activity activity) {
+        final ConnectivityManager ConnectionManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo networkInfo = ConnectionManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
 }

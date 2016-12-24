@@ -5,10 +5,8 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.EditText;
 
-import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.R;
-
-import org.w3c.dom.Text;
+import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 import java.util.Calendar;
 

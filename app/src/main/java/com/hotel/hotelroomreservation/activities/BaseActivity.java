@@ -10,19 +10,19 @@ import com.hotel.hotelroomreservation.R;
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public void setContentView(int layoutResID) {
-        View view = getLayoutInflater().inflate(layoutResID, null);
+    public void setContentView(final int layoutResID) {
+        final View view = getLayoutInflater().inflate(layoutResID, null);
         toolbarInitialize(view);
         super.setContentView(view);
     }
 
-    private void toolbarInitialize(View view) {
-        Toolbar toolBar = (Toolbar) view.findViewById(R.id.toolbar_actionbar);
+    private void toolbarInitialize(final View view) {
+        final Toolbar toolBar = (Toolbar) view.findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolBar);
 
         if (getSupportActionBar() != null) {

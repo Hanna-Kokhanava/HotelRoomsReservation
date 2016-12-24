@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.http.HTTPClient;
-import com.hotel.hotelroomreservation.utils.validations.ContextHolder;
+import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 import java.util.Collections;
 import java.util.Map;
@@ -16,10 +16,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ImageLoader {
-    private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
-    private MemoryCache memoryCache = new MemoryCache();
-    private FileCache fileCache;
-    private ExecutorService executorService;
+    private final Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
+    private final MemoryCache memoryCache = new MemoryCache();
+    private final FileCache fileCache;
+    private final ExecutorService executorService;
     private final Handler handler = new Handler();
 
     public ImageLoader() {
@@ -27,13 +27,13 @@ public class ImageLoader {
         executorService = Executors.newCachedThreadPool();
     }
 
-    public void displayImage(String url, ImageView imageView) {
+    public void displayImage(final String url, final ImageView imageView) {
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         imageView.setImageDrawable(ContextCompat
                 .getDrawable(ContextHolder.getInstance().getContext(), R.drawable.ic_photo_24dp));
         imageViews.put(imageView, url);
 
-        Bitmap bitmap = memoryCache.getBitmap(url);
+        final Bitmap bitmap = memoryCache.getBitmap(url);
 
         if (bitmap != null) {
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -43,12 +43,12 @@ public class ImageLoader {
         }
     }
 
-    private void queuePhoto(String url, ImageView imageView) {
-        PhotoToLoad p = new PhotoToLoad(url, imageView);
+    private void queuePhoto(final String url, final ImageView imageView) {
+        final PhotoToLoad p = new PhotoToLoad(url, imageView);
         executorService.submit(new PhotosLoader(p));
     }
 
-    private Bitmap getBitmap(String url) {
+    private Bitmap getBitmap(final String url) {
         Bitmap b = fileCache.getBitmap(url);
         if (b != null) {
             return b;
@@ -63,7 +63,7 @@ public class ImageLoader {
 
             return b;
 
-        } catch (Throwable ex) {
+        } catch (final Throwable ex) {
             ex.printStackTrace();
             if (ex instanceof OutOfMemoryError) {
                 memoryCache.clear();
@@ -73,19 +73,19 @@ public class ImageLoader {
     }
 
     private class PhotoToLoad {
-        private String url;
-        private ImageView imageView;
+        private final String url;
+        private final ImageView imageView;
 
-        public PhotoToLoad(String url, ImageView imageView) {
+        public PhotoToLoad(final String url, final ImageView imageView) {
             this.url = url;
             this.imageView = imageView;
         }
     }
 
     class PhotosLoader implements Runnable {
-        private PhotoToLoad photoToLoad;
+        private final PhotoToLoad photoToLoad;
 
-        PhotosLoader(PhotoToLoad photoToLoad) {
+        PhotosLoader(final PhotoToLoad photoToLoad) {
             this.photoToLoad = photoToLoad;
         }
 
@@ -95,7 +95,7 @@ public class ImageLoader {
                 if (imageViewReused(photoToLoad)) {
                     return;
                 }
-                Bitmap bmp = getBitmap(photoToLoad.url);
+                final Bitmap bmp = getBitmap(photoToLoad.url);
                 if (bmp == null) {
                     return;
                 }
@@ -106,25 +106,25 @@ public class ImageLoader {
                     return;
                 }
 
-                BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
+                final BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
                 handler.post(bd);
 
-            } catch (Throwable th) {
+            } catch (final Throwable th) {
                 th.printStackTrace();
             }
         }
     }
 
-    boolean imageViewReused(PhotoToLoad photoToLoad) {
-        String tag = imageViews.get(photoToLoad.imageView);
+    boolean imageViewReused(final PhotoToLoad photoToLoad) {
+        final String tag = imageViews.get(photoToLoad.imageView);
         return tag == null || !tag.equals(photoToLoad.url);
     }
 
     class BitmapDisplayer implements Runnable {
-        private Bitmap bitmap;
-        private PhotoToLoad photoToLoad;
+        private final Bitmap bitmap;
+        private final PhotoToLoad photoToLoad;
 
-        public BitmapDisplayer(Bitmap b, PhotoToLoad p) {
+        public BitmapDisplayer(final Bitmap b, final PhotoToLoad p) {
             bitmap = b;
             photoToLoad = p;
         }

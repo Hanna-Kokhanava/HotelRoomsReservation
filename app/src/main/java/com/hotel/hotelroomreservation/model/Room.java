@@ -13,12 +13,12 @@ public class Room implements Parcelable {
 
     public static final Creator<Room> CREATOR = new Creator<Room>() {
         @Override
-        public Room createFromParcel(Parcel in) {
+        public Room createFromParcel(final Parcel in) {
             return new Room(in);
         }
 
         @Override
-        public Room[] newArray(int size) {
+        public Room[] newArray(final int size) {
             return new Room[size];
         }
     };
@@ -27,7 +27,7 @@ public class Room implements Parcelable {
 
     }
 
-    protected Room(Parcel in) {
+    protected Room(final Parcel in) {
         name = in.readString();
         number = in.readInt();
         rating = in.readInt();
@@ -36,7 +36,7 @@ public class Room implements Parcelable {
         url = in.readString();
     }
 
-    public Room(int number, String name, int rating, int visitors, int price, String url) {
+    public Room(final int number, final String name, final int rating, final int visitors, final int price, final String url) {
         this.name = name;
         this.number = number;
         this.rating = rating;
@@ -49,7 +49,7 @@ public class Room implements Parcelable {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -57,7 +57,7 @@ public class Room implements Parcelable {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(final int number) {
         this.number = number;
     }
 
@@ -65,7 +65,7 @@ public class Room implements Parcelable {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(final int price) {
         this.price = price;
     }
 
@@ -73,7 +73,7 @@ public class Room implements Parcelable {
         return visitors;
     }
 
-    public void setVisitors(int visitors) {
+    public void setVisitors(final int visitors) {
         this.visitors = visitors;
     }
 
@@ -81,7 +81,7 @@ public class Room implements Parcelable {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(final int rating) {
         this.rating = rating;
     }
 
@@ -89,7 +89,7 @@ public class Room implements Parcelable {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -99,7 +99,7 @@ public class Room implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(final Parcel parcel, final int i) {
         parcel.writeString(name);
         parcel.writeInt(number);
         parcel.writeInt(rating);

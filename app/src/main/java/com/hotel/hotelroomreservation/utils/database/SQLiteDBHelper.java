@@ -60,19 +60,19 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             + KEY_SURNAME + " TEXT," + KEY_USER_NUMBER + " TEXT,"
             + KEY_EMAIL + " TEXT" + ")";
 
-    public SQLiteDBHelper(Context context) {
+    public SQLiteDBHelper(final Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+    public void onCreate(final SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_ROOMS_TABLE);
         sqLiteDatabase.execSQL(CREATE_PHOTOS_TABLE);
         sqLiteDatabase.execSQL(CREATE_BOOKINGS_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(final SQLiteDatabase sqLiteDatabase, final int i, final int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ROOMS);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PHOTOS);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
@@ -80,9 +80,9 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void saveRoom(Room room) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+    public void saveRoom(final Room room) {
+        final SQLiteDatabase db = this.getWritableDatabase();
+        final ContentValues values = new ContentValues();
 
         values.put(KEY_NAME, room.getName());
         values.put(KEY_NUMBER, room.getNumber());
@@ -97,15 +97,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     public List<Room> getAllRooms() {
         List<Room> rooms = null;
-        String query = "SELECT * FROM " + TABLE_ROOMS;
+        final String query = "SELECT * FROM " + TABLE_ROOMS;
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        final SQLiteDatabase db = this.getReadableDatabase();
+        final Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             rooms = new ArrayList<>();
             do {
-                Room room = new Room();
+                final Room room = new Room();
                 room.setName(cursor.getString(1));
                 room.setNumber(Integer.valueOf(cursor.getString(2)));
                 room.setRating(Integer.valueOf(cursor.getString(3)));
@@ -123,9 +123,9 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return rooms;
     }
 
-    public void saveReservation(Reservation reservation) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+    public void saveReservation(final Reservation reservation) {
+        final SQLiteDatabase db = this.getWritableDatabase();
+        final ContentValues values = new ContentValues();
 
         values.put(KEY_ID, reservation.getId());
         values.put(KEY_ARRIVAL, reservation.getArrival());
@@ -141,15 +141,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     public List<Reservation> getAllBookings() {
         List<Reservation> reservations = null;
-        String query = "SELECT * FROM " + TABLE_BOOKINGS;
+        final String query = "SELECT * FROM " + TABLE_BOOKINGS;
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        final SQLiteDatabase db = this.getReadableDatabase();
+        final Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             reservations = new ArrayList<>();
             do {
-                Reservation reservation = new Reservation();
+                final Reservation reservation = new Reservation();
                 reservation.setId(Integer.valueOf(cursor.getString(1)));
                 reservation.setArrival(cursor.getString(2));
                 reservation.setDeparture(cursor.getString(3));
@@ -168,9 +168,9 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return reservations;
     }
 
-    public void saveUrl(String url) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+    public void saveUrl(final String url) {
+        final SQLiteDatabase db = this.getWritableDatabase();
+        final ContentValues values = new ContentValues();
         values.put(KEY_PHOTOS_URL, url);
 
         db.insert(TABLE_PHOTOS, null, values);
@@ -179,10 +179,10 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     public List<String> getAllPhotoUrls() {
         List<String> urls = null;
-        String query = "SELECT * FROM " + TABLE_PHOTOS;
+        final String query = "SELECT * FROM " + TABLE_PHOTOS;
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        final SQLiteDatabase db = this.getReadableDatabase();
+        final Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             urls = new ArrayList<>();
@@ -197,9 +197,9 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return urls;
     }
 
-    public boolean isTableExists(String tableName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT DISTINCT tbl_name from sqlite_master where tbl_name = '"
+    public boolean isTableExists(final String tableName) {
+        final SQLiteDatabase db = this.getWritableDatabase();
+        final Cursor cursor = db.rawQuery("SELECT DISTINCT tbl_name from sqlite_master where tbl_name = '"
                 + tableName + "'", null);
 
         if (cursor != null) {
@@ -212,8 +212,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public void deleteAll(String tableName) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void deleteAll(final String tableName) {
+        final SQLiteDatabase db = this.getWritableDatabase();
 
         if (isTableExists(tableName)) {
             db.execSQL("DELETE FROM " + tableName);

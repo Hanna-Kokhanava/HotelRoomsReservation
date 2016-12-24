@@ -8,7 +8,7 @@ import com.hotel.hotelroomreservation.R;
 
 public class ErrorExitDialog {
     public ErrorExitDialog(final Activity activity, final String errorMessage) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.DialogTheme);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.DialogTheme);
         builder.setTitle(R.string.error_dialog);
         builder.setMessage(errorMessage);
         builder.setIcon(R.drawable.ic_mood_bad_black_24dp);
@@ -19,7 +19,7 @@ public class ErrorExitDialog {
             }
         });
 
-        AlertDialog dialog = builder.create();
+        final AlertDialog dialog = builder.create();
         dialog.show();
     }
 }

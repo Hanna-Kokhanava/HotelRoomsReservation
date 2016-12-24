@@ -1,6 +1,6 @@
 package com.hotel.hotelroomreservation.constants;
 
-public class Constants {
+public final class Constants {
     public static final String ROOM_INTENT_KEY = "Room";
     public static final String JSON_EXTENSION = ".json";
 
@@ -14,24 +14,22 @@ public class Constants {
     /* Request parameters */
     public static final String FILE_NAME_PARAMETER = "?file=";
 
-    public final static String BOOKINGS = "bookings";
-    public final static String PHOTOS = "photos";
-    public final static String ROOMS = "rooms";
+    public static final String BOOKINGS = "bookings";
+    public static final String PHOTOS = "photos";
+    public static final String ROOMS = "rooms";
 
     /* Json file keys */
-    public final static String NAME = "name";
-    public final static String NUMBER = "number";
-    public final static String RATING = "rating";
-    public final static String VISITORS = "visitors";
-    public final static String PRICE = "price";
-    public final static String URL = "url";
+    public static final String NAME = "name";
+    public static final String NUMBER = "number";
+    public static final String RATING = "rating";
+    public static final String VISITORS = "visitors";
+    public static final String PRICE = "price";
+    public static final String URL = "url";
 
     /* Reservation constants */
-    public final static String ID = "id";
-    public final static String ARRIVAL = "arrival";
-    public final static String DEPARTURE = "departure";
-    public final static String SURNAME = "surname";
-    public final static String EMAIL = "email";
-
-
+    public static final String ID = "id";
+    public static final String ARRIVAL = "arrival";
+    public static final String DEPARTURE = "departure";
+    public static final String SURNAME = "surname";
+    public static final String EMAIL = "email";
 }
