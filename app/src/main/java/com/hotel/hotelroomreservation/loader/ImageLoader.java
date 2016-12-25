@@ -5,9 +5,9 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
+import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.http.HTTPClient;
-import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 import java.util.Collections;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class ImageLoader {
     public void displayImage(final String url, final ImageView imageView) {
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         imageView.setImageDrawable(ContextCompat
-                .getDrawable(ContextHolder.getInstance().getContext(), R.drawable.ic_photo_24dp));
+                .getDrawable(App.getContext(), R.drawable.ic_photo_24dp));
         imageViews.put(imageView, url);
 
         final Bitmap bitmap = memoryCache.getBitmap(url);

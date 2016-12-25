@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
+import com.hotel.hotelroomreservation.database.repo.RoomRepo;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Room;
 import com.hotel.hotelroomreservation.database.SQLiteDBHelper;
@@ -68,18 +69,18 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected List<Room> doInBackground(final Void... voids) {
-            final SQLiteDBHelper dbHelper = new SQLiteDBHelper(getApplicationContext());
+            final RoomRepo roomRepo = new RoomRepo();
             List<Room> roomsInfo;
 
             if (InternetValidation.isConnected(MainActivity.this)) {
                 roomsInfo = new DropboxHelper().getRoomList();
 
                 if (roomsInfo != null) {
-                    dbHelper.deleteAll(Constants.ROOMS);
-                    dbHelper.saveRoom(roomsInfo);
+                    roomRepo.delete();
+                    roomRepo.insert(roomsInfo);
 
                 } else {
-                    roomsInfo = dbHelper.getAllRooms();
+                    roomsInfo = roomRepo.getAll();
 
                     if (roomsInfo == null) {
                         publishProgress(getString(R.string.server_problem));
@@ -87,7 +88,7 @@ public class MainActivity extends BaseActivity {
                 }
 
             } else {
-                roomsInfo = dbHelper.getAllRooms();
+                roomsInfo = roomRepo.getAll();
 
                 if (roomsInfo == null) {
                     publishProgress(getString(R.string.internet_switch_on));

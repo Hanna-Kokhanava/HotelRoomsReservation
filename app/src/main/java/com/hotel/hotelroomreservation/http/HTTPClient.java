@@ -3,9 +3,9 @@ package com.hotel.hotelroomreservation.http;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.constants.Addresses;
 import com.hotel.hotelroomreservation.constants.Constants;
-import com.hotel.hotelroomreservation.utils.ContextHolder;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -92,7 +92,7 @@ public final class HTTPClient {
 
     public static void setDBBookingsInfo(final String reservation) {
         final String serverUrl = Addresses.SERVER_URL + Addresses.INFO + Constants.FILE_NAME_PARAMETER + Constants.BOOKING;
-        final File file = new File(ContextHolder.getInstance().getContext().getFilesDir(),
+        final File file = new File(App.getContext().getFilesDir(),
                 Constants.BOOKING + Constants.JSON_EXTENSION);
 
         try {

@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.ViewPagerAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
+import com.hotel.hotelroomreservation.database.repo.PhotosRepo;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
@@ -36,6 +38,8 @@ public class PhotoGalleryActivity extends BaseActivity {
     private View btnNext;
     private View btnPrev;
 
+    private ProgressBar progressView;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,9 @@ public class PhotoGalleryActivity extends BaseActivity {
         btnPrev.setOnClickListener(onClickListener(0));
         btnNext.setOnClickListener(onClickListener(1));
 
+        progressView = (ProgressBar) findViewById(R.id.progress_bar);
+        progressView.setVisibility(View.VISIBLE);
+
         new PhotosAsyncTask().execute();
 
         viewPager.addOnPageChangeListener(onPageChangeListener());
@@ -59,19 +66,18 @@ public class PhotoGalleryActivity extends BaseActivity {
 
         @Override
         protected List<String> doInBackground(final Void... voids) {
-            final SQLiteDBHelper dbHelper = new SQLiteDBHelper(getApplicationContext());
+            final PhotosRepo photosRepo = new PhotosRepo();
             List<String> photosUrls;
 
             if (InternetValidation.isConnected(PhotoGalleryActivity.this)) {
                 photosUrls = new DropboxHelper().getUrlsList();
 
                 if (photosUrls != null) {
-                    dbHelper.deleteAll(Constants.PHOTOS);
-
-                    dbHelper.saveUrl(photosUrls);
+                    photosRepo.delete();
+                    photosRepo.insert(photosUrls);
 
                 } else {
-                    photosUrls = dbHelper.getAllPhotoUrls();
+                    photosUrls = photosRepo.selectAll();
 
                     if (photosUrls == null) {
                         publishProgress(getString(R.string.server_problem));
@@ -79,7 +85,7 @@ public class PhotoGalleryActivity extends BaseActivity {
                 }
 
             } else {
-                photosUrls = dbHelper.getAllPhotoUrls();
+                photosUrls = photosRepo.selectAll();
 
                 if (photosUrls == null) {
                     publishProgress(getString(R.string.internet_switch_on));
@@ -97,6 +103,7 @@ public class PhotoGalleryActivity extends BaseActivity {
         @Override
         protected void onPostExecute(final List<String> photosUrls) {
             if (photosUrls != null) {
+                progressView.setVisibility(View.GONE);
                 adapter = new ViewPagerAdapter(getApplicationContext(), photosUrls);
                 viewPager.setAdapter(adapter);
                 setPageIndicatorController();

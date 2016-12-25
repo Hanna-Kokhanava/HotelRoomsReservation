@@ -12,12 +12,12 @@ import android.widget.EditText;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.constants.Constants;
+import com.hotel.hotelroomreservation.database.repo.BookingsRepo;
 import com.hotel.hotelroomreservation.dialogs.ConfirmationDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.CalendarValidation;
 import com.hotel.hotelroomreservation.utils.validations.InputValidation;
@@ -79,7 +79,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
         @Override
         protected List<Reservation> doInBackground(final Void... voids) {
-            final SQLiteDBHelper dbHelper = new SQLiteDBHelper(getActivity().getApplicationContext());
+            final BookingsRepo bookingsRepo = new BookingsRepo();
             List<Reservation> reservations;
 
             if (InternetValidation.isConnected(getActivity())) {
@@ -87,18 +87,18 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
                 if (reservations != null) {
                     bookings = dropboxHelper.getBookingsInfo();
-                    dbHelper.deleteAll(Constants.BOOKINGS);
+                    bookingsRepo.delete();
+                    bookingsRepo.insert(reservations);
 
-                    dbHelper.saveReservation(reservations);
                 } else {
-                    reservations = dbHelper.getAllBookings();
+                    reservations = bookingsRepo.selectAll();
 
                     if (reservations == null) {
                         publishProgress(getString(R.string.server_problem));
                     }
                 }
             } else {
-                reservations = dbHelper.getAllBookings();
+                reservations = bookingsRepo.selectAll();
 
                 if (reservations == null) {
                     publishProgress(getString(R.string.internet_switch_on));
