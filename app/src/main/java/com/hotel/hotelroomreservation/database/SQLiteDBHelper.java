@@ -1,4 +1,4 @@
-package com.hotel.hotelroomreservation.utils.database;
+package com.hotel.hotelroomreservation.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,6 +16,7 @@ import java.util.List;
 //is not thread safe
 
 public class SQLiteDBHelper extends SQLiteOpenHelper {
+
     private static final String DATABASE_NAME = "HotelInfo";
     private static final int DATABASE_VERSION = 1;
 
@@ -80,19 +81,28 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void saveRoom(final Room room) {
+    public void saveRoom(final List<Room> rooms) {
         final SQLiteDatabase db = this.getWritableDatabase();
         final ContentValues values = new ContentValues();
 
-        values.put(KEY_NAME, room.getName());
-        values.put(KEY_NUMBER, room.getNumber());
-        values.put(KEY_RATING, room.getRating());
-        values.put(KEY_VISITORS, room.getVisitors());
-        values.put(KEY_ROOMS_URL, room.getUrl());
-        values.put(KEY_PRICE, room.getPrice());
+        db.beginTransaction();
 
-        db.insert(TABLE_ROOMS, null, values);
-        db.close();
+        try {
+            for (final Room room : rooms) {
+                values.put(KEY_NAME, room.getName());
+                values.put(KEY_NUMBER, room.getNumber());
+                values.put(KEY_RATING, room.getRating());
+                values.put(KEY_VISITORS, room.getVisitors());
+                values.put(KEY_ROOMS_URL, room.getUrl());
+                values.put(KEY_PRICE, room.getPrice());
+
+                db.insert(TABLE_ROOMS, null, values);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
     }
 
     public List<Room> getAllRooms() {
@@ -123,20 +133,29 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return rooms;
     }
 
-    public void saveReservation(final Reservation reservation) {
+    public void saveReservation(final List<Reservation> reservations) {
         final SQLiteDatabase db = this.getWritableDatabase();
         final ContentValues values = new ContentValues();
 
-        values.put(KEY_ID, reservation.getId());
-        values.put(KEY_ARRIVAL, reservation.getArrival());
-        values.put(KEY_DEPARTURE, reservation.getDeparture());
-        values.put(KEY_USER_NAME, reservation.getName());
-        values.put(KEY_SURNAME, reservation.getSurname());
-        values.put(KEY_USER_NUMBER, reservation.getNumber());
-        values.put(KEY_EMAIL, reservation.getEmail());
+        db.beginTransaction();
 
-        db.insert(TABLE_BOOKINGS, null, values);
-        db.close();
+        try {
+            for (final Reservation reservation : reservations) {
+                values.put(KEY_ID, reservation.getId());
+                values.put(KEY_ARRIVAL, reservation.getArrival());
+                values.put(KEY_DEPARTURE, reservation.getDeparture());
+                values.put(KEY_USER_NAME, reservation.getName());
+                values.put(KEY_SURNAME, reservation.getSurname());
+                values.put(KEY_USER_NUMBER, reservation.getNumber());
+                values.put(KEY_EMAIL, reservation.getEmail());
+
+                db.insert(TABLE_BOOKINGS, null, values);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
     }
 
     public List<Reservation> getAllBookings() {
@@ -168,13 +187,24 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return reservations;
     }
 
-    public void saveUrl(final String url) {
+    public void saveUrl(final List<String> urls) {
         final SQLiteDatabase db = this.getWritableDatabase();
         final ContentValues values = new ContentValues();
-        values.put(KEY_PHOTOS_URL, url);
 
-        db.insert(TABLE_PHOTOS, null, values);
-        db.close();
+        db.beginTransaction();
+
+        try {
+            for (final String url : urls) {
+                values.put(KEY_PHOTOS_URL, url);
+
+                db.insert(TABLE_PHOTOS, null, values);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+
     }
 
     public List<String> getAllPhotoUrls() {

@@ -15,13 +15,14 @@ import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.ViewPagerAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
-import com.hotel.hotelroomreservation.utils.database.SQLiteDBHelper;
+import com.hotel.hotelroomreservation.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
 import java.util.List;
 
 public class PhotoGalleryActivity extends BaseActivity {
+
     private static final int MAX_DOT_POSITION = 4;
 
     private PagerAdapter adapter;
@@ -67,9 +68,7 @@ public class PhotoGalleryActivity extends BaseActivity {
                 if (photosUrls != null) {
                     dbHelper.deleteAll(Constants.PHOTOS);
 
-                    for (final String url : photosUrls) {
-                        dbHelper.saveUrl(url);
-                    }
+                    dbHelper.saveUrl(photosUrls);
 
                 } else {
                     photosUrls = dbHelper.getAllPhotoUrls();

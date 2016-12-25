@@ -20,13 +20,14 @@ import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.database.SQLiteDBHelper;
+import com.hotel.hotelroomreservation.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
+
     private static final int START_TAB_ID = 0;
 
     private RecyclerView mRecyclerView;
@@ -64,6 +65,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private class RoomsInfoAsyncTask extends AsyncTask<Void, String, List<Room>> {
+
         @Override
         protected List<Room> doInBackground(final Void... voids) {
             final SQLiteDBHelper dbHelper = new SQLiteDBHelper(getApplicationContext());
@@ -74,10 +76,7 @@ public class MainActivity extends BaseActivity {
 
                 if (roomsInfo != null) {
                     dbHelper.deleteAll(Constants.ROOMS);
-
-                    for (final Room room : roomsInfo) {
-                        dbHelper.saveRoom(room);
-                    }
+                    dbHelper.saveRoom(roomsInfo);
 
                 } else {
                     roomsInfo = dbHelper.getAllRooms();
@@ -109,6 +108,7 @@ public class MainActivity extends BaseActivity {
                 progressView.setVisibility(View.GONE);
 
                 final RecyclerView.Adapter mAdapter = new RoomAdapter(roomsInfo, new RoomAdapter.OnItemClickListener() {
+
                     @Override
                     public void onItemClick(final Room room) {
                         final Intent intent = new Intent(MainActivity.this, RoomActivity.class);
@@ -124,6 +124,7 @@ public class MainActivity extends BaseActivity {
 
     private void setUpNavigationView() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
                 switch (menuItem.getItemId()) {

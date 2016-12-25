@@ -17,7 +17,7 @@ import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.utils.database.SQLiteDBHelper;
+import com.hotel.hotelroomreservation.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.CalendarValidation;
 import com.hotel.hotelroomreservation.utils.validations.InputValidation;
@@ -89,9 +89,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
                     bookings = dropboxHelper.getBookingsInfo();
                     dbHelper.deleteAll(Constants.BOOKINGS);
 
-                    for (final Reservation reservation : reservations) {
-                        dbHelper.saveReservation(reservation);
-                    }
+                    dbHelper.saveReservation(reservations);
                 } else {
                     reservations = dbHelper.getAllBookings();
 
