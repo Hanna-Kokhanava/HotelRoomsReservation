@@ -26,7 +26,7 @@ public class ConfirmationDialog {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
-                        final String reservationStr = JSONParser.parseToJson(reservation, bookings);
+                        final String reservationStr = new JSONParser().parseToJson(reservation, bookings);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {

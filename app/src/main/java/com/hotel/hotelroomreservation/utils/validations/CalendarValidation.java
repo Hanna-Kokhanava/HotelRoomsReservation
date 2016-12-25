@@ -8,7 +8,7 @@ import java.util.List;
 
 public final class CalendarValidation {
 
-    public static Calendar[] getSelectableDates(final Calendar arrivalCalendar, final List<Date> arrivalDates) {
+    public Calendar[] getSelectableDates(final Calendar arrivalCalendar, final List<Date> arrivalDates) {
         final List<Calendar> selectableDates = new ArrayList<>();
         final Date dateArrival = arrivalCalendar.getTime();
 

@@ -67,7 +67,7 @@ public class PhotoGalleryActivity extends BaseActivity {
             final PhotosRepo photosRepo = new PhotosRepo();
             List<String> photosUrls;
 
-            if (InternetValidation.isConnected(PhotoGalleryActivity.this)) {
+            if (new InternetValidation().isConnected(PhotoGalleryActivity.this)) {
                 photosUrls = new DropboxHelper().getUrlsList();
 
                 if (photosUrls != null) {

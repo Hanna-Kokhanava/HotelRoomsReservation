@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity {
             final RoomRepo roomRepo = new RoomRepo();
             List<Room> roomsInfo;
 
-            if (InternetValidation.isConnected(MainActivity.this)) {
+            if (new InternetValidation().isConnected(MainActivity.this)) {
                 roomsInfo = new DropboxHelper().getRoomList();
 
                 if (roomsInfo != null) {

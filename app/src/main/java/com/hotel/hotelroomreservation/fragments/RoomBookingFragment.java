@@ -42,6 +42,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     private String bookings;
 
     private DropboxHelper dropboxHelper;
+    private InputValidation inputValidation;
 
     private final Calendar currentCalendar = Calendar.getInstance();
     private Calendar arrivalCalendar;
@@ -82,7 +83,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
             final BookingsRepo bookingsRepo = new BookingsRepo();
             List<Reservation> reservations;
 
-            if (InternetValidation.isConnected(getActivity())) {
+            if (new InternetValidation().isConnected(getActivity())) {
                 reservations = dropboxHelper.getReservationListById();
 
                 if (reservations != null) {
@@ -177,6 +178,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         arrivalDates = new ArrayList<>();
 
         dropboxHelper = new DropboxHelper();
+        inputValidation = new InputValidation();
 
         final Button checkAvailability = (Button) view.findViewById(R.id.makeReservation);
         checkAvailability.setOnClickListener(new View.OnClickListener() {
@@ -205,7 +207,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
     private void getReservationsList(final EditText editText, final Calendar calendar, final boolean isDeparture) {
         if (isDeparture) {
-            initializeDatePicker(CalendarValidation.getSelectableDates(arrivalCalendar, arrivalDates), calendar, editText, true);
+            initializeDatePicker(new CalendarValidation().getSelectableDates(arrivalCalendar, arrivalDates), calendar, editText, true);
         } else {
             initializeDatePicker(reservationCalendars, calendar, editText, false);
         }
@@ -246,9 +248,9 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
     }
 
     public void makeReservation() {
-        if (InternetValidation.isConnected(getActivity())) {
-            if (InputValidation.calendarsValidation(arrivalCalendar, departureCalendar, arrivalValue, departureValue, arrivalTextInput, departureTextInput)
-                    && InputValidation.inputFieldsValidation(name, surname, email, phone)) {
+        if (new InternetValidation().isConnected(getActivity())) {
+            if (inputValidation.calendarsValidation(arrivalCalendar, departureCalendar, arrivalValue, departureValue, arrivalTextInput, departureTextInput)
+                    && inputValidation.inputFieldsValidation(name, surname, email, phone)) {
                 new ConfirmationDialog(getActivity(), room, formReservationObject(), bookings);
             }
         } else {

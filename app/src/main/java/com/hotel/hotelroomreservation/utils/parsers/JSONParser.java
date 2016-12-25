@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JSONParser {
+
     public List<Room> parseRoomsInfo(final String roomsInfo) {
         List<Room> rooms = null;
         Room room;
 
-        JSONObject json;
+        final JSONObject json;
         try {
             json = new JSONObject(roomsInfo);
             final JSONArray array = json.getJSONArray(Addresses.ROOMS);
@@ -82,7 +83,7 @@ public class JSONParser {
         return urls;
     }
 
-    public static String parseToJson(final Reservation reservation, final String bookings) {
+    public String parseToJson(final Reservation reservation, final String bookings) {
         final JSONObject obj = new JSONObject();
 
         try {

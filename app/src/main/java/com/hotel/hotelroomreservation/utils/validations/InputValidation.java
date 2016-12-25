@@ -10,15 +10,11 @@ import com.hotel.hotelroomreservation.R;
 
 import java.util.Calendar;
 
-public class InputValidation {
+public final class InputValidation {
 
-    public static boolean emailAddressValidation(String email) {
-        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    public static boolean calendarsValidation(Calendar arrivalCalendar, Calendar departureCalendar,
-                                              EditText arrivalValue, EditText departureValue,
-                                              TextInputLayout arrivalTextInput, TextInputLayout departureTextInput) {
+    public boolean calendarsValidation(final Calendar arrivalCalendar, final Calendar departureCalendar,
+                                              final EditText arrivalValue, final EditText departureValue,
+                                              final TextInputLayout arrivalTextInput, final TextInputLayout departureTextInput) {
         boolean flag = true;
         if (!isNotEmpty(arrivalValue)) {
             arrivalTextInput.setError(App.getContext().getString(R.string.validation_empty));
@@ -43,7 +39,7 @@ public class InputValidation {
         return flag;
     }
 
-    public static boolean inputFieldsValidation(EditText name, EditText surname, EditText email, EditText phone) {
+    public boolean inputFieldsValidation(final EditText name, final EditText surname, final EditText email, final EditText phone) {
         boolean flag = true;
 
         if (!isNotEmpty(name)) {
@@ -65,7 +61,11 @@ public class InputValidation {
         return flag;
     }
 
-    public static boolean isNotEmpty(EditText editText) {
-        return !(editText.getText().toString().trim().length() == 0);
+    private boolean isNotEmpty(final EditText editText) {
+        return !(editText.getText().toString().trim().isEmpty());
+    }
+
+    private boolean emailAddressValidation(final String email) {
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }
