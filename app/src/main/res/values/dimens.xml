@@ -3,8 +3,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="nav_header_height">200dp</dimen>
-    <dimen name="tabLayout_height">72dp</dimen>
-    <dimen name="loading_indicator_size">40dp</dimen>
     <dimen name="app_image_width">120dp</dimen>
     <dimen name="app_image_height">120dp</dimen>
 </resources>
