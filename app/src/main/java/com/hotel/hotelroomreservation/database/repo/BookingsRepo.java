@@ -10,7 +10,7 @@ import com.hotel.hotelroomreservation.model.Reservation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingsRepo {
+public class BookingsRepo implements IDbOperations<Reservation> {
 
     public static final String TABLE_BOOKINGS = "bookings";
 

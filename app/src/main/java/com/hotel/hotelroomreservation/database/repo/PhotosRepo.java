@@ -9,7 +9,7 @@ import com.hotel.hotelroomreservation.database.DatabaseManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotosRepo {
+public class PhotosRepo implements IDbOperations<String> {
 
     public static final String TABLE_PHOTOS = "photos";
 

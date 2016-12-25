@@ -21,7 +21,6 @@ import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.database.repo.RoomRepo;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Room;
-import com.hotel.hotelroomreservation.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
@@ -80,7 +79,7 @@ public class MainActivity extends BaseActivity {
                     roomRepo.insert(roomsInfo);
 
                 } else {
-                    roomsInfo = roomRepo.getAll();
+                    roomsInfo = roomRepo.selectAll();
 
                     if (roomsInfo == null) {
                         publishProgress(getString(R.string.server_problem));
@@ -88,7 +87,7 @@ public class MainActivity extends BaseActivity {
                 }
 
             } else {
-                roomsInfo = roomRepo.getAll();
+                roomsInfo = roomRepo.selectAll();
 
                 if (roomsInfo == null) {
                     publishProgress(getString(R.string.internet_switch_on));

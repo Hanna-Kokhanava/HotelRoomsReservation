@@ -10,7 +10,7 @@ import com.hotel.hotelroomreservation.model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomRepo {
+public class RoomRepo implements IDbOperations<Room> {
 
     public static final String TABLE_ROOMS = "rooms";
 
@@ -54,7 +54,7 @@ public class RoomRepo {
         }
     }
 
-    public List<Room> getAll() {
+    public List<Room> selectAll() {
         List<Room> rooms = null;
 
         final SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();

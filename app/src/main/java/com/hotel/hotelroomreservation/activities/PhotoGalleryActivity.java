@@ -14,10 +14,8 @@ import android.widget.ProgressBar;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.ViewPagerAdapter;
-import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.database.repo.PhotosRepo;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
-import com.hotel.hotelroomreservation.database.SQLiteDBHelper;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
