@@ -2,8 +2,8 @@ package com.hotel.hotelroomreservation.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,11 +22,9 @@ import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 import java.util.List;
 
 public class PhotoGalleryActivity extends BaseActivity {
-    private static final String DOTS = "dots";
-    private static final String CURRENT_DOT = "current_dot";
     private static final int MAX_DOT_POSITION = 4;
 
-    private FragmentStatePagerAdapter adapter;
+    private PagerAdapter adapter;
     private ViewPager viewPager;
     private LinearLayout pager_indicator;
     private ImageView[] dots;
@@ -57,6 +55,7 @@ public class PhotoGalleryActivity extends BaseActivity {
     }
 
     private class PhotosAsyncTask extends AsyncTask<Void, String, List<String>> {
+
         @Override
         protected List<String> doInBackground(final Void... voids) {
             final SQLiteDBHelper dbHelper = new SQLiteDBHelper(getApplicationContext());
@@ -82,7 +81,7 @@ public class PhotoGalleryActivity extends BaseActivity {
 
             } else {
                 photosUrls = dbHelper.getAllPhotoUrls();
-                
+
                 if (photosUrls == null) {
                     publishProgress(getString(R.string.internet_switch_on));
                 }
@@ -99,7 +98,7 @@ public class PhotoGalleryActivity extends BaseActivity {
         @Override
         protected void onPostExecute(final List<String> photosUrls) {
             if (photosUrls != null) {
-                adapter = new ViewPagerAdapter(getSupportFragmentManager(), photosUrls);
+                adapter = new ViewPagerAdapter(getApplicationContext(), photosUrls);
                 viewPager.setAdapter(adapter);
                 setPageIndicatorController();
             }
@@ -126,22 +125,9 @@ public class PhotoGalleryActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(final Bundle outState) {
-        outState.putSerializable(DOTS, dots);
-        outState.putInt(CURRENT_DOT, currentPosition);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
-        dots = (ImageView[]) savedInstanceState.getSerializable(DOTS);
-        currentPosition = savedInstanceState.getInt(CURRENT_DOT);
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
     private View.OnClickListener onClickListener(final int i) {
         return new View.OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 if (i == 1) {
@@ -159,6 +145,7 @@ public class PhotoGalleryActivity extends BaseActivity {
 
     private ViewPager.OnPageChangeListener onPageChangeListener() {
         return new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
                 if (position == 0) {

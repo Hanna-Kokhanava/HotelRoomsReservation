@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hotel.hotelroomreservation">
+<manifest package="com.hotel.hotelroomreservation"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".App"
@@ -16,15 +16,17 @@
             android:name=".activities.AppWelcomeActivity"
             android:theme="@style/LauncherTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.AboutAppActivity" />
-        <activity android:name=".activities.RoomActivity" />
-        <activity android:name=".activities.PhotoGalleryActivity" />
+        <activity android:name=".activities.MainActivity"/>
+        <activity android:name=".activities.AboutAppActivity"/>
+        <activity android:name=".activities.RoomActivity"/>
+        <activity
+            android:name=".activities.PhotoGalleryActivity"
+            android:configChanges="orientation|screenSize"/>
     </application>
 
 </manifest>
