@@ -17,23 +17,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DropboxServlet extends HttpServlet {
+    private final DropboxHelper dropboxHelper = new DropboxHelper();
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        InputStream inputStream = DropboxHelper.getFileInputStream(req.getParameter(Constants.FILE_NAME_PARAMETER));
+    public void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
+        final InputStream inputStream = dropboxHelper.getFileInputStream(req.getParameter(Constants.FILE_NAME_PARAMETER));
 
         if (inputStream != null) {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder text = new StringBuilder();
+            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            final StringBuilder text = new StringBuilder();
             String line;
 
-            while (null != (line = bufferedReader.readLine())) {
+            while ((line = bufferedReader.readLine()) != null) {
                 text.append(line);
             }
 
             inputStream.close();
             bufferedReader.close();
 
-            JSONObject jsonObject = new JSONObject(new String(text));
+            final JSONObject jsonObject = new JSONObject(new String(text));
             resp.setContentType("application/json");
             resp.getWriter().write(jsonObject.toString());
 
@@ -44,8 +45,8 @@ public class DropboxServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DataInputStream inputStream = new DataInputStream(req.getInputStream());
-        DropboxHelper.updateBookingsFile(inputStream);
+    protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
+        final DataInputStream inputStream = new DataInputStream(req.getInputStream());
+        dropboxHelper.updateBookingsFile(inputStream);
     }
 }

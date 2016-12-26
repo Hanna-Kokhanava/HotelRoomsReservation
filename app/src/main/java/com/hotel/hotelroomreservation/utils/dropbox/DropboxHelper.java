@@ -10,6 +10,7 @@ import java.util.List;
 
 public class DropboxHelper {
     private final JSONParser jsonParser;
+    private final HTTPClient mHTTPClient;
     private String bookingsInfo;
 
     public String getBookingsInfo() {
@@ -18,10 +19,11 @@ public class DropboxHelper {
 
     public DropboxHelper() {
         jsonParser = new JSONParser();
+        mHTTPClient = new HTTPClient();
     }
 
     public List<Room> getRoomList() {
-        final String roomsInfo = HTTPClient.getDBInfo(Addresses.ROOMS);
+        final String roomsInfo = mHTTPClient.getDBInfo(Addresses.ROOMS);
         if (!"".equals(roomsInfo)) {
             return jsonParser.parseRoomsInfo(roomsInfo);
         } else {
@@ -30,17 +32,17 @@ public class DropboxHelper {
     }
 
     public List<Reservation> getReservationListById() {
-        bookingsInfo = HTTPClient.getDBInfo(Addresses.BOOKINGS);
+        bookingsInfo = mHTTPClient.getDBInfo(Addresses.BOOKINGS);
         return jsonParser.parseBookingsInfo(bookingsInfo);
     }
 
     public void makeReservation(final String reservation) {
-        HTTPClient.setDBBookingsInfo(reservation);
+        mHTTPClient.setDBBookingsInfo(reservation);
     }
 
     public List<String> getUrlsList() {
-        final String photosUrlsJson = HTTPClient.getDBInfo(Addresses.PHOTOS);
-        if (photosUrlsJson != null) {
+        final String photosUrlsJson = mHTTPClient.getDBInfo(Addresses.PHOTOS);
+        if (!"".equals(photosUrlsJson)) {
             return jsonParser.parsePhotoUrls(photosUrlsJson);
         } else {
             return null;

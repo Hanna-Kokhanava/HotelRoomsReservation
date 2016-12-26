@@ -4,7 +4,7 @@
     <string name="about_app">О приложении</string>
     <string name="about_footer">© 2016, Kokhanava Hanna</string>
     <string name="OK">OK</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Отмена</string>
 
     <string name="previous_image">previous_image</string>
     <string name="next_image">next_image</string>
@@ -26,7 +26,7 @@
     <string name="price">%1$s$</string>
     <string name="guests">Количество посетителей : %1$s</string>
     <string name="room_image">Room image</string>
-    <string name="price_info">Nightly price without additional services</string>
+    <string name="price_info">Суточная стоимость без дополнительных сервисов.</string>
 
     <!-- Room Booking Fragment strings -->
     <string name="name">Имя :</string>
@@ -37,25 +37,25 @@
     <string name="personal_info">Персональные данные :</string>
     <string name="make_reservation">Забронировать </string>
     <string name="default_date">%1$s-%2$s-%3$s</string>
-    <string name="no_internet_warning">You have no Internet connection to make a reservation!</string>
-    <string name="server_problem">Sorry! There are some problems on server! Please, try later or leave send a message!</string>
+    <string name="no_internet_warning">Нет подключения к сети Интернет!</string>
+    <string name="server_problem">Произошла ошибка на сервере! Попробуйте позже или оставьте сообщение.</string>
     <string name="exit_app">Завершить</string>
 
     <!-- Dialog strings -->
     <string name="confirmation_title">Подтверждение бронирования</string>
-    <string name="dialog_arrival">"\nArrival : "</string>
-    <string name="dialog_departure">"\nDeparture : "</string>
-    <string name="dialog_price">"\nTotal price : "</string>
+    <string name="dialog_arrival">"\nПрибытие : "</string>
+    <string name="dialog_departure">"\nОтправление : "</string>
+    <string name="dialog_price">"\nОбщая стоимость : "</string>
 
     <!-- Validation strings -->
     <string name="validation_empty">Поле не может быть пустым!</string>
-    <string name="more_validation">Arrival date can\'t be more than departure date!</string>
-    <string name="equal_validaton">Departure date can\'t be equal to arrival date!</string>
+    <string name="more_validation">Дата прибытия не может быть больше даты отправления!</string>
+    <string name="equal_validaton">Дата отправления не может быть равна дате прибытия!</string>
     <string name="email_validation">Некорректный email адрес</string>
     <string name="room">"Room name : "</string>
     <string name="dollar">$</string>
-    <string name="internet_switch_on">Please, switch on Internet connection for data retrieving!</string>
-    <string name="parsing_error">Error occured during date parsing!</string>
+    <string name="internet_switch_on">Включите интернет для получения данных!</string>
+    <string name="parsing_error">Произошла ошибка!</string>
     <string name="about_hotel">Об отеле</string>
     <string name="error_dialog">Ошибка</string>
 </resources>

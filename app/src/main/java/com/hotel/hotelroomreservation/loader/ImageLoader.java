@@ -55,7 +55,7 @@ public class ImageLoader {
         }
 
         try {
-            b = HTTPClient.getPhoto(url);
+            b = new HTTPClient().getPhoto(url);
 
             if (b != null) {
                 fileCache.putBitmap(b, url);

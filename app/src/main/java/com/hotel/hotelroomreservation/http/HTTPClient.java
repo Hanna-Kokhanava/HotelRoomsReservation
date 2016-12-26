@@ -20,7 +20,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public final class HTTPClient {
-    public static Bitmap getPhoto(final String URL) {
+    private static final int RESPONSE_OK_CODE = 200;
+
+    public Bitmap getPhoto(final String URL) {
         Bitmap bitmap = null;
         HttpURLConnection connection = null;
         InputStream inputStream = null;
@@ -31,7 +33,7 @@ public final class HTTPClient {
             connection.setDoInput(true);
             connection.connect();
 
-            if (connection.getResponseCode() == 200) {
+            if (connection.getResponseCode() == RESPONSE_OK_CODE) {
                 inputStream = connection.getInputStream();
                 bitmap = BitmapFactory.decodeStream(inputStream);
             }
@@ -53,7 +55,7 @@ public final class HTTPClient {
         return bitmap;
     }
 
-    public static String getDBInfo(final String fileName) {
+    public String getDBInfo(final String fileName) {
         final String serverUrl = Addresses.SERVER_URL + Addresses.INFO;
         String jsonInfo = "";
 
@@ -62,7 +64,7 @@ public final class HTTPClient {
             final HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
             connection.setRequestMethod("GET");
 
-            if (connection.getResponseCode() == 200) {
+            if (connection.getResponseCode() == RESPONSE_OK_CODE) {
                 final InputStream inputStream = connection.getInputStream();
                 final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
@@ -80,9 +82,8 @@ public final class HTTPClient {
                     reader.close();
                     connection.disconnect();
                 }
-            } else {
-                return null;
             }
+
         } catch (final IOException e) {
             e.printStackTrace();
         }
@@ -90,7 +91,7 @@ public final class HTTPClient {
         return jsonInfo;
     }
 
-    public static void setDBBookingsInfo(final String reservation) {
+    public void setDBBookingsInfo(final String reservation) {
         final String serverUrl = Addresses.SERVER_URL + Addresses.INFO + Constants.FILE_NAME_PARAMETER + Constants.BOOKING;
         final File file = new File(App.getContext().getFilesDir(),
                 Constants.BOOKING + Constants.JSON_EXTENSION);
@@ -115,7 +116,7 @@ public final class HTTPClient {
             final OutputStream outputStream = connection.getOutputStream();
             final FileInputStream inputStream = new FileInputStream(file);
             final byte[] buffer = new byte[4096];
-            int bytesRead = -1;
+            int bytesRead;
             while ((bytesRead = inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, bytesRead);
             }
