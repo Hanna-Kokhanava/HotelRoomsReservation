@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.R;
-import com.hotel.hotelroomreservation.loader.ImageLoader;
+import com.hotel.hotelroomreservation.imageloader.DoubleCache;
+import com.hotel.hotelroomreservation.imageloader.ImageLoader;
 import com.hotel.hotelroomreservation.model.Room;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingStarBar);
             roomImageView = (ImageView) itemView.findViewById(R.id.roomImageView);
             imageLoader = new ImageLoader();
+            imageLoader.setMemoryCache(new DoubleCache(App.getContext()));
 
             itemView.setOnClickListener(this);
         }

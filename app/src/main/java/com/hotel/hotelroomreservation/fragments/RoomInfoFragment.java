@@ -9,9 +9,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.constants.Constants;
-import com.hotel.hotelroomreservation.loader.ImageLoader;
+import com.hotel.hotelroomreservation.imageloader.DoubleCache;
+import com.hotel.hotelroomreservation.imageloader.ImageLoader;
 import com.hotel.hotelroomreservation.model.Room;
 
 public class RoomInfoFragment extends Fragment {
@@ -40,12 +42,13 @@ public class RoomInfoFragment extends Fragment {
         final Room room = bundle.getParcelable(Constants.ROOM_INTENT_KEY);
 
         final ImageLoader imageLoader = new ImageLoader();
+        imageLoader.setMemoryCache(new DoubleCache(App.getContext()));
 
         roomName.setText(String.valueOf(getActivity().getApplicationContext().getResources().getString(R.string.room_name, room.getName())));
         roomVisitors.setText(String.valueOf(getActivity().getApplicationContext().getResources().getString(R.string.guests, room.getVisitors())));
         roomPrice.setText(String.valueOf(getActivity().getApplicationContext().getResources().getString(R.string.price, room.getPrice())));
         ratingBar.setRating(room.getRating());
-        
+
         imageLoader.displayImage(room.getUrl(), roomImage);
 
         return view;
