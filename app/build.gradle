@@ -39,6 +39,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.wdullaer:materialdatetimepicker:2.5.0'
+    compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

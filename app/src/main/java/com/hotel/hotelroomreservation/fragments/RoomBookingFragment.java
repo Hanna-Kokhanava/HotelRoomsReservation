@@ -121,7 +121,11 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
         @Override
         protected void onProgressUpdate(final String... errors) {
-            new ErrorExitDialog(getActivity(), errors);
+            if (errors.length > 1) {
+                new ErrorExitDialog(getActivity(), errors);
+            } else {
+                new ErrorDialog(getActivity(), errors[0]);
+            }
         }
 
         @Override

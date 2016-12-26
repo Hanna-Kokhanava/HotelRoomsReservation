@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.ViewPagerAdapter;
 import com.hotel.hotelroomreservation.database.repo.PhotosRepo;
+import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.utils.ErrorLogs;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
@@ -108,7 +109,11 @@ public class PhotoGalleryActivity extends BaseActivity {
 
         @Override
         protected void onProgressUpdate(final String... errors) {
-            new ErrorExitDialog(PhotoGalleryActivity.this, errors);
+            if (errors.length > 1) {
+                new ErrorExitDialog(PhotoGalleryActivity.this, errors);
+            } else {
+                new ErrorDialog(PhotoGalleryActivity.this, errors[0]);
+            }
         }
 
         @Override

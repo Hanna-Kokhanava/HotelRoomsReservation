@@ -7,6 +7,8 @@ import com.hotel.hotelroomreservation.App;
 import com.hotel.hotelroomreservation.constants.Addresses;
 import com.hotel.hotelroomreservation.constants.Constants;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,8 +19,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 public final class HTTPClient {
@@ -47,13 +47,8 @@ public final class HTTPClient {
             if (connection != null) {
                 connection.disconnect();
             }
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            }
+
+            IOUtils.closeQuietly(inputStream);
         }
         return bitmap;
     }
@@ -80,8 +75,8 @@ public final class HTTPClient {
                 jsonInfo = str.toString();
 
             } finally {
-                inputStream.close();
-                reader.close();
+                IOUtils.closeQuietly(inputStream);
+                IOUtils.closeQuietly(reader);
                 connection.disconnect();
             }
         }
@@ -98,7 +93,7 @@ public final class HTTPClient {
             final FileWriter writer = new FileWriter(file);
             writer.append(reservation);
             writer.flush();
-            writer.close();
+            IOUtils.closeQuietly(writer);
         } catch (final IOException e) {
             e.printStackTrace();
         }
@@ -120,11 +115,13 @@ public final class HTTPClient {
             }
 
             outputStream.flush();
-            inputStream.close();
+            IOUtils.closeQuietly(inputStream);
 
             final PrintWriter out = new PrintWriter(outputStream);
             out.print(inputStream);
-            out.close();
+
+            IOUtils.closeQuietly(out);
+            IOUtils.closeQuietly(outputStream);
 
         } catch (final IOException e) {
             e.printStackTrace();

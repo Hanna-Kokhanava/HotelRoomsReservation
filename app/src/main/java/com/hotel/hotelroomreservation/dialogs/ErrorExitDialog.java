@@ -18,7 +18,7 @@ public class ErrorExitDialog {
 
             @Override
             public void onClick(final DialogInterface dialog, final int which) {
-                System.exit(1);
+                activity.finish();
             }
         });
 
@@ -33,7 +33,7 @@ public class ErrorExitDialog {
                 sendIntent.putExtra(android.content.Intent.EXTRA_TEXT,
                         "Probably, there are some problems with server!" + "\nLogs:" + errorMessages[1]);
                 activity.startActivity(Intent.createChooser(sendIntent, "Send mail..."));
-                System.exit(1);
+                activity.finish();
             }
         });
 
