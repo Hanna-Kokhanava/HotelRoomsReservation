@@ -39,7 +39,7 @@
     <string name="make_reservation">Book now</string>
     <string name="default_date">%1$s-%2$s-%3$s</string>
     <string name="no_internet_warning">You have no Internet connection to make a reservation!</string>
-    <string name="server_problem">Sorry! There are some problems on server! Please, try later or send a message!</string>
+    <string name="server_problem">Sorry, there are some problems on server! Please, try later or send an email! Thank you!</string>
     <string name="exit_app">Exit app</string>
 
     <!-- Dialog strings -->
@@ -56,6 +56,7 @@
     <string name="email_validation">Not valid email address</string>
     <string name="room">"Room name : "</string>
     <string name="dollar">$</string>
-    <string name="internet_switch_on">Please, switch on Internet connection for data retrieving!</string>
-    <string name="parsing_error">Error occured during date parsing!</string>
+    <string name="internet_switch_on">Please, switch on Internet connection for data retrieving and restart app!</string>
+    <string name="parsing_error">Error is occurred during date parsing!</string>
+    <string name="send_email">Send email</string>
 </resources>

@@ -19,11 +19,16 @@ import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.RoomAdapter;
 import com.hotel.hotelroomreservation.constants.Constants;
 import com.hotel.hotelroomreservation.database.repo.RoomRepo;
+import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.utils.ErrorLogs;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
@@ -35,6 +40,8 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private ProgressBar progressView;
+
+    private ErrorLogs errorLogs;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -60,6 +67,8 @@ public class MainActivity extends BaseActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.rooms_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        errorLogs = new ErrorLogs();
+
         progressView = (ProgressBar) findViewById(R.id.progress_bar);
         progressView.setVisibility(View.VISIBLE);
     }
@@ -69,10 +78,15 @@ public class MainActivity extends BaseActivity {
         @Override
         protected List<Room> doInBackground(final Void... voids) {
             final RoomRepo roomRepo = new RoomRepo();
-            List<Room> roomsInfo;
+            List<Room> roomsInfo = null;
+            String logs = "";
 
             if (new InternetValidation().isConnected(MainActivity.this)) {
-                roomsInfo = new DropboxHelper().getRoomList();
+                try {
+                    roomsInfo = new DropboxHelper().getRoomList();
+                } catch (final IOException | JSONException pE) {
+                    logs = errorLogs.formLogs(pE);
+                }
 
                 if (roomsInfo != null) {
                     roomRepo.delete();
@@ -82,7 +96,7 @@ public class MainActivity extends BaseActivity {
                     roomsInfo = roomRepo.selectAll();
 
                     if (roomsInfo == null) {
-                        publishProgress(getString(R.string.server_problem));
+                        publishProgress(getString(R.string.server_problem), logs);
                     }
                 }
 
@@ -99,7 +113,11 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void onProgressUpdate(final String... errors) {
-            new ErrorExitDialog(MainActivity.this, errors[0]);
+            if (errors.length > 1) {
+                new ErrorExitDialog(MainActivity.this, errors);
+            } else {
+                new ErrorDialog(MainActivity.this, errors[0]);
+            }
         }
 
         @Override

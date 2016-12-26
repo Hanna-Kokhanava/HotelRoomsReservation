@@ -17,9 +17,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 public final class HTTPClient {
+
     private static final int RESPONSE_OK_CODE = 200;
 
     public Bitmap getPhoto(final String URL) {
@@ -55,37 +58,32 @@ public final class HTTPClient {
         return bitmap;
     }
 
-    public String getDBInfo(final String fileName) {
+    public String getDBInfo(final String fileName) throws IOException {
         final String serverUrl = Addresses.SERVER_URL + Addresses.INFO;
         String jsonInfo = "";
 
-        try {
-            final URL url = new URL(serverUrl + Constants.FILE_NAME_PARAMETER + fileName);
-            final HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
-            connection.setRequestMethod("GET");
+        final URL url = new URL(serverUrl + Constants.FILE_NAME_PARAMETER + fileName);
+        final HttpURLConnection connection = ((HttpURLConnection) url.openConnection());
+        connection.setRequestMethod("GET");
 
-            if (connection.getResponseCode() == RESPONSE_OK_CODE) {
-                final InputStream inputStream = connection.getInputStream();
-                final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        if (connection.getResponseCode() == RESPONSE_OK_CODE) {
+            final InputStream inputStream = connection.getInputStream();
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-                try {
-                    final StringBuilder str = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        str.append(line);
-                    }
-
-                    jsonInfo = str.toString();
-
-                } finally {
-                    inputStream.close();
-                    reader.close();
-                    connection.disconnect();
+            try {
+                final StringBuilder str = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    str.append(line);
                 }
-            }
 
-        } catch (final IOException e) {
-            e.printStackTrace();
+                jsonInfo = str.toString();
+
+            } finally {
+                inputStream.close();
+                reader.close();
+                connection.disconnect();
+            }
         }
 
         return jsonInfo;

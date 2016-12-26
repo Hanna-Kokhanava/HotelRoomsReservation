@@ -18,12 +18,16 @@ import com.hotel.hotelroomreservation.dialogs.ErrorDialog;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
 import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
+import com.hotel.hotelroomreservation.utils.ErrorLogs;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.CalendarValidation;
 import com.hotel.hotelroomreservation.utils.validations.InputValidation;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +47,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
     private DropboxHelper dropboxHelper;
     private InputValidation inputValidation;
+    private ErrorLogs errorLogs;
 
     private final Calendar currentCalendar = Calendar.getInstance();
     private Calendar arrivalCalendar;
@@ -81,10 +86,15 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
         @Override
         protected List<Reservation> doInBackground(final Void... voids) {
             final BookingsRepo bookingsRepo = new BookingsRepo();
-            List<Reservation> reservations;
+            List<Reservation> reservations = null;
+            String logs = "";
 
             if (new InternetValidation().isConnected(getActivity())) {
-                reservations = dropboxHelper.getReservationListById();
+                try {
+                    reservations = dropboxHelper.getReservationListById();
+                } catch (final IOException | JSONException pE) {
+                    logs = errorLogs.formLogs(pE);
+                }
 
                 if (reservations != null) {
                     bookings = dropboxHelper.getBookingsInfo();
@@ -95,7 +105,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
                     reservations = bookingsRepo.selectAll();
 
                     if (reservations == null) {
-                        publishProgress(getString(R.string.server_problem));
+                        publishProgress(getString(R.string.server_problem), logs);
                     }
                 }
             } else {
@@ -111,7 +121,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
         @Override
         protected void onProgressUpdate(final String... errors) {
-            new ErrorExitDialog(getActivity(), errors[0]);
+            new ErrorExitDialog(getActivity(), errors);
         }
 
         @Override
@@ -179,6 +189,7 @@ public class RoomBookingFragment extends Fragment implements View.OnClickListene
 
         dropboxHelper = new DropboxHelper();
         inputValidation = new InputValidation();
+        errorLogs = new ErrorLogs();
 
         final Button checkAvailability = (Button) view.findViewById(R.id.makeReservation);
         checkAvailability.setOnClickListener(new View.OnClickListener() {

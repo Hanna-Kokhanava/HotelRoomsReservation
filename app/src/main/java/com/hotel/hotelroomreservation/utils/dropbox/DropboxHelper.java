@@ -6,6 +6,9 @@ import com.hotel.hotelroomreservation.model.Reservation;
 import com.hotel.hotelroomreservation.model.Room;
 import com.hotel.hotelroomreservation.utils.parsers.JSONParser;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.List;
 
 public class DropboxHelper {
@@ -22,7 +25,7 @@ public class DropboxHelper {
         mHTTPClient = new HTTPClient();
     }
 
-    public List<Room> getRoomList() {
+    public List<Room> getRoomList() throws IOException, JSONException {
         final String roomsInfo = mHTTPClient.getDBInfo(Addresses.ROOMS);
         if (!"".equals(roomsInfo)) {
             return jsonParser.parseRoomsInfo(roomsInfo);
@@ -31,7 +34,7 @@ public class DropboxHelper {
         }
     }
 
-    public List<Reservation> getReservationListById() {
+    public List<Reservation> getReservationListById() throws IOException, JSONException {
         bookingsInfo = mHTTPClient.getDBInfo(Addresses.BOOKINGS);
         return jsonParser.parseBookingsInfo(bookingsInfo);
     }
@@ -40,7 +43,7 @@ public class DropboxHelper {
         mHTTPClient.setDBBookingsInfo(reservation);
     }
 
-    public List<String> getUrlsList() {
+    public List<String> getUrlsList() throws IOException, JSONException {
         final String photosUrlsJson = mHTTPClient.getDBInfo(Addresses.PHOTOS);
         if (!"".equals(photosUrlsJson)) {
             return jsonParser.parsePhotoUrls(photosUrlsJson);

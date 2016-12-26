@@ -16,9 +16,13 @@ import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.adapters.ViewPagerAdapter;
 import com.hotel.hotelroomreservation.database.repo.PhotosRepo;
 import com.hotel.hotelroomreservation.dialogs.ErrorExitDialog;
+import com.hotel.hotelroomreservation.utils.ErrorLogs;
 import com.hotel.hotelroomreservation.utils.dropbox.DropboxHelper;
 import com.hotel.hotelroomreservation.utils.validations.InternetValidation;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.List;
 
 public class PhotoGalleryActivity extends BaseActivity {
@@ -38,6 +42,8 @@ public class PhotoGalleryActivity extends BaseActivity {
 
     private ProgressBar progressView;
 
+    private ErrorLogs errorLogs;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,8 @@ public class PhotoGalleryActivity extends BaseActivity {
         progressView = (ProgressBar) findViewById(R.id.progress_bar);
         progressView.setVisibility(View.VISIBLE);
 
+        errorLogs = new ErrorLogs();
+
         new PhotosAsyncTask().execute();
 
         viewPager.addOnPageChangeListener(onPageChangeListener());
@@ -65,10 +73,15 @@ public class PhotoGalleryActivity extends BaseActivity {
         @Override
         protected List<String> doInBackground(final Void... voids) {
             final PhotosRepo photosRepo = new PhotosRepo();
-            List<String> photosUrls;
+            String logs = "";
+            List<String> photosUrls = null;
 
             if (new InternetValidation().isConnected(PhotoGalleryActivity.this)) {
-                photosUrls = new DropboxHelper().getUrlsList();
+                try {
+                    photosUrls = new DropboxHelper().getUrlsList();
+                } catch (final IOException | JSONException pE) {
+                    logs = errorLogs.formLogs(pE);
+                }
 
                 if (photosUrls != null) {
                     photosRepo.delete();
@@ -78,7 +91,7 @@ public class PhotoGalleryActivity extends BaseActivity {
                     photosUrls = photosRepo.selectAll();
 
                     if (photosUrls == null) {
-                        publishProgress(getString(R.string.server_problem));
+                        publishProgress(getString(R.string.server_problem), logs);
                     }
                 }
 
@@ -95,7 +108,7 @@ public class PhotoGalleryActivity extends BaseActivity {
 
         @Override
         protected void onProgressUpdate(final String... errors) {
-            new ErrorExitDialog(PhotoGalleryActivity.this, errors[0]);
+            new ErrorExitDialog(PhotoGalleryActivity.this, errors);
         }
 
         @Override
