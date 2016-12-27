@@ -41,6 +41,7 @@ dependencies {
     compile 'com.wdullaer:materialdatetimepicker:2.5.0'
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
     compile 'com.jakewharton:disklrucache:2.0.2'
+    compile 'com.android.support:palette-v7:24.0.+'
 }
 
 apply plugin: 'com.google.gms.google-services'

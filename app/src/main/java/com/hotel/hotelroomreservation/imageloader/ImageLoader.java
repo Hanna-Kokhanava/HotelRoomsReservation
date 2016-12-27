@@ -3,6 +3,7 @@ package com.hotel.hotelroomreservation.imageloader;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.widget.ImageView;
 
 import com.hotel.hotelroomreservation.App;
@@ -23,6 +24,36 @@ public class ImageLoader {
         this.memoryCache = memoryCache;
     }
 
+    public void displayImage(final String url, final ImageView imageView, final IPaletteCallback listener) {
+        imageView.setScaleType(ImageView.ScaleType.CENTER);
+        imageView.setImageDrawable(ContextCompat
+                .getDrawable(App.getContext(), R.drawable.ic_photo_24dp));
+
+        final Bitmap bitmap = memoryCache.get(url);
+
+        if (bitmap != null) {
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setImageBitmap(bitmap);
+
+            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+
+                @Override
+                public void onGenerated(final Palette palette) {
+                    final Palette.Swatch vibrant = palette.getDarkMutedSwatch();
+                    if (vibrant != null) {
+                        listener.onSuccessGenerate(vibrant.getRgb());
+                    } else {
+                        listener.onSuccessGenerate(ContextCompat.getColor(App.getContext(), R.color.transparentBlack));
+                    }
+                }
+            });
+        }
+
+        imageView.setTag(url.hashCode());
+        final LoadingImage p = new LoadingImage(url, imageView);
+        mExecutorService.submit(new ImagesLoader(p, listener));
+    }
+
     public void displayImage(final String url, final ImageView imageView) {
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         imageView.setImageDrawable(ContextCompat
@@ -33,7 +64,6 @@ public class ImageLoader {
         if (bitmap != null) {
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageBitmap(bitmap);
-            return;
         }
 
         imageView.setTag(url.hashCode());
@@ -44,6 +74,12 @@ public class ImageLoader {
     class ImagesLoader implements Runnable {
 
         private final LoadingImage loadingImage;
+        private IPaletteCallback listener;
+
+        public ImagesLoader(final LoadingImage loadingImage, final IPaletteCallback listener) {
+            this.loadingImage = loadingImage;
+            this.listener = listener;
+        }
 
         public ImagesLoader(final LoadingImage loadingImage) {
             this.loadingImage = loadingImage;
@@ -55,6 +91,21 @@ public class ImageLoader {
 
             if (bitmap == null) {
                 return;
+            }
+
+            if (listener != null) {
+                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+
+                    @Override
+                    public void onGenerated(final Palette palette) {
+                        final Palette.Swatch vibrant = palette.getDarkMutedSwatch();
+                        if (vibrant != null) {
+                            listener.onSuccessGenerate(vibrant.getRgb());
+                        } else {
+                            listener.onSuccessGenerate(ContextCompat.getColor(App.getContext(), R.color.transparentBlack));
+                        }
+                    }
+                });
             }
 
             memoryCache.put(loadingImage.url, bitmap);

@@ -2,6 +2,7 @@ package com.hotel.hotelroomreservation.constants;
 
 public final class Constants {
     public static final String ROOM_INTENT_KEY = "Room";
+    public static final String COLOR_INTENT_KEY = "Color";
     public static final String JSON_EXTENSION = ".json";
 
     /* ViewPager tabs name */

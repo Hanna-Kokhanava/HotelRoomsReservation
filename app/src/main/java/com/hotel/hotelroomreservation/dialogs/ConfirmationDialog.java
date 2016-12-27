@@ -3,6 +3,7 @@ package com.hotel.hotelroomreservation.dialogs;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import com.hotel.hotelroomreservation.R;
 import com.hotel.hotelroomreservation.model.Reservation;
@@ -24,15 +25,18 @@ public class ConfirmationDialog {
 
         builder.setPositiveButton(activity.getString(R.string.OK),
                 new DialogInterface.OnClickListener() {
+
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         final String reservationStr = new JSONParser().parseToJson(reservation, bookings);
                         new Thread(new Runnable() {
+
                             @Override
                             public void run() {
                                 new DropboxHelper().makeReservation(reservationStr);
                             }
                         }).start();
+                        Toast.makeText(activity.getApplicationContext(), room.getName() + " has been successfully booked!", Toast.LENGTH_LONG).show();
                         activity.finish();
                     }
                 });

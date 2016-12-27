@@ -40,11 +40,13 @@ public class RoomInfoFragment extends Fragment {
 
         final Bundle bundle = getActivity().getIntent().getExtras();
         final Room room = bundle.getParcelable(Constants.ROOM_INTENT_KEY);
+        final int color = bundle.getInt(Constants.COLOR_INTENT_KEY);
 
         final ImageLoader imageLoader = new ImageLoader();
         imageLoader.setMemoryCache(new DoubleCache(App.getContext()));
 
         roomName.setText(String.valueOf(getActivity().getApplicationContext().getResources().getString(R.string.room_name, room.getName())));
+        roomName.setBackgroundColor(color);
         roomVisitors.setText(String.valueOf(getActivity().getApplicationContext().getResources().getString(R.string.guests, room.getVisitors())));
         roomPrice.setText(String.valueOf(getActivity().getApplicationContext().getResources().getString(R.string.price, room.getPrice())));
         ratingBar.setRating(room.getRating());

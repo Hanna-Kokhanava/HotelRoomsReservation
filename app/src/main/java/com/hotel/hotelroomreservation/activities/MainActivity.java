@@ -128,9 +128,10 @@ public class MainActivity extends BaseActivity {
                 final RecyclerView.Adapter mAdapter = new RoomAdapter(roomsInfo, new RoomAdapter.OnItemClickListener() {
 
                     @Override
-                    public void onItemClick(final Room room) {
+                    public void onItemClick(final Room room, final int color) {
                         final Intent intent = new Intent(MainActivity.this, RoomActivity.class);
                         intent.putExtra(Constants.ROOM_INTENT_KEY, room);
+                        intent.putExtra(Constants.COLOR_INTENT_KEY, color);
                         startActivity(intent);
                     }
                 });

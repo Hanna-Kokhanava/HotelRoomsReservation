@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/roomPhoto"
                 android:layout_margin="12dp"
-                android:background="@color/transparentBlack"
+                android:padding="4dp"
                 android:text="@string/room_name"
                 android:theme="@style/PrintText" />
 
