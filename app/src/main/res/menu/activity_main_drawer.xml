@@ -11,7 +11,7 @@
             android:icon="@drawable/ic_collections"
             android:title="@string/photo_gallery" />
         <item
-            android:id="@+id/tab_search"
+            android:id="@+id/tab_about"
             android:icon="@drawable/ic_location_city_black_24dp"
             android:title="@string/about_hotel" />
     </group>

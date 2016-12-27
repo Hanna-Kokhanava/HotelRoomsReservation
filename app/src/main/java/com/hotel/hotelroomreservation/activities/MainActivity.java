@@ -150,8 +150,8 @@ public class MainActivity extends BaseActivity {
                     case R.id.tab_home:
                         drawer.closeDrawers();
                         return true;
-                    case R.id.tab_search:
-//                        startActivity(new Intent(MainActivity.this, RoomFinderActivity.class));
+                    case R.id.tab_about:
+                        startActivity(new Intent(MainActivity.this, AboutHotelActivity.class));
                         drawer.closeDrawers();
                         return true;
                     case R.id.tab_gallery:

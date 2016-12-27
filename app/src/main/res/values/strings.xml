@@ -59,4 +59,8 @@
     <string name="internet_switch_on">Please, switch on Internet connection for data retrieving and restart app!</string>
     <string name="parsing_error">Error is occurred during date parsing!</string>
     <string name="send_email">Send email</string>
+    <string name="actual_hotel_address">Actual hotel address</string>
+    <string name="phone_text">2014-1777</string>
+    <string name="email_text">ocean_hotel@gmail.com</string>
+    <string name="ocean_hotel">Ocean Hotel</string>
 </resources>

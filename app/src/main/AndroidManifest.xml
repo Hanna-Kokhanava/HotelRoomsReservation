@@ -27,6 +27,8 @@
         <activity
             android:name=".activities.PhotoGalleryActivity"
             android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activities.AboutHotelActivity">
+        </activity>
     </application>
 
 </manifest>
